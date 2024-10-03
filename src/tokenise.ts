@@ -6,25 +6,64 @@ export type Token = { tag: TokenTag, index: number, size: number }
 export function* tokenise(code: string): Generator<Token, void, void> {
 	let index = 0
 
-	const maybeEatNewline = () => union(() => maybeEatOneOf(`\n\r`), () => maybeEat(`\r\n`))
+	const optional = (eatFunction: () => boolean) => () => {
+		eatFunction()
+
+		return true
+	}
+
+	const maybeEatCharacterBetween = (first: string, last: string) => () => {
+		assert(first < last, HERE)
+
+		if (code[index]! >= first && code[index]! <= last) {
+			index++
+
+			return true
+		}
+
+		return false
+	}
+
+	const maybeEatOneOf = (search: string) => () => {
+		if (index < code.length && search.includes(code[ index ]!)) {
+			index++
+
+			return true
+		}
+
+		return false
+	}
+
+	const union = (...eatFunctions: (() => boolean)[]) => {
+		for (const eatFunction of eatFunctions) {
+			if (eatFunction())
+				return true
+		}
+
+		return false
+	}
+
+	const maybeEatNewline = () => union(maybeEatOneOf(`\n\r`), () => maybeEat(`\r\n`))
 	const maybeEatFormat = () => union(maybeEatNewline, () => maybeEat(`\t`))
 
 	const maybeEatIdentifierCharacter = () => union(
-		() => maybeEatCharacterBetween(`0`, `9`),
-		() => maybeEatCharacterBetween(`A`, `Z`),
-		() => maybeEatCharacterBetween(`a`, `z`),
-		() => maybeEatOneOf(`!#$%&'*+-./:<=>?@\\^_\`|~`)
+		maybeEatCharacterBetween(`0`, `9`),
+		maybeEatCharacterBetween(`A`, `Z`),
+		maybeEatCharacterBetween(`a`, `z`),
+		maybeEatOneOf(`!#$%&'*+-./:<=>?@\\^_\`|~`)
 	)
 
 	const maybeEatKeyword = () => sequence(
-		() => maybeEatCharacterBetween(`a`, `z`),
-		() => (many(maybeEatIdentifierCharacter), true)
+		maybeEatCharacterBetween(`a`, `z`),
+		optional(() => many(maybeEatIdentifierCharacter))
 	)
 
 	/** hexnum = hexdigit (`_`? hexdigit)* */
 	const maybeEatHexNumber = () => sequence(
+		// hexdigit
 		maybeEatHexDigit,
-		() => (many(() => sequence(() => (maybeEat(`_`), true), maybeEatHexDigit)), true)
+		// (`_`? hexdigit)*
+		optional(() => many(() => sequence(optional(() => maybeEat(`_`)), maybeEatHexDigit)))
 	)
 
 	const maybeEatStringCharacter = () => union(
@@ -39,9 +78,9 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 	)
 
 	const maybeEatHexDigit = () => union(
-		() => maybeEatCharacterBetween(`0`, `9`),
-		() => maybeEatCharacterBetween(`A`, `F`),
-		() => maybeEatCharacterBetween(`a`, `f`)
+		maybeEatCharacterBetween(`0`, `9`),
+		maybeEatCharacterBetween(`A`, `F`),
+		maybeEatCharacterBetween(`a`, `f`)
 	)
 
 	const maybeEatStringElement = () => union(
@@ -51,7 +90,7 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 
 	const maybeEatString = () => sequence(
 		() => maybeEat(`"`),
-		() => (many(maybeEatStringElement), true),
+		optional(() => many(maybeEatStringElement)),
 		() => maybeEat(`"`)
 	)
 
@@ -59,18 +98,18 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 
 	/** num = digit (`_`? digit)* */
 	const maybeEatNumber = () => sequence(
-		() => maybeEatCharacterBetween(`0`, `9`),
-		() => (many(() => sequence(
-			() => (maybeEat(`_`), true),
-			() => maybeEatCharacterBetween(`0`, `9`)
-		)), true)
+		maybeEatCharacterBetween(`0`, `9`),
+		optional(() => many(() => sequence(
+			optional(() => maybeEat(`_`)),
+			maybeEatCharacterBetween(`0`, `9`)
+		)))
 	)
 
 	const maybeEatLineCharacter = () => eatCharacterIf(code[index] != `\n` && code[index] != `\r`)
 
 	const maybeEatLineComment = () => sequence(
 		() => maybeEat(`;;`),
-		() => (many(maybeEatLineCharacter), true),
+		optional(() => many(maybeEatLineCharacter)),
 		() => union(maybeEatNewline, () => index == code.length)
 	)
 
@@ -84,22 +123,22 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 	/** blockcomment = `(;` blockchar* `;)` */
 	const maybeEatBlockComment = () => sequence(
 		() => maybeEat(`(;`),
-		() => (many(maybeEatBlockCharacter), true),
+		optional(() => many(maybeEatBlockCharacter)),
 		() => maybeEat(`;)`)
 	)
 
 	const maybeEatComment = () => union(maybeEatLineComment, maybeEatBlockComment)
 
 	const maybeEatSpace = () => many(() => union(() => maybeEat(` `), maybeEatFormat, maybeEatComment))
-	const maybeEatSign = () => (union(() => maybeEat(`+`), () => maybeEat(`-`)), true)
+	const maybeEatSign = optional(() => union(() => maybeEat(`+`), () => maybeEat(`-`)))
 
 	/** frac = digit (`_`? digit)* */
 	const maybeEatFraction = () => sequence(
-		() => maybeEatCharacterBetween(`0`, `9`),
-		() => (many(() => sequence(
-			() => (maybeEat(`_`), true),
-			() => maybeEatCharacterBetween(`0`, `9`))
-		), true)
+		maybeEatCharacterBetween(`0`, `9`),
+		optional(() => many(() => sequence(
+			optional(() => maybeEat(`_`)),
+			maybeEatCharacterBetween(`0`, `9`))
+		))
 	)
 
 	/** hexfrac = hexdigit (`_`? hexdigit)* */
@@ -113,9 +152,9 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 		// num
 		maybeEatNumber ,
 		// (`.`? | `.` frac)
-		() => union(() => sequence(() => maybeEat(`.`), maybeEatFraction), () => (maybeEat(`.`), true)),
+		() => union(() => sequence(() => maybeEat(`.`), maybeEatFraction), optional(() => maybeEat(`.`))),
 		// ((`E` | `e`) sign num)?
-		() => (sequence(() => maybeEatOneOf(`Ee`), maybeEatSign, maybeEatNumber), true)
+		optional(() => sequence(maybeEatOneOf(`Ee`), maybeEatSign, maybeEatNumber))
 	)
 
 	/** hexfloat = `0x` hexnum (`.` hexfrac | `.`?) ((`E` | `e`) sign hexnum)? */
@@ -125,9 +164,9 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 		// hexnum
 		maybeEatHexNumber,
 		// (`.` hexfrac | `.`?)
-		() => union(() => sequence(() => maybeEat(`.`), maybeEatHexFraction), () => (maybeEat(`.`), true)),
+		() => union(() => sequence(() => maybeEat(`.`), maybeEatHexFraction), optional(() => maybeEat(`.`))),
 		// ((`E` | `e`) sign hexnum)?
-		() => (sequence(() => maybeEatOneOf(`Ee`), maybeEatSign, maybeEatHexNumber), true)
+		optional(() => sequence(maybeEatOneOf(`Ee`), maybeEatSign, maybeEatHexNumber))
 	)
 
 	/** fNmag = float | hexfloat | `inf` | `nan` | `nan:0x` hexnum */
@@ -175,18 +214,6 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 		return false
 	}
 
-	function maybeEatCharacterBetween(first: string, last: string) {
-		assert(first < last, HERE)
-
-		if (code[index]! >= first && code[index]! <= last) {
-			index++
-
-			return true
-		}
-
-		return false
-	}
-
 	function maybeEat(search: string) {
 		if (code.startsWith(search, index)) {
 			index += search.length
@@ -206,16 +233,6 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 		return true
 	}
 
-	function maybeEatOneOf(search: string) {
-		if (index < code.length && search.includes(code[ index ]!)) {
-			index++
-
-			return true
-		}
-
-		return false
-	}
-
 	function sequence(...eatFunctions: (() => boolean)[]) {
 		const startIndex = index
 
@@ -228,15 +245,6 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 		}
 
 		return true
-	}
-
-	function union(...eatFunctions: (() => boolean)[]) {
-		for (const eatFunction of eatFunctions) {
-			if (eatFunction())
-				return true
-		}
-
-		return false
 	}
 }
 
