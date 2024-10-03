@@ -33,3 +33,11 @@ export function* tokenise(code: string): Generator<Token, void> {
 		index += match[0].length
 	}
 }
+
+if (import.meta.vitest) {
+	const { test } = import.meta.vitest
+
+	test(`nested comment`, () => {
+		[ ...tokenise(`(; a (; b ;) c ;)`) ]
+	})
+}
