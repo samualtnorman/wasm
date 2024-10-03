@@ -41,7 +41,9 @@ const TokenTagsToChalkInstances: { [K in TokenTag]?: ChalkInstance } = {
 	[TokenTag.Keyword]: chalk.magentaBright,
 	[TokenTag.Identifier]: chalk.cyanBright,
 	[TokenTag.UnsignedInteger]: chalk.yellow,
-	[TokenTag.String]: chalk.green
+	[TokenTag.String]: chalk.green,
+	[TokenTag.OpenBracket]: chalk.white,
+	[TokenTag.CloseBracket]: chalk.white
 }
 
 for (const token of [ ...tokenise(code) ].reverse()) {
@@ -54,4 +56,4 @@ for (const token of [ ...tokenise(code) ].reverse()) {
 	}
 }
 
-console.log(highlighted)
+console.log(chalk.grey(highlighted))
