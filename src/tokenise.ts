@@ -155,7 +155,7 @@ if (import.meta.vitest) {
 		)
 	`) ]))
 
-	test.skip(`nested comment`, () => {
+	test(`nested comment`, () => console.debug([ ...tokenise(`(; a (; b ;) c ;)`) ]))
 		[ ...tokenise(`(; a (; b ;) c ;)`) ]
 	})
 }
