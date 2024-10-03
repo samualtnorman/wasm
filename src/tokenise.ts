@@ -1,5 +1,5 @@
 import { TokenTag } from "./TokenTag"
-import { assert, ensure } from "@samual/lib/assert"
+import { assert } from "@samual/lib/assert"
 
 export type Token = { tag: TokenTag, index: number, size: number }
 
@@ -15,83 +15,100 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 
 	const maybeEatKeyword = () => maybeEatCharacterBetween(`a`, `z`) && (many(maybeEatIdentifierCharacter), true)
 
-	const maybeEatHexNumber = (): boolean =>
-		maybeEatHexDigit() && (maybeEat(`_`) ? ensure(maybeEatHexNumber(), HERE) : (maybeEatHexNumber(), true))
+	/** hexnum = hexdigit (`_`? hexdigit)* */
+	const maybeEatHexNumber = () => sequence(() =>
+		maybeEatHexDigit() &&
+		(many(() => (maybeEat(`_`), maybeEatHexDigit())), true)
+	)
 
 	const maybeEatStringCharacter = () =>
 		eatCharacterIf(code[index]! >= `\x20` && code[index]! != `\x7F` && code[index] != `"` && code[index] != `\\`) ||
 		maybeEat(`\\t`) || maybeEat(`\\n`) || maybeEat(`\\r`) || maybeEat(`\\"`) || maybeEat(`\\'`) ||
-		maybeEat(`\\\\`) || (maybeEat(`\\u{`) && ensure(maybeEatHexNumber(), HERE) && ensure(maybeEat(`}`), HERE))
+		maybeEat(`\\\\`) || sequence(() => maybeEat(`\\u{`) && maybeEatHexNumber() && maybeEat(`}`))
 
 	const maybeEatHexDigit = () => maybeEatCharacterBetween(`0`, `9`) || maybeEatCharacterBetween(`A`, `F`) ||
 		maybeEatCharacterBetween(`a`, `f`)
 
 	const maybeEatStringElement = () => maybeEatStringCharacter() ||
-		(maybeEat(`\\`) && ensure(maybeEatHexDigit(), HERE) && ensure(maybeEatHexDigit(), HERE))
+		sequence(() => maybeEat(`\\`) && maybeEatHexDigit() && maybeEatHexDigit())
 
-	const maybeEatString = () => maybeEat(`"`) && (many(() => maybeEatStringElement()), ensure(maybeEat(`"`), HERE))
-	const maybeEatIdentifier = () => maybeEat(`$`) && ensure(many(maybeEatIdentifierCharacter), HERE)
+	const maybeEatString = () => sequence(() => maybeEat(`"`) && (many(maybeEatStringElement), maybeEat(`"`)))
+	const maybeEatIdentifier = () => sequence(() => maybeEat(`$`) && many(maybeEatIdentifierCharacter))
 
 	/** num = digit (`_`? digit)* */
-	const maybeEatNumber = () => group(() =>
+	const maybeEatNumber = () => sequence(() =>
 		maybeEatCharacterBetween(`0`, `9`) &&
 		(many(() => (maybeEat(`_`), maybeEatCharacterBetween(`0`, `9`))), true)
 	)
 
 	const maybeEatLineCharacter = () => eatCharacterIf(code[index] != `\n` && code[index] != `\r`)
 
-	const maybeEatLineComment = () => maybeEat(`;;`) && (many(maybeEatLineCharacter), ensure(maybeEatNewline() || index == code.length, HERE))
+	const maybeEatLineComment = () => sequence(() =>
+		maybeEat(`;;`) &&
+		(many(maybeEatLineCharacter), true) &&
+		(maybeEatNewline() || index == code.length)
+	)
 
 	const maybeEatBlockCharacter = () => eatCharacterIf(code[index] != `;` && code[index] != `(`) ||
 		eatCharacterIf(code[index] == `;` && code[index + 1] != `)`) ||
 		eatCharacterIf(code[index] == `(` && code[index + 1] != `;`) ||
 		maybeEatBlockComment()
 
-	const maybeEatBlockComment = () => maybeEat(`(;`) && (many(maybeEatBlockCharacter), ensure(maybeEat(`;)`), HERE))
+	/** blockcomment = `(;` blockchar* `;)` */
+	const maybeEatBlockComment = () => sequence(() =>
+		maybeEat(`(;`) &&
+		(many(maybeEatBlockCharacter), maybeEat(`;)`))
+	)
 
 	const maybeEatComment = () => maybeEatLineComment() || maybeEatBlockComment()
 
 	const maybeEatSpace = () => many(() => maybeEat(` `) || maybeEatFormat() || maybeEatComment())
 	const maybeEatSign = () => (maybeEat(`+`) || maybeEat(`-`), true)
 
-	const maybeEatFraction = (): boolean => maybeEatCharacterBetween(`0`, `9`) &&
-		(maybeEat(`_`) ? ensure(maybeEatFraction(), HERE) : (maybeEatFraction(), true))
+	/** frac = digit (`_`? digit)* */
+	const maybeEatFraction = () => sequence(() =>
+		maybeEatCharacterBetween(`0`, `9`) &&
+		(many(() => (maybeEat(`_`), maybeEatCharacterBetween(`0`, `9`))), true)
+	)
 
-	const maybeEatHexFraction = (): boolean =>
-		maybeEatHexDigit() && (maybeEat(`_`) ? ensure(maybeEatHexFraction(), HERE) : (maybeEatHexFraction(), true))
+	/** hexfrac = hexdigit (`_`? hexdigit)* */
+	const maybeEatHexFraction = () => sequence(() =>
+		maybeEatHexDigit() &&
+		many(() => (maybeEat(`_`), maybeEatHexDigit()))
+	)
 
 	/** float = num (`.`? | `.` frac) ((`E` | `e`) sign num)? */
-	const maybeEatDecimalFloat = () => group(() =>
+	const maybeEatDecimalFloat = () => sequence(() =>
 		maybeEatNumber() &&
 		(
-			group(() => maybeEat(`.`) && maybeEatFraction()) ||
+			sequence(() => maybeEat(`.`) && maybeEatFraction()) ||
 			(maybeEat(`.`), true)
 		) &&
-		(group(() => maybeEatOneOf(`Ee`) && maybeEatSign() && maybeEatNumber()), true)
+		(sequence(() => maybeEatOneOf(`Ee`) && maybeEatSign() && maybeEatNumber()), true)
 	)
 
 	/** hexfloat = hexnum (`.`? | `.` hexfrac) ((`E` | `e`) sign hexnum)? */
-	const maybeEatHexFloat = () => group(() =>
+	const maybeEatHexFloat = () => sequence(() =>
 		maybeEat(`0x`) &&
 		maybeEatHexNumber() &&
 		(
-			group(() => maybeEat(`.`) && maybeEatHexFraction()) ||
+			sequence(() => maybeEat(`.`) && maybeEatHexFraction()) ||
 			(maybeEat(`.`), true)
 		) &&
-		(group(() => maybeEatOneOf(`Ee`) && maybeEatSign() && maybeEatHexNumber()), true)
+		(sequence(() => maybeEatOneOf(`Ee`) && maybeEatSign() && maybeEatHexNumber()), true)
 	)
 
 	/** fNmag = float | hexfloat | `inf` | `nan` | `nan:0x` hexnum */
-	const maybeEatFloatMag = () => group(() =>
+	const maybeEatFloatMag = () => sequence(() =>
 		maybeEatDecimalFloat() ||
 		maybeEatHexFloat() ||
 		maybeEat(`inf`) ||
-		group(() => maybeEat(`nan:0x`) && maybeEatHexNumber()) ||
+		sequence(() => maybeEat(`nan:0x`) && maybeEatHexNumber()) ||
 		maybeEat(`nan`)
 	)
 
 	/** fN = sign fNmag */
-	const maybeEatFloat = () => group(() => maybeEatSign() && maybeEatFloatMag())
+	const maybeEatFloat = () => sequence(() => maybeEatSign() && maybeEatFloatMag())
 
 	while (index < code.length) {
 		if (maybeEatSpace())
@@ -167,7 +184,7 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 		return false
 	}
 
-	function group(eatFunction: () => boolean) {
+	function sequence(eatFunction: () => boolean) {
 		const startIndex = index
 
 		if (eatFunction())
