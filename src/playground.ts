@@ -40,10 +40,8 @@ let highlighted = code
 const TokenTagsToChalkInstances: { [K in TokenTag]?: ChalkInstance } = {
 	[TokenTag.Keyword]: chalk.magentaBright,
 	[TokenTag.Identifier]: chalk.cyanBright,
-	[TokenTag.Integer]: chalk.yellow,
-	[TokenTag.String]: chalk.green,
-	[TokenTag.LineComment]: chalk.grey,
-	[TokenTag.BlockComment]: chalk.grey
+	[TokenTag.UnsignedInteger]: chalk.yellow,
+	[TokenTag.String]: chalk.green
 }
 
 for (const token of [ ...tokenise(code) ].reverse()) {
@@ -51,7 +49,7 @@ for (const token of [ ...tokenise(code) ].reverse()) {
 
 	if (chalkInstance) {
 		const chalked = chalkInstance(code.slice(token.index, token.index + token.size))
-		
+
 		highlighted = spliceString(highlighted, chalked, token.index, token.size)
 	}
 }
