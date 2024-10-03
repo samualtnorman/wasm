@@ -6,13 +6,13 @@ export type Token = { tag: TokenTag, index: number, size: number }
 export function* tokenise(code: string): Generator<Token, void, void> {
 	let index = 0
 
-	const optional = (eatFunction: () => boolean) => () => {
-		eatFunction()
+	const optional = (rule: () => boolean) => () => {
+		rule()
 
 		return true
 	}
 
-	const maybeEatCharacterBetween = (first: string, last: string) => () => {
+	const terminalsBetween = (first: string, last: string) => () => {
 		assert(first < last, HERE)
 
 		if (code[index]! >= first && code[index]! <= last) {
@@ -24,7 +24,7 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 		return false
 	}
 
-	const maybeEatOneOf = (search: string) => () => {
+	const terminalIn = (search: string) => () => {
 		if (index < code.length && search.includes(code[ index ]!)) {
 			index++
 
@@ -34,16 +34,16 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 		return false
 	}
 
-	const union = (...eatFunctions: (() => boolean)[]) => () => {
-		for (const eatFunction of eatFunctions) {
-			if (eatFunction())
+	const union = (...rules: (() => boolean)[]) => () => {
+		for (const rule of rules) {
+			if (rule())
 				return true
 		}
 
 		return false
 	}
 
-	const eatCharacterIf = (checker: () => boolean) => () => {
+	const condition = (checker: () => boolean) => () => {
 		if (checker()) {
 			index++
 
@@ -53,7 +53,7 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 		return false
 	}
 
-	const maybeEat = (search: string) => () => {
+	const terminal = (search: string) => () => {
 		if (code.startsWith(search, index)) {
 			index += search.length
 
@@ -63,11 +63,11 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 		return false
 	}
 
-	const sequence = (...eatFunctions: (() => boolean)[]) => () => {
+	const sequence = (...rules: (() => boolean)[]) => () => {
 		const startIndex = index
 
-		for (const eatFunction of eatFunctions) {
-			if (!eatFunction()) {
+		for (const rule of rules) {
+			if (!rule()) {
 				index = startIndex
 
 				return false
@@ -77,172 +77,120 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 		return true
 	}
 
-	const many = (eatFunction: () => boolean) => () => {
-		if (!eatFunction())
+	const many = (rule: () => boolean) => () => {
+		if (!rule())
 			return false
 
-		while (eatFunction());
+		while (rule());
 
 		return true
 	}
 
-	const maybeEatNewline = union(maybeEatOneOf(`\n\r`), maybeEat(`\r\n`))
-	const maybeEatFormat = union(maybeEatNewline, maybeEat(`\t`))
+	const Newline = union(terminalIn(`\n\r`), terminal(`\r\n`))
+	const Format = union(Newline, terminal(`\t`))
 
-	const maybeEatIdentifierCharacter = union(
-		maybeEatCharacterBetween(`0`, `9`),
-		maybeEatCharacterBetween(`A`, `Z`),
-		maybeEatCharacterBetween(`a`, `z`),
-		maybeEatOneOf(`!#$%&'*+-./:<=>?@\\^_\`|~`)
+	const IdentifierCharacter = union(
+		terminalsBetween(`0`, `9`),
+		terminalsBetween(`A`, `Z`),
+		terminalsBetween(`a`, `z`),
+		terminalIn(`!#$%&'*+-./:<=>?@\\^_\`|~`)
 	)
 
-	const maybeEatKeyword = sequence(
-		maybeEatCharacterBetween(`a`, `z`),
-		optional(many(maybeEatIdentifierCharacter))
+	const Keyword = sequence(terminalsBetween(`a`, `z`), optional(many(IdentifierCharacter)))
+
+	const HexDigit = union(
+		terminalsBetween(`0`, `9`),
+		terminalsBetween(`A`, `F`),
+		terminalsBetween(`a`, `f`)
 	)
 
-	const maybeEatHexDigit = union(
-		maybeEatCharacterBetween(`0`, `9`),
-		maybeEatCharacterBetween(`A`, `F`),
-		maybeEatCharacterBetween(`a`, `f`)
+	const HexNumber = sequence(HexDigit, optional(many(sequence(optional(terminal(`_`)), HexDigit))))
+
+	const StringCharacter = union(
+		condition(
+			() => code[index]! >= `\x20` && code[index]! != `\x7F` && code[index] != `"` && code[index] != `\\`
+		),
+		terminal(`\\t`),
+		terminal(`\\n`),
+		terminal(`\\r`),
+		terminal(`\\"`),
+		terminal(`\\'`),
+		terminal(`\\\\`),
+		sequence(terminal(`\\u{`), HexNumber, terminal(`}`))
 	)
 
-	/** hexnum = hexdigit (`_`? hexdigit)* */
-	const maybeEatHexNumber = sequence(
-		// hexdigit
-		maybeEatHexDigit,
-		// (`_`? hexdigit)*
-		optional(many(sequence(optional(maybeEat(`_`)), maybeEatHexDigit)))
+	const StringElement = union(StringCharacter, sequence(terminal(`\\`), HexDigit, HexDigit))
+	const String = sequence(terminal(`"`), optional(many(StringElement)), terminal(`"`))
+	const Identifier = sequence(terminal(`$`), many(IdentifierCharacter))
+
+	const Number = sequence(
+		terminalsBetween(`0`, `9`),
+		optional(many(sequence(optional(terminal(`_`)), terminalsBetween(`0`, `9`))))
 	)
 
-	const maybeEatStringCharacter = union(
-		eatCharacterIf(() => code[index]! >= `\x20` && code[index]! != `\x7F` && code[index] != `"` && code[index] != `\\`),
-		maybeEat(`\\t`),
-		maybeEat(`\\n`),
-		maybeEat(`\\r`),
-		maybeEat(`\\"`),
-		maybeEat(`\\'`),
-		maybeEat(`\\\\`),
-		sequence(maybeEat(`\\u{`), maybeEatHexNumber, maybeEat(`}`))
+	const LineCharacter = condition(() => code[index] != `\n` && code[index] != `\r`)
+
+	const LineComment = sequence(
+		terminal(`;;`),
+		optional(many(LineCharacter)),
+		union(Newline, () => index == code.length)
 	)
 
-	const maybeEatStringElement = union(
-		maybeEatStringCharacter,
-		sequence(maybeEat(`\\`), maybeEatHexDigit, maybeEatHexDigit)
+	const BlockCharacter = union(
+		condition(() => code[index] != `;` && code[index] != `(`),
+		condition(() => code[index] == `;` && code[index + 1] != `)`),
+		condition(() => code[index] == `(` && code[index + 1] != `;`),
+		() => BlockComment()
 	)
 
-	const maybeEatString = sequence(
-		maybeEat(`"`),
-		optional(many(maybeEatStringElement)),
-		maybeEat(`"`)
+	const BlockComment = sequence(terminal(`(;`), optional(many(BlockCharacter)), terminal(`;)`))
+	const Comment = union(LineComment, BlockComment)
+	const Space = many(union(terminal(` `), Format, Comment))
+	const Sign = optional(union(terminal(`+`), terminal(`-`)))
+
+	const Fraction = sequence(
+		terminalsBetween(`0`, `9`),
+		optional(many(sequence(optional(terminal(`_`)), terminalsBetween(`0`, `9`))))
 	)
 
-	const maybeEatIdentifier = sequence(maybeEat(`$`), many(maybeEatIdentifierCharacter))
+	const HexFraction = sequence(HexDigit, optional(many(sequence(optional(terminal(`_`)), HexDigit))))
 
-	/** num = digit (`_`? digit)* */
-	const maybeEatNumber = sequence(
-		maybeEatCharacterBetween(`0`, `9`),
-		optional(many(sequence(
-			optional(maybeEat(`_`)),
-			maybeEatCharacterBetween(`0`, `9`)
-		)))
+	const DecimalFloat = sequence(
+		Number ,
+		union(sequence(terminal(`.`), Fraction), optional(terminal(`.`))),
+		optional(sequence(terminalIn(`Ee`), Sign, Number))
 	)
 
-	const maybeEatLineCharacter = eatCharacterIf(() => code[index] != `\n` && code[index] != `\r`)
-
-	const maybeEatLineComment = sequence(
-		maybeEat(`;;`),
-		optional(many(maybeEatLineCharacter)),
-		union(maybeEatNewline, () => index == code.length)
+	const HexFloat = sequence(
+		terminal(`0x`),
+		HexNumber,
+		union(sequence(terminal(`.`), HexFraction), optional(terminal(`.`))),
+		optional(sequence(terminalIn(`Ee`), Sign, HexNumber))
 	)
 
-	const maybeEatBlockCharacter = union(
-		eatCharacterIf(() => code[index] != `;` && code[index] != `(`),
-		eatCharacterIf(() => code[index] == `;` && code[index + 1] != `)`),
-		eatCharacterIf(() => code[index] == `(` && code[index + 1] != `;`),
-		() => maybeEatBlockComment()
-	)
+	const FloatMag =
+		union(HexFloat, DecimalFloat, terminal(`inf`), sequence(terminal(`nan:0x`), HexNumber), terminal(`nan`))
 
-	/** blockcomment = `(;` blockchar* `;)` */
-	const maybeEatBlockComment = sequence(
-		maybeEat(`(;`),
-		optional(many(maybeEatBlockCharacter)),
-		maybeEat(`;)`)
-	)
-
-	const maybeEatComment = union(maybeEatLineComment, maybeEatBlockComment)
-
-	const maybeEatSpace = many(union(maybeEat(` `), maybeEatFormat, maybeEatComment))
-	const maybeEatSign = optional(union(maybeEat(`+`), maybeEat(`-`)))
-
-	/** frac = digit (`_`? digit)* */
-	const maybeEatFraction = sequence(
-		maybeEatCharacterBetween(`0`, `9`),
-		optional(many(sequence(
-			optional(maybeEat(`_`)),
-			maybeEatCharacterBetween(`0`, `9`))
-		))
-	)
-
-	/** hexfrac = hexdigit (`_`? hexdigit)* */
-	const maybeEatHexFraction = sequence(
-		// hexdigit
-		maybeEatHexDigit,
-		many(() => (maybeEat(`_`), maybeEatHexDigit()))
-	)
-
-	/** float = num (`.`? | `.` frac) ((`E` | `e`) sign num)? */
-	const maybeEatDecimalFloat = sequence(
-		// num
-		maybeEatNumber ,
-		// (`.`? | `.` frac)
-		union(sequence(maybeEat(`.`), maybeEatFraction), optional(maybeEat(`.`))),
-		// ((`E` | `e`) sign num)?
-		optional(sequence(maybeEatOneOf(`Ee`), maybeEatSign, maybeEatNumber))
-	)
-
-	/** hexfloat = `0x` hexnum (`.` hexfrac | `.`?) ((`E` | `e`) sign hexnum)? */
-	const maybeEatHexFloat = sequence(
-		// `0x`
-		maybeEat(`0x`),
-		// hexnum
-		maybeEatHexNumber,
-		// (`.` hexfrac | `.`?)
-		union(sequence(maybeEat(`.`), maybeEatHexFraction), optional(maybeEat(`.`))),
-		// ((`E` | `e`) sign hexnum)?
-		optional(sequence(maybeEatOneOf(`Ee`), maybeEatSign, maybeEatHexNumber))
-	)
-
-	/** fNmag = float | hexfloat | `inf` | `nan` | `nan:0x` hexnum */
-	const maybeEatFloatMag = union(
-		maybeEatHexFloat,
-		maybeEatDecimalFloat,
-		maybeEat(`inf`),
-		sequence(maybeEat(`nan:0x`), maybeEatHexNumber),
-		maybeEat(`nan`)
-	)
-
-	/** fN = sign fNmag */
-	const maybeEatFloat = sequence(maybeEatSign, maybeEatFloatMag)
+	const Float = sequence(Sign, FloatMag)
 
 	while (index < code.length) {
-		if (maybeEatSpace())
+		if (Space())
 			continue
 
 		const startIndex = index
 		const Token = (tag: TokenTag) => ({ tag, index: startIndex, size: index - startIndex })
 
-		if (maybeEatFloat())
+		if (Float())
 			yield Token(TokenTag.Number)
-		else if (maybeEatKeyword())
+		else if (Keyword())
 			yield Token(TokenTag.Keyword)
-		else if (maybeEatString())
+		else if (String())
 			yield Token(TokenTag.String)
-		else if (maybeEatIdentifier())
+		else if (Identifier())
 			yield Token(TokenTag.Identifier)
-		else if (maybeEat(`(`)())
+		else if (terminal(`(`)())
 			yield Token(TokenTag.OpenBracket)
-		else if (maybeEat(`)`)())
+		else if (terminal(`)`)())
 			yield Token(TokenTag.CloseBracket)
 		else
 			throw Error(`${HERE} Unexpected character ${JSON.stringify(code[index])} at index ${index}`)
