@@ -51,6 +51,10 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 	const maybeEatComment = () => maybeEatLineComment() || maybeEatBlockComment()
 
 	const maybeEatSpace = () => many(() => maybeEat(` `) || maybeEatFormat() || maybeEatComment())
+	const maybeEatSign = () => maybeEat(`+`) || maybeEat(`-`)
+
+	const maybeEatSignedInteger = () =>
+		maybeEatSign() && ensure(maybeEatNumber() || (maybeEat(`0x`) && maybeEatHexNumber()), HERE)
 
 	while (index < code.length) {
 		if (maybeEatSpace())
@@ -63,6 +67,8 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 			yield Token(TokenTag.Keyword)
 		else if (maybeEatUnsignedInteger())
 			yield Token(TokenTag.UnsignedInteger)
+		else if (maybeEatSignedInteger())
+			yield Token(TokenTag.SignedInteger)
 		else if (maybeEatString())
 			yield Token(TokenTag.String)
 		else if (maybeEatIdentifier())
@@ -156,6 +162,5 @@ if (import.meta.vitest) {
 	`) ]))
 
 	test(`nested comment`, () => console.debug([ ...tokenise(`(; a (; b ;) c ;)`) ]))
-		[ ...tokenise(`(; a (; b ;) c ;)`) ]
-	})
+	test(`signed integer`, () => console.debug(...tokenise(`+123`)))
 }
