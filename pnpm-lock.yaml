@@ -24,6 +24,9 @@ importers:
       '@types/node':
         specifier: ^22.7.4
         version: 22.7.4
+      babel-plugin-here:
+        specifier: 1.0.2-87a5573
+        version: 1.0.2-87a5573
       rollup:
         specifier: ^4.24.0
         version: 4.24.0

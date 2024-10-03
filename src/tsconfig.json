@@ -4,7 +4,7 @@
 		"exactOptionalPropertyTypes": true,
 		"declaration": true,
 		"outDir": "../dist",
-		"types": [ "@total-typescript/ts-reset", "vitest/importMeta" ]
+		"types": [ "@total-typescript/ts-reset", "vitest/importMeta", "babel-plugin-here/env" ]
 	},
 	"include": [ "**/*" ]
 }
