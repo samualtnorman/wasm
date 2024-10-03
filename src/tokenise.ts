@@ -215,8 +215,8 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 
 	/** fNmag = float | hexfloat | `inf` | `nan` | `nan:0x` hexnum */
 	const maybeEatFloatMag = union(
-		maybeEatDecimalFloat,
 		maybeEatHexFloat,
+		maybeEatDecimalFloat,
 		maybeEat(`inf`),
 		sequence(maybeEat(`nan:0x`), maybeEatHexNumber),
 		maybeEat(`nan`)
@@ -284,4 +284,5 @@ if (import.meta.vitest) {
 	test(`number`, () => console.debug(...tokenise(`3.`)))
 	test(`number with fraction`, () => expect([ ...tokenise(`3.5`) ]).toMatchObject([ Number ]))
 	test(`number with exponent`, () => expect([ ...tokenise(`1e2`) ]).toMatchObject([ Number ]))
+	test(`hex`, () => expect([ ...tokenise(`0x1`) ]).toMatchObject([ Number ]))
 }
