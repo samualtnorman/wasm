@@ -1,6 +1,7 @@
 import { spliceString } from "@samual/lib/spliceString"
 import chalk, { type ChalkInstance } from "chalk"
-import { type Token, tokenise, TokenTag } from "./tokenise"
+import { type Token, tokenise } from "./tokenise"
+import { TokenTag } from "./TokenTag"
 
 const TokenTagsToNames = Object.fromEntries(Object.entries(TokenTag).map(([ name, tag ]) => [ tag, name ]))
 
