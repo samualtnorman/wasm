@@ -32,10 +32,11 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 	const maybeEatString = () => maybeEat(`"`) && (many(() => maybeEatStringElement()), ensure(maybeEat(`"`), HERE))
 	const maybeEatIdentifier = () => maybeEat(`$`) && ensure(many(maybeEatIdentifierCharacter), HERE)
 
-	const maybeEatNumber = (): boolean => maybeEatCharacterBetween(`0`, `9`) &&
-		(maybeEat(`_`) ? ensure(maybeEatNumber(), HERE) : (maybeEatNumber(), true))
-
-	const maybeEatUnsignedInteger = () => maybeEatNumber() || (maybeEat(`0x`) && ensure(maybeEatHexNumber(), HERE))
+	/** num = digit (`_`? digit)* */
+	const maybeEatNumber = () => group(() =>
+		maybeEatCharacterBetween(`0`, `9`) &&
+		(many(() => (maybeEat(`_`), maybeEatCharacterBetween(`0`, `9`))), true)
+	)
 
 	const maybeEatLineCharacter = () => eatCharacterIf(code[index] != `\n` && code[index] != `\r`)
 
@@ -51,10 +52,46 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 	const maybeEatComment = () => maybeEatLineComment() || maybeEatBlockComment()
 
 	const maybeEatSpace = () => many(() => maybeEat(` `) || maybeEatFormat() || maybeEatComment())
-	const maybeEatSign = () => maybeEat(`+`) || maybeEat(`-`)
+	const maybeEatSign = () => (maybeEat(`+`) || maybeEat(`-`), true)
 
-	const maybeEatSignedInteger = () =>
-		maybeEatSign() && ensure(maybeEatNumber() || (maybeEat(`0x`) && maybeEatHexNumber()), HERE)
+	const maybeEatFraction = (): boolean => maybeEatCharacterBetween(`0`, `9`) &&
+		(maybeEat(`_`) ? ensure(maybeEatFraction(), HERE) : (maybeEatFraction(), true))
+
+	const maybeEatHexFraction = (): boolean =>
+		maybeEatHexDigit() && (maybeEat(`_`) ? ensure(maybeEatHexFraction(), HERE) : (maybeEatHexFraction(), true))
+
+	/** float = num (`.`? | `.` frac) ((`E` | `e`) sign num)? */
+	const maybeEatDecimalFloat = () => group(() =>
+		maybeEatNumber() &&
+		(
+			group(() => maybeEat(`.`) && maybeEatFraction()) ||
+			(maybeEat(`.`), true)
+		) &&
+		(group(() => maybeEatOneOf(`Ee`) && maybeEatSign() && maybeEatNumber()), true)
+	)
+
+	/** hexfloat = hexnum (`.`? | `.` hexfrac) ((`E` | `e`) sign hexnum)? */
+	const maybeEatHexFloat = () => group(() =>
+		maybeEat(`0x`) &&
+		maybeEatHexNumber() &&
+		(
+			group(() => maybeEat(`.`) && maybeEatHexFraction()) ||
+			(maybeEat(`.`), true)
+		) &&
+		(group(() => maybeEatOneOf(`Ee`) && maybeEatSign() && maybeEatHexNumber()), true)
+	)
+
+	/** fNmag = float | hexfloat | `inf` | `nan` | `nan:0x` hexnum */
+	const maybeEatFloatMag = () => group(() =>
+		maybeEatDecimalFloat() ||
+		maybeEatHexFloat() ||
+		maybeEat(`inf`) ||
+		group(() => maybeEat(`nan:0x`) && maybeEatHexNumber()) ||
+		maybeEat(`nan`)
+	)
+
+	/** fN = sign fNmag */
+	const maybeEatFloat = () => group(() => maybeEatSign() && maybeEatFloatMag())
 
 	while (index < code.length) {
 		if (maybeEatSpace())
@@ -63,12 +100,10 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 		const startIndex = index
 		const Token = (tag: TokenTag) => ({ tag, index: startIndex, size: index - startIndex })
 
-		if (maybeEatKeyword())
+		if (maybeEatFloat())
+			yield Token(TokenTag.Number)
+		else if (maybeEatKeyword())
 			yield Token(TokenTag.Keyword)
-		else if (maybeEatUnsignedInteger())
-			yield Token(TokenTag.UnsignedInteger)
-		else if (maybeEatSignedInteger())
-			yield Token(TokenTag.SignedInteger)
 		else if (maybeEatString())
 			yield Token(TokenTag.String)
 		else if (maybeEatIdentifier())
@@ -131,10 +166,21 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 
 		return false
 	}
+
+	function group(eatFunction: () => boolean) {
+		const startIndex = index
+
+		if (eatFunction())
+			return true
+
+		index = startIndex
+
+		return false
+	}
 }
 
 if (import.meta.vitest) {
-	const { test } = import.meta.vitest
+	const { test, expect } = import.meta.vitest
 
 	test(`tokenise wasi hello world`, () => console.debug([ ...tokenise(`
 		(import "wasi_unstable" "fd_write" (func $fd_write (param i32 i32 i32 i32) (result i32)))
@@ -161,6 +207,11 @@ if (import.meta.vitest) {
 		)
 	`) ]))
 
+	const Number = { tag: TokenTag.Number }
+
 	test(`nested comment`, () => console.debug([ ...tokenise(`(; a (; b ;) c ;)`) ]))
 	test(`signed integer`, () => console.debug(...tokenise(`+123`)))
+	test(`number`, () => console.debug(...tokenise(`3.`)))
+	test(`number with fraction`, () => expect([ ...tokenise(`3.5`) ]).toMatchObject([ Number ]))
+	test(`number with exponent`, () => expect([ ...tokenise(`1e2`) ]).toMatchObject([ Number ]))
 }

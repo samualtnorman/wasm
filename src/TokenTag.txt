@@ -1,7 +1,5 @@
 Keyword
-UnsignedInteger
-SignedInteger
-Float
+Number
 String
 Identifier
 OpenBracket
