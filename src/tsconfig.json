@@ -4,7 +4,7 @@
 		"exactOptionalPropertyTypes": true,
 		"declaration": true,
 		"outDir": "../dist",
-		"types": [ "@total-typescript/ts-reset" ]
+		"types": [ "@total-typescript/ts-reset", "vitest/importMeta" ]
 	},
 	"include": [ "**/*" ]
 }
