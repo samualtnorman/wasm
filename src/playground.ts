@@ -40,7 +40,7 @@ let highlighted = code
 const TokenTagsToChalkInstances: { [K in TokenTag]?: ChalkInstance } = {
 	[TokenTag.Keyword]: chalk.magentaBright,
 	[TokenTag.Identifier]: chalk.cyanBright,
-	[TokenTag.UnsignedInteger]: chalk.yellow,
+	[TokenTag.Number]: chalk.yellow,
 	[TokenTag.String]: chalk.green,
 	[TokenTag.OpenBracket]: chalk.white,
 	[TokenTag.CloseBracket]: chalk.white
