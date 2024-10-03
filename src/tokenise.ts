@@ -13,40 +13,51 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 		maybeEatCharacterBetween(`A`, `Z`) || maybeEatCharacterBetween(`a`, `z`) ||
 		maybeEatOneOf(`!#$%&'*+-./:<=>?@\\^_\`|~`)
 
-	const maybeEatKeyword = () => maybeEatCharacterBetween(`a`, `z`) && (many(maybeEatIdentifierCharacter), true)
+	const maybeEatKeyword = () => sequence(
+		() => maybeEatCharacterBetween(`a`, `z`),
+		() => (many(maybeEatIdentifierCharacter), true)
+	)
 
 	/** hexnum = hexdigit (`_`? hexdigit)* */
-	const maybeEatHexNumber = () => sequence(() =>
-		maybeEatHexDigit() &&
-		(many(() => (maybeEat(`_`), maybeEatHexDigit())), true)
+	const maybeEatHexNumber = () => sequence(
+		maybeEatHexDigit,
+		() => (many(() => sequence(() => (maybeEat(`_`), true), maybeEatHexDigit)), true)
 	)
 
 	const maybeEatStringCharacter = () =>
 		eatCharacterIf(code[index]! >= `\x20` && code[index]! != `\x7F` && code[index] != `"` && code[index] != `\\`) ||
 		maybeEat(`\\t`) || maybeEat(`\\n`) || maybeEat(`\\r`) || maybeEat(`\\"`) || maybeEat(`\\'`) ||
-		maybeEat(`\\\\`) || sequence(() => maybeEat(`\\u{`) && maybeEatHexNumber() && maybeEat(`}`))
+		maybeEat(`\\\\`) || sequence(() => maybeEat(`\\u{`), maybeEatHexNumber, () => maybeEat(`}`))
 
 	const maybeEatHexDigit = () => maybeEatCharacterBetween(`0`, `9`) || maybeEatCharacterBetween(`A`, `F`) ||
 		maybeEatCharacterBetween(`a`, `f`)
 
 	const maybeEatStringElement = () => maybeEatStringCharacter() ||
-		sequence(() => maybeEat(`\\`) && maybeEatHexDigit() && maybeEatHexDigit())
+		sequence(() => maybeEat(`\\`), maybeEatHexDigit, maybeEatHexDigit)
 
-	const maybeEatString = () => sequence(() => maybeEat(`"`) && (many(maybeEatStringElement), maybeEat(`"`)))
-	const maybeEatIdentifier = () => sequence(() => maybeEat(`$`) && many(maybeEatIdentifierCharacter))
+	const maybeEatString = () => sequence(
+		() => maybeEat(`"`),
+		() => (many(maybeEatStringElement), true),
+		() => maybeEat(`"`)
+	)
+
+	const maybeEatIdentifier = () => sequence(() => maybeEat(`$`), () => many(maybeEatIdentifierCharacter))
 
 	/** num = digit (`_`? digit)* */
-	const maybeEatNumber = () => sequence(() =>
-		maybeEatCharacterBetween(`0`, `9`) &&
-		(many(() => (maybeEat(`_`), maybeEatCharacterBetween(`0`, `9`))), true)
+	const maybeEatNumber = () => sequence(
+		() => maybeEatCharacterBetween(`0`, `9`),
+		() => (many(() => sequence(
+			() => (maybeEat(`_`), true),
+			() => maybeEatCharacterBetween(`0`, `9`)
+		)), true)
 	)
 
 	const maybeEatLineCharacter = () => eatCharacterIf(code[index] != `\n` && code[index] != `\r`)
 
-	const maybeEatLineComment = () => sequence(() =>
-		maybeEat(`;;`) &&
-		(many(maybeEatLineCharacter), true) &&
-		(maybeEatNewline() || index == code.length)
+	const maybeEatLineComment = () => sequence(
+		() => maybeEat(`;;`),
+		() => (many(maybeEatLineCharacter), true),
+		() => maybeEatNewline() || index == code.length
 	)
 
 	const maybeEatBlockCharacter = () => eatCharacterIf(code[index] != `;` && code[index] != `(`) ||
@@ -55,9 +66,10 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 		maybeEatBlockComment()
 
 	/** blockcomment = `(;` blockchar* `;)` */
-	const maybeEatBlockComment = () => sequence(() =>
-		maybeEat(`(;`) &&
-		(many(maybeEatBlockCharacter), maybeEat(`;)`))
+	const maybeEatBlockComment = () => sequence(
+		() => maybeEat(`(;`),
+		() => (many(maybeEatBlockCharacter), true),
+		() => maybeEat(`;)`)
 	)
 
 	const maybeEatComment = () => maybeEatLineComment() || maybeEatBlockComment()
@@ -66,36 +78,40 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 	const maybeEatSign = () => (maybeEat(`+`) || maybeEat(`-`), true)
 
 	/** frac = digit (`_`? digit)* */
-	const maybeEatFraction = () => sequence(() =>
-		maybeEatCharacterBetween(`0`, `9`) &&
-		(many(() => (maybeEat(`_`), maybeEatCharacterBetween(`0`, `9`))), true)
+	const maybeEatFraction = () => sequence(
+		() => maybeEatCharacterBetween(`0`, `9`),
+		() => (many(() => sequence(
+			() => (maybeEat(`_`), true),
+			() => maybeEatCharacterBetween(`0`, `9`))
+		), true)
 	)
 
 	/** hexfrac = hexdigit (`_`? hexdigit)* */
-	const maybeEatHexFraction = () => sequence(() =>
-		maybeEatHexDigit() &&
-		many(() => (maybeEat(`_`), maybeEatHexDigit()))
+	const maybeEatHexFraction = () => sequence(
+		() => maybeEatHexDigit(),
+		() => many(() => (maybeEat(`_`), maybeEatHexDigit()))
 	)
 
 	/** float = num (`.`? | `.` frac) ((`E` | `e`) sign num)? */
-	const maybeEatDecimalFloat = () => sequence(() =>
-		maybeEatNumber() &&
-		(
-			sequence(() => maybeEat(`.`) && maybeEatFraction()) ||
-			(maybeEat(`.`), true)
-		) &&
-		(sequence(() => maybeEatOneOf(`Ee`) && maybeEatSign() && maybeEatNumber()), true)
+	const maybeEatDecimalFloat = () => sequence(
+		// num
+		maybeEatNumber ,
+		// (`.`? | `.` frac)
+		() => sequence(() => maybeEat(`.`), maybeEatFraction) || (maybeEat(`.`), true),
+		// ((`E` | `e`) sign num)?
+		() => (sequence(() => maybeEatOneOf(`Ee`), maybeEatSign, maybeEatNumber), true)
 	)
 
-	/** hexfloat = hexnum (`.`? | `.` hexfrac) ((`E` | `e`) sign hexnum)? */
-	const maybeEatHexFloat = () => sequence(() =>
-		maybeEat(`0x`) &&
-		maybeEatHexNumber() &&
-		(
-			sequence(() => maybeEat(`.`) && maybeEatHexFraction()) ||
-			(maybeEat(`.`), true)
-		) &&
-		(sequence(() => maybeEatOneOf(`Ee`) && maybeEatSign() && maybeEatHexNumber()), true)
+	/** hexfloat = `0x` hexnum (`.` hexfrac | `.`?) ((`E` | `e`) sign hexnum)? */
+	const maybeEatHexFloat = () => sequence(
+		// `0x`
+		() => maybeEat(`0x`),
+		// hexnum
+		maybeEatHexNumber,
+		// (`.` hexfrac | `.`?)
+		() => sequence(() => maybeEat(`.`), maybeEatHexFraction) || (maybeEat(`.`), true),
+		// ((`E` | `e`) sign hexnum)?
+		() => (sequence(() => maybeEatOneOf(`Ee`), maybeEatSign, maybeEatHexNumber), true)
 	)
 
 	/** fNmag = float | hexfloat | `inf` | `nan` | `nan:0x` hexnum */
@@ -103,12 +119,12 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 		maybeEatDecimalFloat() ||
 		maybeEatHexFloat() ||
 		maybeEat(`inf`) ||
-		sequence(() => maybeEat(`nan:0x`) && maybeEatHexNumber()) ||
+		sequence(() => maybeEat(`nan:0x`), maybeEatHexNumber) ||
 		maybeEat(`nan`)
 	)
 
 	/** fN = sign fNmag */
-	const maybeEatFloat = () => sequence(() => maybeEatSign() && maybeEatFloatMag())
+	const maybeEatFloat = () => sequence(maybeEatSign, maybeEatFloatMag)
 
 	while (index < code.length) {
 		if (maybeEatSpace())
@@ -184,15 +200,18 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 		return false
 	}
 
-	function sequence(eatFunction: () => boolean) {
+	function sequence(...eatFunctions: (() => boolean)[]) {
 		const startIndex = index
 
-		if (eatFunction())
-			return true
+		for (const eatFunction of eatFunctions) {
+			if (!eatFunction()) {
+				index = startIndex
 
-		index = startIndex
+				return false
+			}
+		}
 
-		return false
+		return true
 	}
 }
 
