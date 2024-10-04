@@ -4,7 +4,6 @@ String
 Identifier
 OpenBracket
 CloseBracket
-Reserved
 Integer32
 Integer64
 Float32

@@ -5,21 +5,20 @@ export const TokenTag = {
 	Identifier: 4 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.Identifier" },
 	OpenBracket: 5 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.OpenBracket" },
 	CloseBracket: 6 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.CloseBracket" },
-	Reserved: 7 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.Reserved" },
-	Integer32: 8 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.Integer32" },
-	Integer64: 9 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.Integer64" },
-	Float32: 10 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.Float32" },
-	Float64: 11 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.Float64" },
-	Vector128: 12 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.Vector128" },
-	FunctionReference: 13 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.FunctionReference" },
-	ExternalReference: 14 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.ExternalReference" },
-	Function: 15 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.Function" },
-	External: 16 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.External" },
-	Parameter: 17 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.Parameter" },
-	Result: 18 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.Result" },
-	LineComment: 19 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.LineComment" },
-	BlockComment: 20 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.BlockComment" },
-	Mutable: 21 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.Mutable" },
+	Integer32: 7 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.Integer32" },
+	Integer64: 8 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.Integer64" },
+	Float32: 9 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.Float32" },
+	Float64: 10 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.Float64" },
+	Vector128: 11 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.Vector128" },
+	FunctionReference: 12 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.FunctionReference" },
+	ExternalReference: 13 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.ExternalReference" },
+	Function: 14 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.Function" },
+	External: 15 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.External" },
+	Parameter: 16 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.Parameter" },
+	Result: 17 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.Result" },
+	LineComment: 18 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.LineComment" },
+	BlockComment: 19 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.BlockComment" },
+	Mutable: 20 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.Mutable" },
 }
 
 export type TokenTag = typeof TokenTag[keyof typeof TokenTag]
@@ -31,7 +30,6 @@ export namespace TokenTag {
 	export type Identifier = typeof TokenTag.Identifier
 	export type OpenBracket = typeof TokenTag.OpenBracket
 	export type CloseBracket = typeof TokenTag.CloseBracket
-	export type Reserved = typeof TokenTag.Reserved
 	export type Integer32 = typeof TokenTag.Integer32
 	export type Integer64 = typeof TokenTag.Integer64
 	export type Float32 = typeof TokenTag.Float32
