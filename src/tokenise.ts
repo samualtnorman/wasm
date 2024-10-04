@@ -16,7 +16,12 @@ const NamesToKeywords = {
 	Parameter: `param`,
 	Result: `result`,
 	Mutable: `mut`
-} satisfies { [K in keyof typeof TokenTag]?: string }
+} satisfies {
+	[K in Exclude<
+		keyof typeof TokenTag,
+		`Keyword` | `Number` | `String` | `Identifier` | `OpenBracket` | `CloseBracket` | `LineComment` | `BlockComment`
+	>]: string
+}
 
 export function* tokenise(code: string): Generator<Token, void, void> {
 	let index = 0
