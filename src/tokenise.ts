@@ -140,7 +140,7 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 		terminal(`0x`),
 		HexNumber,
 		union(sequence(terminal(`.`), HexFraction), optional(terminal(`.`))),
-		optional(sequence(oneOf(`Ee`), Sign, HexNumber))
+		optional(sequence(oneOf(`Pp`), Sign, HexNumber))
 	)
 
 	const FloatMag =
@@ -208,4 +208,5 @@ if (import.meta.vitest) {
 	test(`number with fraction`, () => expect([ ...tokenise(`3.5`) ]).toMatchObject([ Number ]))
 	test(`number with exponent`, () => expect([ ...tokenise(`1e2`) ]).toMatchObject([ Number ]))
 	test(`hex`, () => expect([ ...tokenise(`0x1`) ]).toMatchObject([ Number ]))
+	test(`hex exponent`, () => expect([ ...tokenise(`0x1p1`) ]).toMatchObject([ Number ]))
 }
