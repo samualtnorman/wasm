@@ -10,10 +10,10 @@ export const TokenTag = {
 	Float32: 9 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.Float32" },
 	Float64: 10 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.Float64" },
 	Vector128: 11 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.Vector128" },
-	FunctionReference: 12 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.FunctionReference" },
-	ExternalReference: 13 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.ExternalReference" },
-	Function: 14 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.Function" },
-	External: 15 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.External" },
+	Function: 12 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.Function" },
+	FunctionReference: 13 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.FunctionReference" },
+	External: 14 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.External" },
+	ExternalReference: 15 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.ExternalReference" },
 	Parameter: 16 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.Parameter" },
 	Result: 17 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.Result" },
 	LineComment: 18 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.LineComment" },
@@ -35,10 +35,10 @@ export namespace TokenTag {
 	export type Float32 = typeof TokenTag.Float32
 	export type Float64 = typeof TokenTag.Float64
 	export type Vector128 = typeof TokenTag.Vector128
-	export type FunctionReference = typeof TokenTag.FunctionReference
-	export type ExternalReference = typeof TokenTag.ExternalReference
 	export type Function = typeof TokenTag.Function
+	export type FunctionReference = typeof TokenTag.FunctionReference
 	export type External = typeof TokenTag.External
+	export type ExternalReference = typeof TokenTag.ExternalReference
 	export type Parameter = typeof TokenTag.Parameter
 	export type Result = typeof TokenTag.Result
 	export type LineComment = typeof TokenTag.LineComment
