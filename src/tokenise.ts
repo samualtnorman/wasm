@@ -12,7 +12,7 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 		return true
 	}
 
-	const terminalsBetween = (first: string, last: string) => () => {
+	const range = (first: string, last: string) => () => {
 		assert(first < last, HERE)
 
 		if (code[index]! >= first && code[index]! <= last) {
@@ -24,7 +24,7 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 		return false
 	}
 
-	const terminalIn = (search: string) => () => {
+	const oneOf = (search: string) => () => {
 		if (index < code.length && search.includes(code[ index ]!)) {
 			index++
 
@@ -86,18 +86,14 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 		return true
 	}
 
-	const Newline = union(terminalIn(`\n\r`), terminal(`\r\n`))
+	const Newline = union(oneOf(`\n\r`), terminal(`\r\n`))
 	const Format = union(Newline, terminal(`\t`))
 
-	const IdentifierCharacter = union(
-		terminalsBetween(`0`, `9`),
-		terminalsBetween(`A`, `Z`),
-		terminalsBetween(`a`, `z`),
-		terminalIn(`!#$%&'*+-./:<=>?@\\^_\`|~`)
-	)
+	const IdentifierCharacter =
+		union(range(`0`, `9`), range(`A`, `Z`), range(`a`, `z`), oneOf(`!#$%&'*+-./:<=>?@\\^_\`|~`))
 
-	const Keyword = sequence(terminalsBetween(`a`, `z`), optional(many(IdentifierCharacter)))
-	const HexDigit = union(terminalsBetween(`0`, `9`), terminalsBetween(`A`, `F`), terminalsBetween(`a`, `f`))
+	const Keyword = sequence(range(`a`, `z`), optional(many(IdentifierCharacter)))
+	const HexDigit = union(range(`0`, `9`), range(`A`, `F`), range(`a`, `f`))
 	const HexNumber = sequence(HexDigit, optional(many(sequence(optional(terminal(`_`)), HexDigit))))
 
 	const StringCharacter = union(
@@ -114,12 +110,7 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 	const StringElement = union(StringCharacter, sequence(terminal(`\\`), HexDigit, HexDigit))
 	const String = sequence(terminal(`"`), optional(many(StringElement)), terminal(`"`))
 	const Identifier = sequence(terminal(`$`), many(IdentifierCharacter))
-
-	const Number = sequence(
-		terminalsBetween(`0`, `9`),
-		optional(many(sequence(optional(terminal(`_`)), terminalsBetween(`0`, `9`))))
-	)
-
+	const Number = sequence(range(`0`, `9`), optional(many(sequence(optional(terminal(`_`)), range(`0`, `9`)))))
 	const LineCharacter = condition(() => code[index] != `\n` && code[index] != `\r`)
 
 	const LineComment =
@@ -136,24 +127,20 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 	const Comment = union(LineComment, BlockComment)
 	const Space = many(union(terminal(` `), Format, Comment))
 	const Sign = optional(union(terminal(`+`), terminal(`-`)))
-
-	const Fraction = sequence(
-		terminalsBetween(`0`, `9`), optional(many(sequence(optional(terminal(`_`)), terminalsBetween(`0`, `9`))))
-	)
-
+	const Fraction = sequence(range(`0`, `9`), optional(many(sequence(optional(terminal(`_`)), range(`0`, `9`)))))
 	const HexFraction = sequence(HexDigit, optional(many(sequence(optional(terminal(`_`)), HexDigit))))
 
 	const DecimalFloat = sequence(
 		Number,
 		union(sequence(terminal(`.`), Fraction), optional(terminal(`.`))),
-		optional(sequence(terminalIn(`Ee`), Sign, Number))
+		optional(sequence(oneOf(`Ee`), Sign, Number))
 	)
 
 	const HexFloat = sequence(
 		terminal(`0x`),
 		HexNumber,
 		union(sequence(terminal(`.`), HexFraction), optional(terminal(`.`))),
-		optional(sequence(terminalIn(`Ee`), Sign, HexNumber))
+		optional(sequence(oneOf(`Ee`), Sign, HexNumber))
 	)
 
 	const FloatMag =
