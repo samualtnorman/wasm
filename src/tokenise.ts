@@ -97,19 +97,11 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 	)
 
 	const Keyword = sequence(terminalsBetween(`a`, `z`), optional(many(IdentifierCharacter)))
-
-	const HexDigit = union(
-		terminalsBetween(`0`, `9`),
-		terminalsBetween(`A`, `F`),
-		terminalsBetween(`a`, `f`)
-	)
-
+	const HexDigit = union(terminalsBetween(`0`, `9`), terminalsBetween(`A`, `F`), terminalsBetween(`a`, `f`))
 	const HexNumber = sequence(HexDigit, optional(many(sequence(optional(terminal(`_`)), HexDigit))))
 
 	const StringCharacter = union(
-		condition(
-			() => code[index]! >= `\x20` && code[index]! != `\x7F` && code[index] != `"` && code[index] != `\\`
-		),
+		condition(() => code[index]! >= `\x20` && code[index]! != `\x7F` && code[index] != `"` && code[index] != `\\`),
 		terminal(`\\t`),
 		terminal(`\\n`),
 		terminal(`\\r`),
@@ -130,11 +122,8 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 
 	const LineCharacter = condition(() => code[index] != `\n` && code[index] != `\r`)
 
-	const LineComment = sequence(
-		terminal(`;;`),
-		optional(many(LineCharacter)),
-		union(Newline, () => index == code.length)
-	)
+	const LineComment =
+		sequence(terminal(`;;`), optional(many(LineCharacter)), union(Newline, () => index == code.length))
 
 	const BlockCharacter = union(
 		condition(() => code[index] != `;` && code[index] != `(`),
@@ -149,14 +138,13 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 	const Sign = optional(union(terminal(`+`), terminal(`-`)))
 
 	const Fraction = sequence(
-		terminalsBetween(`0`, `9`),
-		optional(many(sequence(optional(terminal(`_`)), terminalsBetween(`0`, `9`))))
+		terminalsBetween(`0`, `9`), optional(many(sequence(optional(terminal(`_`)), terminalsBetween(`0`, `9`))))
 	)
 
 	const HexFraction = sequence(HexDigit, optional(many(sequence(optional(terminal(`_`)), HexDigit))))
 
 	const DecimalFloat = sequence(
-		Number ,
+		Number,
 		union(sequence(terminal(`.`), Fraction), optional(terminal(`.`))),
 		optional(sequence(terminalIn(`Ee`), Sign, Number))
 	)
