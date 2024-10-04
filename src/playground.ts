@@ -51,6 +51,8 @@ const TokenTagsToChalkInstances: { [K in TokenTag]?: ChalkInstance } = {
 	[TokenTag.Integer64]: chalk.cyanBright,
 	[TokenTag.Float32]: chalk.cyanBright,
 	[TokenTag.Float64]: chalk.cyanBright,
+	[TokenTag.LineComment]: chalk.gray,
+	[TokenTag.BlockComment]: chalk.gray
 }
 
 for (const token of [ ...tokenise(code) ].reverse()) {
@@ -63,4 +65,4 @@ for (const token of [ ...tokenise(code) ].reverse()) {
 	}
 }
 
-console.log(chalk.grey(highlighted))
+console.log(highlighted)
