@@ -44,7 +44,7 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 	}
 
 	const condition = (checker: () => boolean) => () => {
-		if (checker()) {
+		if (index < code.length && checker()) {
 			index++
 
 			return true
