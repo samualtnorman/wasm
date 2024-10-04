@@ -149,9 +149,9 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 		union(HexFloat, DecimalFloat, terminal(`inf`), sequence(terminal(`nan:0x`), HexNumber), terminal(`nan`))
 
 	const Float = sequence(Sign, FloatMag)
-
-	const Integer32Type =
-		sequence(terminal(`i32`), () => index >= code.length || !IdentifierSymbolCharacters.includes(code[index]!))
+	const IdentifierBoundry = () => index >= code.length || !IdentifierSymbolCharacters.includes(code[index]!)
+	const Integer32Type = sequence(terminal(`i32`), IdentifierBoundry)
+	const Integer64Type = sequence(terminal(`i64`), IdentifierBoundry)
 
 	while (index < code.length) {
 		if (Space())
@@ -162,6 +162,8 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 
 		if (Integer32Type())
 			yield Token(TokenTag.Integer32Type)
+		else if (Integer64Type())
+			yield Token(TokenTag.Integer64Type)
 		else if (Float())
 			yield Token(TokenTag.Number)
 		else if (Keyword())
@@ -217,4 +219,5 @@ if (import.meta.vitest) {
 	test(`hex`, () => expect([ ...tokenise(`0x1`) ]).toMatchObject([ Number ]))
 	test(`hex exponent`, () => expect([ ...tokenise(`0x1p1`) ]).toMatchObject([ Number ]))
 	test(`i32`, () => expect([ ...tokenise(`i32`) ]).toMatchObject([ { tag: TokenTag.Integer32Type } ]))
+	test(`i64`, () => expect([ ...tokenise(`i64`) ]).toMatchObject([ { tag: TokenTag.Integer64Type } ]))
 }
