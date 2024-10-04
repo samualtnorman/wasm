@@ -1,5 +1,5 @@
-import { TokenTag } from "./TokenTag"
 import { assert } from "@samual/lib/assert"
+import { TokenTag } from "./TokenTag"
 
 export type Token = { tag: TokenTag, index: number, size: number }
 
@@ -89,8 +89,10 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 	const Newline = union(oneOf(`\n\r`), terminal(`\r\n`))
 	const Format = union(Newline, terminal(`\t`))
 
+	const IdentifierSymbolCharacters = `!#$%&'*+-./:<=>?@\\^_\`|~`
+
 	const IdentifierCharacter =
-		union(range(`0`, `9`), range(`A`, `Z`), range(`a`, `z`), oneOf(`!#$%&'*+-./:<=>?@\\^_\`|~`))
+		union(range(`0`, `9`), range(`A`, `Z`), range(`a`, `z`), oneOf(IdentifierSymbolCharacters))
 
 	const Keyword = sequence(range(`a`, `z`), optional(many(IdentifierCharacter)))
 	const HexDigit = union(range(`0`, `9`), range(`A`, `F`), range(`a`, `f`))
@@ -148,6 +150,9 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 
 	const Float = sequence(Sign, FloatMag)
 
+	const Integer32Type =
+		sequence(terminal(`i32`), () => index >= code.length || !IdentifierSymbolCharacters.includes(code[index]!))
+
 	while (index < code.length) {
 		if (Space())
 			continue
@@ -155,7 +160,9 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 		const startIndex = index
 		const Token = (tag: TokenTag) => ({ tag, index: startIndex, size: index - startIndex })
 
-		if (Float())
+		if (Integer32Type())
+			yield Token(TokenTag.Integer32Type)
+		else if (Float())
 			yield Token(TokenTag.Number)
 		else if (Keyword())
 			yield Token(TokenTag.Keyword)
@@ -209,4 +216,5 @@ if (import.meta.vitest) {
 	test(`number with exponent`, () => expect([ ...tokenise(`1e2`) ]).toMatchObject([ Number ]))
 	test(`hex`, () => expect([ ...tokenise(`0x1`) ]).toMatchObject([ Number ]))
 	test(`hex exponent`, () => expect([ ...tokenise(`0x1p1`) ]).toMatchObject([ Number ]))
+	test(`i32`, () => expect([ ...tokenise(`i32`) ]).toMatchObject([ { tag: TokenTag.Integer32Type } ]))
 }

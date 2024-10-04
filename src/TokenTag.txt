@@ -5,3 +5,7 @@ Identifier
 OpenBracket
 CloseBracket
 Reserved
+Integer32Type
+Integer64Type
+Float32Type
+Float64Type
