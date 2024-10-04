@@ -39,11 +39,18 @@ let highlighted = code
 
 const TokenTagsToChalkInstances: { [K in TokenTag]?: ChalkInstance } = {
 	[TokenTag.Keyword]: chalk.magentaBright,
-	[TokenTag.Identifier]: chalk.cyanBright,
+	[TokenTag.Function]: chalk.magentaBright,
+	[TokenTag.Parameter]: chalk.magentaBright,
+	[TokenTag.Result]: chalk.magentaBright,
+	[TokenTag.Identifier]: chalk.blueBright,
 	[TokenTag.Number]: chalk.yellow,
 	[TokenTag.String]: chalk.green,
 	[TokenTag.OpenBracket]: chalk.white,
-	[TokenTag.CloseBracket]: chalk.white
+	[TokenTag.CloseBracket]: chalk.white,
+	[TokenTag.Integer32]: chalk.cyanBright,
+	[TokenTag.Integer64]: chalk.cyanBright,
+	[TokenTag.Float32]: chalk.cyanBright,
+	[TokenTag.Float64]: chalk.cyanBright,
 }
 
 for (const token of [ ...tokenise(code) ].reverse()) {
