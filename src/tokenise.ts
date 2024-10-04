@@ -184,7 +184,7 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 if (import.meta.vitest) {
 	const { test, expect } = import.meta.vitest
 
-	test(`tokenise wasi hello world`, () => console.debug([ ...tokenise(`
+	test(`tokenise wasi hello world`, () => [ ...tokenise(`
 		(import "wasi_unstable" "fd_write" (func $fd_write (param i32 i32 i32 i32) (result i32)))
 
 		(memory 1)
@@ -207,13 +207,13 @@ if (import.meta.vitest) {
 				)
 			)
 		)
-	`) ]))
+	`) ])
 
 	const Number = { tag: TokenTag.Number }
 
-	test(`nested comment`, () => console.debug([ ...tokenise(`(; a (; b ;) c ;)`) ]))
-	test(`signed integer`, () => console.debug(...tokenise(`+123`)))
-	test(`number`, () => console.debug(...tokenise(`3.`)))
+	test(`nested comment`, () => [ ...tokenise(`(; a (; b ;) c ;)`) ])
+	test(`signed integer`, () => [ ...tokenise(`+123`) ])
+	test(`number`, () => [ ...tokenise(`3.`) ])
 	test(`number with fraction`, () => expect([ ...tokenise(`3.5`) ]).toMatchObject([ Number ]))
 	test(`number with exponent`, () => expect([ ...tokenise(`1e2`) ]).toMatchObject([ Number ]))
 	test(`hex`, () => expect([ ...tokenise(`0x1`) ]).toMatchObject([ Number ]))
