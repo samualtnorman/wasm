@@ -86,13 +86,23 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 		return true
 	}
 
+	const negativeLookahead = (rule: () => boolean) => () => {
+		const start = index
+
+		if (rule()) {
+			index = start
+
+			return false
+		}
+
+		return true
+	}
+
 	const Newline = union(oneOf(`\n\r`), terminal(`\r\n`))
 	const Format = union(Newline, terminal(`\t`))
 
-	const IdentifierSymbolCharacters = `!#$%&'*+-./:<=>?@\\^_\`|~`
-
 	const IdentifierCharacter =
-		union(range(`0`, `9`), range(`A`, `Z`), range(`a`, `z`), oneOf(IdentifierSymbolCharacters))
+		union(range(`0`, `9`), range(`A`, `Z`), range(`a`, `z`), oneOf(`!#$%&'*+-./:<=>?@\\^_\`|~`))
 
 	const Keyword = sequence(range(`a`, `z`), optional(many(IdentifierCharacter)))
 	const HexDigit = union(range(`0`, `9`), range(`A`, `F`), range(`a`, `f`))
@@ -148,18 +158,17 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 		union(HexFloat, DecimalFloat, terminal(`inf`), sequence(terminal(`nan:0x`), HexNumber), terminal(`nan`))
 
 	const Float = sequence(Sign, FloatMag)
-	const IdentifierBoundry = () => index >= code.length || !IdentifierSymbolCharacters.includes(code[index]!)
-	const Integer32 = sequence(terminal(`i32`), IdentifierBoundry)
-	const Integer64 = sequence(terminal(`i64`), IdentifierBoundry)
-	const Float32 = sequence(terminal(`f32`), IdentifierBoundry)
-	const Float64 = sequence(terminal(`f64`), IdentifierBoundry)
-	const Vector128 = sequence(terminal(`v128`), IdentifierBoundry)
-	const FunctionReference = sequence(terminal(`funcref`), IdentifierBoundry)
-	const ExternalReference = sequence(terminal(`externref`), IdentifierBoundry)
-	const Function = sequence(terminal(`func`), IdentifierBoundry)
-	const External = sequence(terminal(`extern`), IdentifierBoundry)
-	const Parameter = sequence(terminal(`param`), IdentifierBoundry)
-	const Result = sequence(terminal(`result`), IdentifierBoundry)
+	const Integer32 = sequence(terminal(`i32`), negativeLookahead(IdentifierCharacter))
+	const Integer64 = sequence(terminal(`i64`), negativeLookahead(IdentifierCharacter))
+	const Float32 = sequence(terminal(`f32`), negativeLookahead(IdentifierCharacter))
+	const Float64 = sequence(terminal(`f64`), negativeLookahead(IdentifierCharacter))
+	const Vector128 = sequence(terminal(`v128`), negativeLookahead(IdentifierCharacter))
+	const FunctionReference = sequence(terminal(`funcref`), negativeLookahead(IdentifierCharacter))
+	const ExternalReference = sequence(terminal(`externref`), negativeLookahead(IdentifierCharacter))
+	const Function = sequence(terminal(`func`), negativeLookahead(IdentifierCharacter))
+	const External = sequence(terminal(`extern`), negativeLookahead(IdentifierCharacter))
+	const Parameter = sequence(terminal(`param`), negativeLookahead(IdentifierCharacter))
+	const Result = sequence(terminal(`result`), negativeLookahead(IdentifierCharacter))
 
 	while (index < code.length) {
 		if (Space())
@@ -260,4 +269,5 @@ if (import.meta.vitest) {
 	test(`extern`, () => expect([ ...tokenise(`extern`) ]).toMatchObject([ { tag: TokenTag.External } ]))
 	test(`param`, () => expect([ ...tokenise(`param`) ]).toMatchObject([ { tag: TokenTag.Parameter } ]))
 	test(`result`, () => expect([ ...tokenise(`result`) ]).toMatchObject([ { tag: TokenTag.Result } ]))
+	test(`funci32`, () => expect([ ...tokenise(`funci32`) ]).toMatchObject([ { tag: TokenTag.Keyword } ]))
 }
