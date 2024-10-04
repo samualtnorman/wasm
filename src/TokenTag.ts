@@ -17,6 +17,8 @@ export const TokenTag = {
 	External: 16 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.External" },
 	Parameter: 17 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.Parameter" },
 	Result: 18 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.Result" },
+	LineComment: 19 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.LineComment" },
+	BlockComment: 20 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.BlockComment" },
 }
 
 export type TokenTag = typeof TokenTag[keyof typeof TokenTag]
@@ -40,4 +42,6 @@ export namespace TokenTag {
 	export type External = typeof TokenTag.External
 	export type Parameter = typeof TokenTag.Parameter
 	export type Result = typeof TokenTag.Result
+	export type LineComment = typeof TokenTag.LineComment
+	export type BlockComment = typeof TokenTag.BlockComment
 }

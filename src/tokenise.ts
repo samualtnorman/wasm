@@ -126,8 +126,7 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 	)
 
 	const BlockComment = sequence(terminal(`(;`), optional(many(BlockCharacter)), terminal(`;)`))
-	const Comment = union(LineComment, BlockComment)
-	const Space = many(union(terminal(` `), Format, Comment))
+	const Space = many(union(terminal(` `), Format))
 	const Sign = optional(union(terminal(`+`), terminal(`-`)))
 	const Fraction = sequence(range(`0`, `9`), optional(many(sequence(optional(terminal(`_`)), range(`0`, `9`)))))
 	const HexFraction = sequence(HexDigit, optional(many(sequence(optional(terminal(`_`)), HexDigit))))
@@ -169,7 +168,11 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 		const startIndex = index
 		const Token = (tag: TokenTag) => ({ tag, index: startIndex, size: index - startIndex })
 
-		if (Integer32())
+		if (LineComment())
+			yield Token(TokenTag.LineComment)
+		else if (BlockComment())
+			yield Token(TokenTag.BlockComment)
+		else if (Integer32())
 			yield Token(TokenTag.Integer32)
 		else if (Integer64())
 			yield Token(TokenTag.Integer64)
@@ -238,7 +241,8 @@ if (import.meta.vitest) {
 
 	const Number = { tag: TokenTag.Number }
 
-	test(`nested comment`, () => [ ...tokenise(`(; a (; b ;) c ;)`) ])
+	test(`line comment`, () => expect([ ...tokenise(`;;`) ]).toMatchObject([ { tag: TokenTag.LineComment } ]))
+	test(`nested comment`, () => expect([ ...tokenise(`(; a (; b ;) c ;)`) ]).toMatchObject([ { tag: TokenTag.BlockComment } ]))
 	test(`signed integer`, () => [ ...tokenise(`+123`) ])
 	test(`number`, () => [ ...tokenise(`3.`) ])
 	test(`number with fraction`, () => expect([ ...tokenise(`3.5`) ]).toMatchObject([ Number ]))
