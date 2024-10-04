@@ -15,11 +15,77 @@ const NamesToKeywords = {
 	External: `extern`,
 	Parameter: `param`,
 	Result: `result`,
-	Mutable: `mut`
+	Mutable: `mut`,
+	Block: `block`,
+	AlignEquals: `align=`,
+	Branch: `br`,
+	BranchIf: `br_if`,
+	BranchTable: `br_table`,
+	Call: `call`,
+	CallIndirect: `call_indirect`,
+	DataDrop: `data.drop`,
+	Drop: `drop`,
+	ElementDrop: `elem.drop`,
+	Else: `else`,
+	End: `end`,
+	Float32Constant: `f32.const`,
+	Float32Load: `f32.load`,
+	Float32Store: `f32.store`,
+	Float64Constant: `f64.const`,
+	Float64Load: `f64.load`,
+	Float64Store: `f64.store`,
+	GlobalGet: `global.get`,
+	GlobalSet: `global.set`,
+	If: `if`,
+	Integer32Constant: `i32.const`,
+	Integer32Load: `i32.load`,
+	Integer32Load16Signed: `i32.load16_s`,
+	Integer32Load16Unsigned: `i32.load16_u`,
+	Integer32Load8Signed: `i32.load8_s`,
+	Integer32Load8Unsigned: `i32.load8_u`,
+	Integer32Store: `i32.store`,
+	Integer32Store16: `i32.store16`,
+	Integer32Store8: `i32.store8`,
+	Integer64Constant: `i64.const`,
+	Integer64Load: `i64.load`,
+	Integer64Load16Signed: `i64.load16_s`,
+	Integer64Load16Unsigned: `i64.load_16_u`,
+	Integer64Load32Signed: `i64.load32_s`,
+	Integer64Load32Unsigned: `i64.load32_u`,
+	Integer64Load8Signed: `i64.load8_s`,
+	Integer64Load8Unsigned: `i64.load8_u`,
+	Integer64Store: `i64.store`,
+	Integer64Store16: `i64.store16`,
+	Integer64Store32: `i64.store32`,
+	Integer64Store8: `i64.store8`,
+	LocalGet: `local.get`,
+	LocalSet: `local.set`,
+	LocalTee: `local.tee`,
+	Loop: `loop`,
+	MemoryCopy: `memory.copy`,
+	MemoryFill: `memory.fill`,
+	MemoryGrow: `memory.grow`,
+	MemoryInitiate: `memory.init`,
+	MemorySize: `memory.size`,
+	NoOperation: `nop`,
+	ReferenceFunction: `ref.func`,
+	ReferenceIsNull: `ref.is_null`,
+	ReferenceNull: `ref.null`,
+	Return: `return`,
+	Select: `select`,
+	TableCopy: `table.copy`,
+	TableFill: `table.fill`,
+	TableGet: `table.get`,
+	TableGrow: `table.grow`,
+	TableInitiate: `table.init`,
+	TableSet: `table.set`,
+	TableSize: `table.size`,
+	Unreachable: `unreachable`
 } satisfies {
 	[K in Exclude<
 		keyof typeof TokenTag,
-		`Keyword` | `Number` | `String` | `Identifier` | `OpenBracket` | `CloseBracket` | `LineComment` | `BlockComment`
+		`Keyword` | `Number` | `String` | `Identifier` | `OpenBracket` | `CloseBracket` | `LineComment` |
+		`BlockComment` | `OffsetEquals`
 	>]: string
 }
 
@@ -177,6 +243,8 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 	const FloatMag =
 		union(HexFloat, DecimalFloat, terminal(`inf`), sequence(terminal(`nan:0x`), HexNumber), terminal(`nan`))
 
+	const OffsetEquals = terminal(`offset=`)
+
 	const Float = sequence(Sign, FloatMag)
 	const OpenBracket = terminal(`(`)
 	const CloseBracket = terminal(`)`)
@@ -185,7 +253,7 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 		...Object.fromEntries(Object.entries(NamesToKeywords)
 			.map(([ name, keyword ]) => [ name, sequence(terminal(keyword), negativeLookahead(IdentifierCharacter)) ])
 		) as Record<keyof typeof NamesToKeywords, () => boolean>,
-		LineComment, BlockComment, Number: Float, Keyword, String, Identifier, OpenBracket, CloseBracket
+		OffsetEquals, LineComment, BlockComment, Number: Float, Keyword, String, Identifier, OpenBracket, CloseBracket
 	}
 
 	while_: while (index < code.length) {
@@ -246,6 +314,7 @@ if (import.meta.vitest) {
 	test(`hex`, () => expect([ ...tokenise(`0x1`) ]).toMatchObject([ Number ]))
 	test(`hex exponent`, () => expect([ ...tokenise(`0x1p1`) ]).toMatchObject([ Number ]))
 	test(`funci32`, () => expect([ ...tokenise(`funci32`) ]).toMatchObject([ { tag: TokenTag.Keyword } ]))
+	test(`offset=0`, () => expect([ ...tokenise(`offset=0`) ]).toMatchObject([ { tag: TokenTag.OffsetEquals }, { tag: TokenTag.Number } ]))
 
 	for (const [ name, keyword ] of Object.entries(NamesToKeywords)) {
 		test(keyword, () =>
