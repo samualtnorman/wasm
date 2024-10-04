@@ -170,56 +170,31 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 	const Parameter = sequence(terminal(`param`), negativeLookahead(IdentifierCharacter))
 	const Result = sequence(terminal(`result`), negativeLookahead(IdentifierCharacter))
 	const Mutable = sequence(terminal(`mut`), negativeLookahead(IdentifierCharacter))
+	const OpenBracket = terminal(`(`)
+	const CloseBracket = terminal(`)`)
 
-	while (index < code.length) {
+	const tokenFunctions: Record<keyof typeof TokenTag, () => boolean> = {
+		LineComment, BlockComment, Mutable, Integer32, Integer64, Float32, Float64, Vector128, FunctionReference,
+		ExternalReference, Function, External, Parameter, Result, Number: Float, Keyword, String, Identifier,
+		OpenBracket, CloseBracket
+	}
+
+	while_: while (index < code.length) {
 		if (Space())
 			continue
 
 		const startIndex = index
 		const Token = (tag: TokenTag) => ({ tag, index: startIndex, size: index - startIndex })
 
-		if (LineComment())
-			yield Token(TokenTag.LineComment)
-		else if (BlockComment())
-			yield Token(TokenTag.BlockComment)
-		else if (Mutable())
-			yield Token(TokenTag.Mutable)
-		else if (Integer32())
-			yield Token(TokenTag.Integer32)
-		else if (Integer64())
-			yield Token(TokenTag.Integer64)
-		else if (Float32())
-			yield Token(TokenTag.Float32)
-		else if (Float64())
-			yield Token(TokenTag.Float64)
-		else if (Vector128())
-			yield Token(TokenTag.Vector128)
-		else if (FunctionReference())
-			yield Token(TokenTag.FunctionReference)
-		else if (ExternalReference())
-			yield Token(TokenTag.ExternalReference)
-		else if (Function())
-			yield Token(TokenTag.Function)
-		else if (External())
-			yield Token(TokenTag.External)
-		else if (Parameter())
-			yield Token(TokenTag.Parameter)
-		else if (Result())
-			yield Token(TokenTag.Result)
-		else if (Float())
-			yield Token(TokenTag.Number)
-		else if (Keyword())
-			yield Token(TokenTag.Keyword)
-		else if (String())
-			yield Token(TokenTag.String)
-		else if (Identifier())
-			yield Token(TokenTag.Identifier)
-		else if (terminal(`(`)())
-			yield Token(TokenTag.OpenBracket)
-		else if (terminal(`)`)())
-			yield Token(TokenTag.CloseBracket)
-		else
-			throw Error(`${HERE} Unexpected character ${JSON.stringify(code[index])} at index ${index}`)
+		for (const name in tokenFunctions) {
+			if (tokenFunctions[name as keyof typeof tokenFunctions]()) {
+				yield Token(TokenTag[name as keyof typeof tokenFunctions])
+
+				continue while_
+			}
+		}
+
+		throw Error(`${HERE} Unexpected character ${JSON.stringify(code[index])} at index ${index}`)
 	}
 }
 
