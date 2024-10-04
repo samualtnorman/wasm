@@ -5,7 +5,7 @@ Identifier
 OpenBracket
 CloseBracket
 Reserved
-Integer32Type
-Integer64Type
-Float32Type
-Float64Type
+Integer32
+Integer64
+Float32
+Float64

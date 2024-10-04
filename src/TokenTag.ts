@@ -6,10 +6,10 @@ export const TokenTag = {
 	OpenBracket: 5 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.OpenBracket" },
 	CloseBracket: 6 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.CloseBracket" },
 	Reserved: 7 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.Reserved" },
-	Integer32Type: 8 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.Integer32Type" },
-	Integer64Type: 9 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.Integer64Type" },
-	Float32Type: 10 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.Float32Type" },
-	Float64Type: 11 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.Float64Type" },
+	Integer32: 8 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.Integer32" },
+	Integer64: 9 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.Integer64" },
+	Float32: 10 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.Float32" },
+	Float64: 11 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.Float64" },
 }
 
 export type TokenTag = typeof TokenTag[keyof typeof TokenTag]
@@ -22,8 +22,8 @@ export namespace TokenTag {
 	export type OpenBracket = typeof TokenTag.OpenBracket
 	export type CloseBracket = typeof TokenTag.CloseBracket
 	export type Reserved = typeof TokenTag.Reserved
-	export type Integer32Type = typeof TokenTag.Integer32Type
-	export type Integer64Type = typeof TokenTag.Integer64Type
-	export type Float32Type = typeof TokenTag.Float32Type
-	export type Float64Type = typeof TokenTag.Float64Type
+	export type Integer32 = typeof TokenTag.Integer32
+	export type Integer64 = typeof TokenTag.Integer64
+	export type Float32 = typeof TokenTag.Float32
+	export type Float64 = typeof TokenTag.Float64
 }
