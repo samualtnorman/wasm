@@ -169,6 +169,7 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 	const External = sequence(terminal(`extern`), negativeLookahead(IdentifierCharacter))
 	const Parameter = sequence(terminal(`param`), negativeLookahead(IdentifierCharacter))
 	const Result = sequence(terminal(`result`), negativeLookahead(IdentifierCharacter))
+	const Mutable = sequence(terminal(`mut`), negativeLookahead(IdentifierCharacter))
 
 	while (index < code.length) {
 		if (Space())
@@ -181,6 +182,8 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 			yield Token(TokenTag.LineComment)
 		else if (BlockComment())
 			yield Token(TokenTag.BlockComment)
+		else if (Mutable())
+			yield Token(TokenTag.Mutable)
 		else if (Integer32())
 			yield Token(TokenTag.Integer32)
 		else if (Integer64())
@@ -270,4 +273,5 @@ if (import.meta.vitest) {
 	test(`param`, () => expect([ ...tokenise(`param`) ]).toMatchObject([ { tag: TokenTag.Parameter } ]))
 	test(`result`, () => expect([ ...tokenise(`result`) ]).toMatchObject([ { tag: TokenTag.Result } ]))
 	test(`funci32`, () => expect([ ...tokenise(`funci32`) ]).toMatchObject([ { tag: TokenTag.Keyword } ]))
+	test(`mut`, () => expect([ ...tokenise(`mut`) ]).toMatchObject([ { tag: TokenTag.Mutable } ]))
 }
