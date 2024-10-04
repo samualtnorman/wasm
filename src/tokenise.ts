@@ -3,6 +3,21 @@ import { TokenTag } from "./TokenTag"
 
 export type Token = { tag: TokenTag, index: number, size: number }
 
+const NamesToKeywords = {
+	Integer32: `i32`,
+	Integer64: `i64`,
+	Float32: `f32`,
+	Float64: `f64`,
+	Vector128: `v128`,
+	FunctionReference: `funcref`,
+	ExternalReference: `externref`,
+	Function: `func`,
+	External: `extern`,
+	Parameter: `param`,
+	Result: `result`,
+	Mutable: `mut`
+} satisfies { [K in keyof typeof TokenTag]?: string }
+
 export function* tokenise(code: string): Generator<Token, void, void> {
 	let index = 0
 
@@ -158,26 +173,14 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 		union(HexFloat, DecimalFloat, terminal(`inf`), sequence(terminal(`nan:0x`), HexNumber), terminal(`nan`))
 
 	const Float = sequence(Sign, FloatMag)
-	const keyword = (name: string) => sequence(terminal(name), negativeLookahead(IdentifierCharacter))
-	const Integer32 = keyword(`i32`)
-	const Integer64 = keyword(`i64`)
-	const Float32 = keyword(`f32`)
-	const Float64 = keyword(`f64`)
-	const Vector128 = keyword(`v128`)
-	const FunctionReference = keyword(`funcref`)
-	const ExternalReference = keyword(`externref`)
-	const Function = keyword(`func`)
-	const External = keyword(`extern`)
-	const Parameter = keyword(`param`)
-	const Result = keyword(`result`)
-	const Mutable = keyword(`mut`)
 	const OpenBracket = terminal(`(`)
 	const CloseBracket = terminal(`)`)
 
 	const tokenFunctions: Record<keyof typeof TokenTag, () => boolean> = {
-		LineComment, BlockComment, Mutable, Integer32, Integer64, Float32, Float64, Vector128, FunctionReference,
-		ExternalReference, Function, External, Parameter, Result, Number: Float, Keyword, String, Identifier,
-		OpenBracket, CloseBracket
+		...Object.fromEntries(Object.entries(NamesToKeywords)
+			.map(([ name, keyword ]) => [ name, sequence(terminal(keyword), negativeLookahead(IdentifierCharacter)) ])
+		) as Record<keyof typeof NamesToKeywords, () => boolean>,
+		LineComment, BlockComment, Number: Float, Keyword, String, Identifier, OpenBracket, CloseBracket
 	}
 
 	while_: while (index < code.length) {
@@ -237,17 +240,11 @@ if (import.meta.vitest) {
 	test(`number with exponent`, () => expect([ ...tokenise(`1e2`) ]).toMatchObject([ Number ]))
 	test(`hex`, () => expect([ ...tokenise(`0x1`) ]).toMatchObject([ Number ]))
 	test(`hex exponent`, () => expect([ ...tokenise(`0x1p1`) ]).toMatchObject([ Number ]))
-	test(`i32`, () => expect([ ...tokenise(`i32`) ]).toMatchObject([ { tag: TokenTag.Integer32 } ]))
-	test(`i64`, () => expect([ ...tokenise(`i64`) ]).toMatchObject([ { tag: TokenTag.Integer64 } ]))
-	test(`f32`, () => expect([ ...tokenise(`f32`) ]).toMatchObject([ { tag: TokenTag.Float32 } ]))
-	test(`f64`, () => expect([ ...tokenise(`f64`) ]).toMatchObject([ { tag: TokenTag.Float64 } ]))
-	test(`v128`, () => expect([ ...tokenise(`v128`) ]).toMatchObject([ { tag: TokenTag.Vector128 } ]))
-	test(`funcref`, () => expect([ ...tokenise(`funcref`) ]).toMatchObject([ { tag: TokenTag.FunctionReference } ]))
-	test(`externref`, () => expect([ ...tokenise(`externref`) ]).toMatchObject([ { tag: TokenTag.ExternalReference } ]))
-	test(`func`, () => expect([ ...tokenise(`func`) ]).toMatchObject([ { tag: TokenTag.Function } ]))
-	test(`extern`, () => expect([ ...tokenise(`extern`) ]).toMatchObject([ { tag: TokenTag.External } ]))
-	test(`param`, () => expect([ ...tokenise(`param`) ]).toMatchObject([ { tag: TokenTag.Parameter } ]))
-	test(`result`, () => expect([ ...tokenise(`result`) ]).toMatchObject([ { tag: TokenTag.Result } ]))
 	test(`funci32`, () => expect([ ...tokenise(`funci32`) ]).toMatchObject([ { tag: TokenTag.Keyword } ]))
-	test(`mut`, () => expect([ ...tokenise(`mut`) ]).toMatchObject([ { tag: TokenTag.Mutable } ]))
+
+	for (const [ name, keyword ] of Object.entries(NamesToKeywords)) {
+		test(keyword, () =>
+			expect([ ...tokenise(keyword) ]).toMatchObject([ { tag: TokenTag[name as keyof typeof NamesToKeywords] } ])
+		)
+	}
 }
