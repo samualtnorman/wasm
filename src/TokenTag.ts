@@ -10,6 +10,13 @@ export const TokenTag = {
 	Integer64: 9 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.Integer64" },
 	Float32: 10 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.Float32" },
 	Float64: 11 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.Float64" },
+	Vector128: 12 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.Vector128" },
+	FunctionReference: 13 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.FunctionReference" },
+	ExternalReference: 14 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.ExternalReference" },
+	Function: 15 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.Function" },
+	External: 16 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.External" },
+	Parameter: 17 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.Parameter" },
+	Result: 18 as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.Result" },
 }
 
 export type TokenTag = typeof TokenTag[keyof typeof TokenTag]
@@ -26,4 +33,11 @@ export namespace TokenTag {
 	export type Integer64 = typeof TokenTag.Integer64
 	export type Float32 = typeof TokenTag.Float32
 	export type Float64 = typeof TokenTag.Float64
+	export type Vector128 = typeof TokenTag.Vector128
+	export type FunctionReference = typeof TokenTag.FunctionReference
+	export type ExternalReference = typeof TokenTag.ExternalReference
+	export type Function = typeof TokenTag.Function
+	export type External = typeof TokenTag.External
+	export type Parameter = typeof TokenTag.Parameter
+	export type Result = typeof TokenTag.Result
 }

@@ -9,3 +9,10 @@ Integer32
 Integer64
 Float32
 Float64
+Vector128
+FunctionReference
+ExternalReference
+Function
+External
+Parameter
+Result
