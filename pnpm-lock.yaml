@@ -48,6 +48,37 @@ importers:
         specifier: ^2.1.2
         version: 2.1.2(@types/node@22.7.4)(terser@5.34.1)
 
+  packages/vscode-extension:
+    dependencies:
+      '@samual/wasm-utils':
+        specifier: workspace:*
+        version: link:../utils
+    devDependencies:
+      '@babel/preset-typescript':
+        specifier: ^7.25.7
+        version: 7.25.7(@babel/core@7.25.2)
+      '@rollup/plugin-babel':
+        specifier: ^6.0.4
+        version: 6.0.4(@babel/core@7.25.2)(rollup@4.24.0)
+      '@rollup/plugin-node-resolve':
+        specifier: ^15.3.0
+        version: 15.3.0(rollup@4.24.0)
+      '@rollup/plugin-terser':
+        specifier: ^0.4.4
+        version: 0.4.4(rollup@4.24.0)
+      '@total-typescript/ts-reset':
+        specifier: ^0.6.1
+        version: 0.6.1
+      '@types/node':
+        specifier: ^22.7.4
+        version: 22.7.4
+      '@types/vscode':
+        specifier: ^1.93.0
+        version: 1.94.0
+      rollup:
+        specifier: ^4.24.0
+        version: 4.24.0
+
 packages:
 
   '@ampproject/remapping@2.3.0':
@@ -961,6 +992,9 @@ packages:
 
   '@types/resolve@1.20.2':
     resolution: {integrity: sha512-60BCwRFOZCQhDncwQdxxeOEEkbc5dIMccYLwbxsS4TUNeVECQ/pBJ0j09mrHOl/JJvpRPGwO9SvE4nR2Nb/a4Q==}
+
+  '@types/vscode@1.94.0':
+    resolution: {integrity: sha512-UyQOIUT0pb14XSqJskYnRwD2aG0QrPVefIfrW1djR+/J4KeFQ0i1+hjZoaAmeNf3Z2jleK+R2hv+EboG/m8ruw==}
 
   '@vitest/expect@2.1.2':
     resolution: {integrity: sha512-FEgtlN8mIUSEAAnlvn7mP8vzaWhEaAEvhSXCqrsijM7K6QqjB11qoRZYEd4AKSCDz8p0/+yH5LzhZ47qt+EyPg==}
@@ -2468,6 +2502,8 @@ snapshots:
       prettier: 3.3.3
 
   '@types/resolve@1.20.2': {}
+
+  '@types/vscode@1.94.0': {}
 
   '@vitest/expect@2.1.2':
     dependencies:

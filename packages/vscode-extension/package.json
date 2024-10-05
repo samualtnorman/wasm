@@ -1,0 +1,38 @@
+{
+	"name": "baz",
+	"displayName": "baz",
+	"description": "",
+	"version": "0.0.1",
+	"engines": {
+		"vscode": "^1.93.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+		"onLanguage:wat"
+	],
+	"main": "extension.js",
+	"contributes": {
+		"commands": [
+			{
+				"command": "baz.helloWorld",
+				"title": "Hello World"
+			}
+		]
+	},
+	"dependencies": {
+		"@samual/wasm-utils": "workspace:*"
+	},
+	"devDependencies": {
+		"@babel/preset-typescript": "^7.25.7",
+		"@rollup/plugin-babel": "^6.0.4",
+		"@rollup/plugin-node-resolve": "^15.3.0",
+		"@rollup/plugin-terser": "^0.4.4",
+		"@total-typescript/ts-reset": "^0.6.1",
+		"@types/node": "^22.7.4",
+		"@types/vscode": "^1.93.0",
+		"rollup": "^4.24.0"
+	},
+	"type": "module"
+}
