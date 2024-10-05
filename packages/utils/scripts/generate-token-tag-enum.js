@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 import Braces from "braces"
 import { readFileSync, writeFileSync } from "fs"
+import * as Path from "path"
 
-const members =
-	readFileSync("src/TokenTag.txt", { encoding: "utf8" }).trim().split("\n").flatMap(name => Braces.expand(name))
+const members = readFileSync(Path.resolve(import.meta.dirname, `../src/TokenTag.txt`), { encoding: "utf8" }).trim()
+	.split("\n").flatMap(name => Braces.expand(name))
 
 const code = `\
 export const TokenTag = {
@@ -21,6 +22,6 @@ ${members.map(name =>
 }
 `
 
-writeFileSync("src/TokenTag.ts", code)
+writeFileSync(Path.resolve(import.meta.dirname, `../src/TokenTag.ts`), code)
 
 process.exit()

@@ -1,5 +1,5 @@
 {
-	"extends": "..",
+	"extends": "../../../tsconfig.json",
 	"compilerOptions": {
 		"exactOptionalPropertyTypes": true,
 		"declaration": true,

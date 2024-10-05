@@ -3,7 +3,7 @@ import { babel } from "@rollup/plugin-babel"
 import babelPluginSyntaxTypescript from "@babel/plugin-syntax-typescript"
 
 export default /** @satisfies {import("vitest/config").UserConfig} */ ({
-	test: { includeSource: [ "src/**/*.ts" ] },
+	test: { includeSource: [ "packages/**/src/**/*.ts" ] },
 	plugins: [
 		{
 			...babel({

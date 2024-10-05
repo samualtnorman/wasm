@@ -6,7 +6,9 @@ settings:
 
 importers:
 
-  .:
+  .: {}
+
+  packages/utils:
     dependencies:
       '@samual/lib':
         specifier: 0.12.1-5bd9e27
