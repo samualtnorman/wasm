@@ -7,13 +7,15 @@ const members = readFileSync(Path.resolve(import.meta.dirname, `../src/TokenTag.
 	.split("\n").flatMap(name => Braces.expand(name))
 
 const code = `\
+declare enum TokenTagEnum { ${members.join(`, `)} }
+
 export const TokenTag = {
 ${members.map((name, index) =>
-	`\t${name}: ${index + 1} as number & { [K in { readonly opaque: unique symbol }["opaque"]]: "TokenTag.${name}" },`
+	`\t${name}: ${index + 1} as TokenTagEnum.${name},`
 ).join(`\n`)}
 }
 
-export type TokenTag = typeof TokenTag[keyof typeof TokenTag]
+export type TokenTag = TokenTagEnum
 
 export namespace TokenTag {
 ${members.map(name =>

@@ -1,4 +1,5 @@
 {
+	"name": "@samual/wasm-utils",
 	"type": "module",
 	"dependencies": {
 		"@samual/lib": "0.12.1-5bd9e27",
