@@ -1,4 +1,9 @@
 {
+	"type": "module",
+	"dependencies": {
+		"@samual/lib": "0.12.1-5bd9e27",
+		"chalk": "^5.3.0"
+	},
 	"devDependencies": {
 		"@babel/plugin-syntax-typescript": "^7.25.7",
 		"@rollup/plugin-babel": "^6.0.4",
@@ -10,10 +15,5 @@
 		"braces": "^3.0.3",
 		"rollup": "^4.24.0",
 		"vitest": "^2.1.2"
-	},
-	"type": "module",
-	"dependencies": {
-		"@samual/lib": "0.12.1-5bd9e27",
-		"chalk": "^5.3.0"
 	}
 }
