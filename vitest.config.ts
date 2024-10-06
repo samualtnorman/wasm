@@ -1,8 +1,9 @@
-import { babelPluginHere } from "babel-plugin-here"
-import { babel } from "@rollup/plugin-babel"
 import babelPluginSyntaxTypescript from "@babel/plugin-syntax-typescript"
+import { babel } from "@rollup/plugin-babel"
+import { babelPluginHere } from "babel-plugin-here"
+import type { UserConfig } from "vitest/config"
 
-export default /** @satisfies {import("vitest/config").UserConfig} */ ({
+export default {
 	test: { includeSource: [ "packages/**/src/**/*.ts" ] },
 	plugins: [
 		{
@@ -14,4 +15,4 @@ export default /** @satisfies {import("vitest/config").UserConfig} */ ({
 			enforce: "pre"
 		}
 	]
-})
+} satisfies UserConfig
