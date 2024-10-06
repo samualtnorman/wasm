@@ -1,7 +1,7 @@
 {
-	"name": "baz",
-	"displayName": "baz",
-	"description": "",
+	"name": "webassembly-ide",
+	"displayName": "WebAssembly IDE",
+	"description": "IDE features for WebAssembly and WebAssembly Text Format",
 	"version": "0.0.1",
 	"engines": {
 		"vscode": "^1.93.0"
