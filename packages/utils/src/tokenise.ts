@@ -234,7 +234,7 @@ const NamesToKeywords = {
 	[K in Exclude<
 		keyof typeof TokenTag,
 		`Keyword` | `Number` | `String` | `Identifier` | `OpenBracket` | `CloseBracket` | `LineComment` |
-		`BlockComment` | `OffsetEquals` | `AlignEquals`
+		`BlockComment` | `OffsetEquals` | `AlignEquals` | `Error`
 	>]: string
 }
 
@@ -398,7 +398,7 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 	const OpenBracket = terminal(`(`)
 	const CloseBracket = terminal(`)`)
 
-	const tokenFunctions: Record<keyof typeof TokenTag, () => boolean> = {
+	const tokenFunctions: Record<Exclude<keyof typeof TokenTag, "Error">, () => boolean> = {
 		...Object.fromEntries(Object.entries(NamesToKeywords)
 			.map(([ name, keyword ]) => [ name, sequence(terminal(keyword), negativeLookahead(IdentifierCharacter)) ])
 		) as Record<keyof typeof NamesToKeywords, () => boolean>,
@@ -421,7 +421,8 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 			}
 		}
 
-		throw Error(`${HERE} Unexpected character ${JSON.stringify(code[index])} at index ${index}`)
+		index++
+		yield Token(TokenTag.Error)
 	}
 }
 
@@ -472,4 +473,6 @@ if (import.meta.vitest) {
 			expect([ ...tokenise(keyword) ]).toMatchObject([ { tag: TokenTag[name as keyof typeof NamesToKeywords] } ])
 		)
 	}
+
+	test(`error token`, () => expect([ ...tokenise(`%`) ]).toMatchObject([ { tag: TokenTag.Error } ]))
 }

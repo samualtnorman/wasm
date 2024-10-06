@@ -9,6 +9,7 @@ Call{,Indirect}
 Declare
 Else
 End
+Error
 Export
 Global{,Get,Set}
 Identifier
