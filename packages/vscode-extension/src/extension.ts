@@ -1,7 +1,8 @@
 import { tokenise } from "@samual/wasm-utils/dist/tokenise"
 import { TokenTag } from "@samual/wasm-utils/dist/TokenTag"
+import { tokenToDebugString } from "@samual/wasm-utils/dist/tokenToDebugString"
 import * as vscode from "vscode"
-import { Diagnostic, Range } from "vscode"
+import { commands, Diagnostic, Range, window, type ExtensionContext } from "vscode"
 
 const tokenTypes = [
 	`namespace`, `class`, `enum`, `interface`, `struct`, `typeParameter`, `type`, `parameter`, `variable`, `property`,
@@ -317,3 +318,20 @@ vscode.languages.registerDocumentSemanticTokensProvider(
 	},
 	legend
 )
+
+export function activate(context: ExtensionContext) {
+	context.subscriptions.push(commands.registerCommand(`webassembly-ide.debug-print-tokens`, () => {
+		if (!window.activeTextEditor) {
+			outputChannel.appendLine(`No active text editor`)
+			return
+		}
+
+		outputChannel.show()
+		outputChannel.appendLine(`Printing tokens for ${window.activeTextEditor.document.fileName}:`)
+
+		const code = window.activeTextEditor.document.getText()
+
+		for (const token of tokenise(code))
+			outputChannel.appendLine(tokenToDebugString(token, code))
+	}))
+}

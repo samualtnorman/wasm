@@ -16,8 +16,8 @@
 	"contributes": {
 		"commands": [
 			{
-				"command": "baz.helloWorld",
-				"title": "Hello World"
+				"command": "webassembly-ide.debug-print-tokens",
+				"title": "WebAssembly IDE: Debug Print Tokens"
 			}
 		]
 	},
