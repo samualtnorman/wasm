@@ -448,11 +448,11 @@ if (import.meta.vitest) {
 	const { test, expect } = import.meta.vitest
 
 	expect.addSnapshotSerializer({
-		serialize: (code: string) => [ ...tokenise(code) ].map(token => tokenToDebugString(token, code)).join("\n"),
+		serialize: v => v,
 		test: _ => true
 	})
 
-	test(`tokenise wasi hello world`, () => expect(`
+	test(`tokenise wasi hello world`, () => check(`
 		(import "wasi_unstable" "fd_write" (func $fd_write (param i32 i32 i32 i32) (result i32)))
 
 		(memory 1)
@@ -475,20 +475,35 @@ if (import.meta.vitest) {
 				)
 			)
 		)
-	`).toMatchSnapshot())
+	`))
 
-	test(`line comment`, () => expect(`;;`).toMatchSnapshot())
-	test(`nested comment`, () => expect(`(; a (; b ;) c ;)`).toMatchSnapshot())
-	test(`signed integer`, () => expect(`+123`).toMatchSnapshot())
-	test(`number`, () => expect(`3.`).toMatchSnapshot())
-	test(`number with fraction`, () => expect(`3.5`).toMatchSnapshot())
-	test(`number with exponent`, () => expect(`1e2`).toMatchSnapshot())
-	test(`hex`, () => expect(`0x1`).toMatchSnapshot())
-	test(`hex exponent`, () => expect(`0x1p1`).toMatchSnapshot())
-	test(`funci32`, () => expect(`funci32`).toMatchSnapshot())
-	test(`offset=0`, () => expect(`offset=0`).toMatchSnapshot())
-	test(`align=0`, () => expect(`align=0`).toMatchSnapshot())
-	test(`error token`, () => expect(`,`).toMatchSnapshot())
-	test(`collapse error tokens`, () => expect(`,,`).toMatchSnapshot())
-	test(`seperate error tokens around whitespace`, () => expect(`, ,`).toMatchSnapshot())
+	test(`line comment`, () => check(`;;`))
+	test(`nested comment`, () => check(`(; a (; b ;) c ;)`))
+	test(`signed integer`, () => check(`+123`))
+	test(`number`, () => check(`3.`))
+	test(`number with fraction`, () => check(`3.5`))
+	test(`number with exponent`, () => check(`1e2`))
+	test(`hex`, () => check(`0x1`))
+	test(`hex exponent`, () => check(`0x1p1`))
+	test(`funci32`, () => check(`funci32`))
+	test(`offset=0`, () => check(`offset=0`))
+	test(`align=0`, () => check(`align=0`))
+	test(`error token`, () => check(`,`))
+	test(`collapse error tokens`, () => check(`,,`))
+	test(`seperate error tokens around whitespace`, () => check(`, ,`))
+
+	function check(code: string) {
+		const tokens = [ ...tokenise(code) ]
+		const lastTokenIndex = tokens.length - 1
+
+		for (let index = 0; index < lastTokenIndex; index++) {
+			const token = tokens[index]!
+			const nextToken = tokens[index + 1]!
+
+			expect(token.index + token.size).toBeLessThanOrEqual(nextToken.index)
+		}
+
+		expect(lastTokenIndex).toBeLessThanOrEqual(code.length)
+		expect(tokens.map(token => tokenToDebugString(token, code)).join("\n")).toMatchSnapshot()
+	}
 }
