@@ -6,7 +6,7 @@
 		{
 			"label": "Build Extension",
 			"type": "shell",
-			"command": "${workspaceFolder}/node_modules/.bin/rollup --config && scripts/emit-package-json.js",
+			"command": "${workspaceFolder}/packages/vscode-extension/node_modules/.bin/rollup --config && scripts/emit-package-json.js",
 			"options": {
 				"cwd": "${workspaceFolder}/packages/vscode-extension"
 			}
