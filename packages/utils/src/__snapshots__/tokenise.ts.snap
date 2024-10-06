@@ -7,6 +7,11 @@ Number "0" 6
 
 exports[`collapse error tokens 1`] = `Error ",," 0`;
 
+exports[`error then keyword 1`] = `
+Error "," 0
+Integer32 "i32" 1
+`;
+
 exports[`error token 1`] = `Error "," 0`;
 
 exports[`funci32 1`] = `Keyword "funci32" 0`;

@@ -425,7 +425,7 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 		for (const name in tokenFunctions) {
 			if (tokenFunctions[name as keyof typeof tokenFunctions]()) {
 				if (errorIndex != undefined) {
-					yield Token(TokenTag.Error, errorIndex)
+					yield { tag: TokenTag.Error, index: errorIndex, size: startIndex - errorIndex }
 					errorIndex = undefined
 				}
 
