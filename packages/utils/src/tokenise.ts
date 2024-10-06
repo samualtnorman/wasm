@@ -410,8 +410,14 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 	const Token = (tag: TokenTag, startIndex: number) => ({ tag, index: startIndex, size: index - startIndex })
 
 	while_: while (index < code.length) {
-		if (Space())
+		if (Space()) {
+			if (errorIndex != undefined) {
+				yield Token(TokenTag.Error, errorIndex)
+				errorIndex = undefined
+			}
+
 			continue
+		}
 
 		const startIndex = index
 
@@ -487,4 +493,5 @@ if (import.meta.vitest) {
 
 	test(`error token`, () => expect([ ...tokenise(`,`) ]).toMatchObject([ { tag: TokenTag.Error } ]))
 	test(`collapse error tokens`, () => expect([ ...tokenise(`,,`) ]).toMatchObject([ { tag: TokenTag.Error } ]))
+	test(`seperate error tokens around whitespace`, () => expect([ ...tokenise(`, ,`) ]).toMatchObject([ { tag: TokenTag.Error }, { tag: TokenTag.Error } ]))
 }
