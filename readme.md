@@ -10,7 +10,7 @@ To build and run this yourself, you'll need [Node.js](https://nodejs.org/en) and
 
 You should then see something like this:
 
-![Demo of running `node dist/playground`](node-dist-playground-demo.webp)
+![image](https://github.com/user-attachments/assets/e1e3c8e1-499f-4330-b7af-8142d7acf03e)
 
 # VSCode Extension
 ![image](https://github.com/user-attachments/assets/a8311e01-0643-4526-ad16-d85253fb5ed0)
