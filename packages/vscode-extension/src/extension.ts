@@ -264,56 +264,50 @@ const TOKENS: Record<
 
 const diagnosticCollection = vscode.languages.createDiagnosticCollection(`wat`)
 
-vscode.languages.registerDocumentSemanticTokensProvider(
-	{ language: `wat` },
-	{
-		provideDocumentSemanticTokens(document) {
-			try {
-				const tokensBuilder = new vscode.SemanticTokensBuilder(legend)
-				const diagnostics: vscode.Diagnostic[] = []
+vscode.languages.registerDocumentSemanticTokensProvider({ language: `wat` }, {
+	provideDocumentSemanticTokens(document) {
+		try {
+			const tokensBuilder = new vscode.SemanticTokensBuilder(legend)
+			const diagnostics: vscode.Diagnostic[] = []
 
-				for (const token of tokenise(document.getText())) {
-					try {
-						const start = document.positionAt(token.index)
-						const end = document.positionAt(token.index + token.size)
+			for (const token of tokenise(document.getText())) {
+				try {
+					const start = document.positionAt(token.index)
+					const end = document.positionAt(token.index + token.size)
 
-						if (token.tag == TokenTag.Error)
-							diagnostics.push(new Diagnostic(new Range(start, end), `Invalid character${token.size > 1 ? `s` : ``}.`))
-
-						if (TOKENS[token.tag]) {
-							if (start.line != end.line) {
-								pushToken(document.lineAt(start.line).range.with({ start }))
-
-								for (let line = start.line + 1; line < end.line; line++)
-									pushToken(document.lineAt(line).range)
-
-								pushToken(document.lineAt(end.line).range.with({ end }))
-							} else {
-								pushToken(new vscode.Range(start, end))
-							}
-
-							function pushToken(range: vscode.Range) {
-								tokensBuilder.push(range,
-									TOKENS[token.tag]!.tokenType,
-									TOKENS[token.tag]!.tokenModifiers
-								)
-							}
-						}
-					} catch (error) {
-						outputChannel.appendLine(`Caught ${(error instanceof Error && error.stack) || String(error)}`)
+					if (token.tag == TokenTag.Error) {
+						diagnostics.push(
+							new Diagnostic(new Range(start, end), `Invalid character${token.size > 1 ? `s` : ``}.`)
+						)
 					}
+
+					if (TOKENS[token.tag]) {
+						const pushToken = (range: vscode.Range) =>
+							tokensBuilder.push(range, TOKENS[token.tag]!.tokenType, TOKENS[token.tag]!.tokenModifiers)
+
+						if (start.line != end.line) {
+							pushToken(document.lineAt(start.line).range.with({ start }))
+
+							for (let line = start.line + 1; line < end.line; line++)
+								pushToken(document.lineAt(line).range)
+
+							pushToken(document.lineAt(end.line).range.with({ end }))
+						} else
+							pushToken(new vscode.Range(start, end))
+					}
+				} catch (error) {
+					outputChannel.appendLine(`Caught ${(error instanceof Error && error.stack) || String(error)}`)
 				}
-
-				diagnosticCollection.set(document.uri, diagnostics)
-
-				return tokensBuilder.build()
-			} catch (error) {
-				outputChannel.appendLine(`Caught ${(error instanceof Error && error.stack) || String(error)}`)
 			}
+
+			diagnosticCollection.set(document.uri, diagnostics)
+
+			return tokensBuilder.build()
+		} catch (error) {
+			outputChannel.appendLine(`Caught ${(error instanceof Error && error.stack) || String(error)}`)
 		}
-	},
-	legend
-)
+	}
+}, legend)
 
 export function activate(context: ExtensionContext) {
 	context.subscriptions.push(commands.registerCommand(`webassembly-ide.debug-print-tokens`, () => {
