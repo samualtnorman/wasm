@@ -276,8 +276,12 @@ vscode.languages.registerDocumentSemanticTokensProvider(
 						const start = document.positionAt(token.index)
 						const end = document.positionAt(token.index + token.size)
 
-						if (token.tag == TokenTag.Error)
-							diagnostics.push(new Diagnostic(new Range(start, end), `Syntax Error`))
+						if (token.tag == TokenTag.Error) {
+							diagnostics.push(new Diagnostic(
+								new Range(start, document.positionAt(token.index + token.size - 1)),
+								`Syntax Error`
+							))
+						}
 
 						if (TOKENS[token.tag]) {
 							if (start.line != end.line) {
