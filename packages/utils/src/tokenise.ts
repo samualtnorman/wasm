@@ -17,7 +17,6 @@ const NamesToKeywords = {
 	Result: `result`,
 	Mutable: `mut`,
 	Block: `block`,
-	AlignEquals: `align=`,
 	Branch: `br`,
 	BranchIf: `br_if`,
 	BranchTable: `br_table`,
