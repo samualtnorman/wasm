@@ -11,3 +11,12 @@ To build and run this yourself, you'll need [Node.js](https://nodejs.org/en) and
 You should then see something like this:
 
 ![Demo of running `node dist/playground`](node-dist-playground-demo.webp)
+
+# VSCode Extension
+![image](https://github.com/user-attachments/assets/a8311e01-0643-4526-ad16-d85253fb5ed0)
+
+## How To Run
+1. Run `cd packages/utils`
+2. Run `pnpm rollup --config`
+3. Run `node scripts/emit-package-json.js`
+4. Go to "Run and Debug" in VScode and click the play button next to "Run Extension"
