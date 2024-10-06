@@ -1,34 +1,48 @@
-{,Element}Drop
+{,Data,Element}{,Drop}
 {Function,External}{,Reference}
-{Integer,Float}{32,64}{,Constant}
 {Line,Block}Comment
 {Open,Close}Bracket
 AlignEquals
 Block
 Branch{,If,Table}
 Call{,Indirect}
-DataDrop
+Declare
 Else
 End
-Float{32,64}{Load,Store}
-Global{Get,Set}
+Export
+Global{,Get,Set}
 Identifier
 If
-Integer{{32,64}{Load{,{8,16}{S,Uns}igned},Store{,8,16}},64{Load32{S,Uns}igned,Store32}}
+Import
+Item
 Keyword
-Local{Get,Set,Tee}
+Local{,Get,Set,Tee}
 Loop
-Memory{Size,Grow,Fill,Copy,Initiate}
+Memory{,Size,Grow,Fill,Copy,Initiate}
+Module
 Mutable
 NoOperation
 Number
-OffsetEquals
+Offset{,Equals}
 Parameter
 Reference{Function,{,Is}Null}
 Result
 Return
 Select
+Start
 String
-Table{Copy,Fill,Get,Grow,Initiate,Set,Size}
+Table{,Copy,Fill,Get,Grow,Initiate,Set,Size}
+Type
 Unreachable
 Vector128
+
+Float{{32,64}{,
+	Constant,Load,Store,Absolute,Negate,Ceiling,Floor,Truncate,Nearest,SquareRoot,Add,Subtract,Multiply,Divide,Minimum,
+	Maximum,CopySign,{,Not}Equals,{Less,Greater}Than{,OrEquals},ConvertInteger{32,64}{S,Uns}igned
+},32{DemoteFloat64,ReinterpretInteger32},64{PromoteFloat32,ReinterpretInteger64}}
+
+Integer{{32,64}{,
+	{Divide,Remainder,ShiftRight,{Less,Greater}Than{,OrEquals},Truncate{,Saturate}Float{32,64}}{S,Uns}igned,
+	Constant,Load{,{8,16}{S,Uns}igned},Store{,8,16},{Count{Leading,Trailing},PopCountNon}Zeros,Add,Subtract,Multiply,
+	And,Or,Xor,ShiftLeft,Rotate{Left,Right},Equals{,Zero},Extend{8,16}Signed,NotEqual
+},32{WrapInteger64,ReinterpretFloat32},64{{Load,ExtendInteger}32{S,Uns}igned,Store32,ReinterpretFloat64,Extend32Signed}}
