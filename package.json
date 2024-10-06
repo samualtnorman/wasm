@@ -1,3 +1,9 @@
 {
-	"type": "module"
+	"type": "module",
+	"devDependencies": {
+		"@babel/plugin-syntax-typescript": "^7.25.7",
+		"@rollup/plugin-babel": "^6.0.4",
+		"babel-plugin-here": "1.0.2-87a5573",
+		"vitest": "^2.1.2"
+	}
 }

@@ -6,7 +6,20 @@ settings:
 
 importers:
 
-  .: {}
+  .:
+    devDependencies:
+      '@babel/plugin-syntax-typescript':
+        specifier: ^7.25.7
+        version: 7.25.7(@babel/core@7.25.2)
+      '@rollup/plugin-babel':
+        specifier: ^6.0.4
+        version: 6.0.4(@babel/core@7.25.2)(rollup@4.24.0)
+      babel-plugin-here:
+        specifier: 1.0.2-87a5573
+        version: 1.0.2-87a5573
+      vitest:
+        specifier: ^2.1.2
+        version: 2.1.2(@types/node@22.7.4)(terser@5.34.1)
 
   packages/utils:
     dependencies:
@@ -17,12 +30,6 @@ importers:
         specifier: ^5.3.0
         version: 5.3.0
     devDependencies:
-      '@babel/plugin-syntax-typescript':
-        specifier: ^7.25.7
-        version: 7.25.7(@babel/core@7.25.2)
-      '@rollup/plugin-babel':
-        specifier: ^6.0.4
-        version: 6.0.4(@babel/core@7.25.2)(rollup@4.24.0)
       '@samual/rollup-config':
         specifier: 0.1.2-6b64505
         version: 0.1.2-6b64505(@babel/core@7.25.2)(prettier@3.3.3)(rollup@4.24.0)
@@ -44,9 +51,6 @@ importers:
       rollup:
         specifier: ^4.24.0
         version: 4.24.0
-      vitest:
-        specifier: ^2.1.2
-        version: 2.1.2(@types/node@22.7.4)(terser@5.34.1)
 
   packages/vscode-extension:
     dependencies:
