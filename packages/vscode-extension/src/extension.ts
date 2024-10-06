@@ -263,9 +263,9 @@ vscode.languages.registerDocumentSemanticTokensProvider(
 	{ language: `wat` },
 	{
 		provideDocumentSemanticTokens(document) {
-			const tokensBuilder = new vscode.SemanticTokensBuilder(legend)
-
 			try {
+				const tokensBuilder = new vscode.SemanticTokensBuilder(legend)
+
 				for (const token of tokenise(document.getText())) {
 					try {
 						if (TOKENS[token.tag]) {
@@ -294,11 +294,11 @@ vscode.languages.registerDocumentSemanticTokensProvider(
 						outputChannel.appendLine(`Caught ${(error instanceof Error && error.stack) || String(error)}`)
 					}
 				}
+
+				return tokensBuilder.build()
 			} catch (error) {
 				outputChannel.appendLine(`Caught ${(error instanceof Error && error.stack) || String(error)}`)
 			}
-
-			return tokensBuilder.build()
 		}
 	},
 	legend
