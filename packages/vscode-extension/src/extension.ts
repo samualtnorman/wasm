@@ -280,7 +280,7 @@ vscode.languages.registerDocumentSemanticTokensProvider(
 						if (token.tag == TokenTag.Error) {
 							diagnostics.push(new Diagnostic(
 								new Range(start, document.positionAt(token.index + token.size - 1)),
-								`Syntax Error`
+								`Invalid character${token.size > 1 ? `s` : ``}.`
 							))
 						}
 
