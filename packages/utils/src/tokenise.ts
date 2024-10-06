@@ -445,8 +445,17 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 
 if (import.meta.vitest) {
 	const { test, expect } = import.meta.vitest
+	const TokenTagsToNames = Object.fromEntries(Object.entries(TokenTag).map(([ name, tag ]) => [ tag, name ]))
 
-	test(`tokenise wasi hello world`, () => [ ...tokenise(`
+	const tokenToDebugString = (token: Token, code: string) => `${TokenTagsToNames[token.tag]} ${
+		JSON.stringify(code.slice(token.index, token.index + token.size))} ${token.index}`
+
+	expect.addSnapshotSerializer({
+		serialize: (code: string) => [ ...tokenise(code) ].map(token => tokenToDebugString(token, code)).join("\n"),
+		test: _ => true
+	})
+
+	test(`tokenise wasi hello world`, () => expect(`
 		(import "wasi_unstable" "fd_write" (func $fd_write (param i32 i32 i32 i32) (result i32)))
 
 		(memory 1)
@@ -469,29 +478,20 @@ if (import.meta.vitest) {
 				)
 			)
 		)
-	`) ])
+	`).toMatchSnapshot())
 
-	const Number = { tag: TokenTag.Number }
-
-	test(`line comment`, () => expect([ ...tokenise(`;;`) ]).toMatchObject([ { tag: TokenTag.LineComment } ]))
-	test(`nested comment`, () => expect([ ...tokenise(`(; a (; b ;) c ;)`) ]).toMatchObject([ { tag: TokenTag.BlockComment } ]))
-	test(`signed integer`, () => [ ...tokenise(`+123`) ])
-	test(`number`, () => [ ...tokenise(`3.`) ])
-	test(`number with fraction`, () => expect([ ...tokenise(`3.5`) ]).toMatchObject([ Number ]))
-	test(`number with exponent`, () => expect([ ...tokenise(`1e2`) ]).toMatchObject([ Number ]))
-	test(`hex`, () => expect([ ...tokenise(`0x1`) ]).toMatchObject([ Number ]))
-	test(`hex exponent`, () => expect([ ...tokenise(`0x1p1`) ]).toMatchObject([ Number ]))
-	test(`funci32`, () => expect([ ...tokenise(`funci32`) ]).toMatchObject([ { tag: TokenTag.Keyword } ]))
-	test(`offset=0`, () => expect([ ...tokenise(`offset=0`) ]).toMatchObject([ { tag: TokenTag.OffsetEquals }, { tag: TokenTag.Number } ]))
-	test(`align=0`, () => expect([ ...tokenise(`align=0`) ]).toMatchObject([ { tag: TokenTag.AlignEquals }, { tag: TokenTag.Number } ]))
-
-	for (const [ name, keyword ] of Object.entries(NamesToKeywords)) {
-		test(keyword, () =>
-			expect([ ...tokenise(keyword) ]).toMatchObject([ { tag: TokenTag[name as keyof typeof NamesToKeywords] } ])
-		)
-	}
-
-	test(`error token`, () => expect([ ...tokenise(`,`) ]).toMatchObject([ { tag: TokenTag.Error } ]))
-	test(`collapse error tokens`, () => expect([ ...tokenise(`,,`) ]).toMatchObject([ { tag: TokenTag.Error } ]))
-	test(`seperate error tokens around whitespace`, () => expect([ ...tokenise(`, ,`) ]).toMatchObject([ { tag: TokenTag.Error }, { tag: TokenTag.Error } ]))
+	test(`line comment`, () => expect(`;;`).toMatchSnapshot())
+	test(`nested comment`, () => expect(`(; a (; b ;) c ;)`).toMatchSnapshot())
+	test(`signed integer`, () => expect(`+123`).toMatchSnapshot())
+	test(`number`, () => expect(`3.`).toMatchSnapshot())
+	test(`number with fraction`, () => expect(`3.5`).toMatchSnapshot())
+	test(`number with exponent`, () => expect(`1e2`).toMatchSnapshot())
+	test(`hex`, () => expect(`0x1`).toMatchSnapshot())
+	test(`hex exponent`, () => expect(`0x1p1`).toMatchSnapshot())
+	test(`funci32`, () => expect(`funci32`).toMatchSnapshot())
+	test(`offset=0`, () => expect(`offset=0`).toMatchSnapshot())
+	test(`align=0`, () => expect(`align=0`).toMatchSnapshot())
+	test(`error token`, () => expect(`,`).toMatchSnapshot())
+	test(`collapse error tokens`, () => expect(`,,`).toMatchSnapshot())
+	test(`seperate error tokens around whitespace`, () => expect(`, ,`).toMatchSnapshot())
 }

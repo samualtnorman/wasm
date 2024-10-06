@@ -1,0 +1,142 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`align=0 1`] = `
+AlignEquals "align=" 0
+Number "0" 6
+`;
+
+exports[`collapse error tokens 1`] = `Error ",," 0`;
+
+exports[`error token 1`] = `Error "," 0`;
+
+exports[`funci32 1`] = `Keyword "funci32" 0`;
+
+exports[`hex 1`] = `Number "0x1" 0`;
+
+exports[`hex exponent 1`] = `Number "0x1p1" 0`;
+
+exports[`line comment 1`] = `LineComment ";;" 0`;
+
+exports[`nested comment 1`] = `BlockComment "(; a (; b ;) c ;)" 0`;
+
+exports[`number 1`] = `Number "3." 0`;
+
+exports[`number with exponent 1`] = `Number "1e2" 0`;
+
+exports[`number with fraction 1`] = `Number "3.5" 0`;
+
+exports[`offset=0 1`] = `
+OffsetEquals "offset=" 0
+Number "0" 7
+`;
+
+exports[`seperate error tokens around whitespace 1`] = `
+Error ", " 0
+Error "," 2
+`;
+
+exports[`signed integer 1`] = `Number "+123" 0`;
+
+exports[`tokenise wasi hello world 1`] = `
+OpenBracket "(" 3
+Import "import" 4
+String "\\"wasi_unstable\\"" 11
+String "\\"fd_write\\"" 27
+OpenBracket "(" 38
+Function "func" 39
+Identifier "$fd_write" 44
+OpenBracket "(" 54
+Parameter "param" 55
+Integer32 "i32" 61
+Integer32 "i32" 65
+Integer32 "i32" 69
+Integer32 "i32" 73
+CloseBracket ")" 76
+OpenBracket "(" 78
+Result "result" 79
+Integer32 "i32" 86
+CloseBracket ")" 89
+CloseBracket ")" 90
+CloseBracket ")" 91
+OpenBracket "(" 96
+Memory "memory" 97
+Number "1" 104
+CloseBracket ")" 105
+OpenBracket "(" 109
+Export "export" 110
+String "\\"memory\\"" 117
+OpenBracket "(" 126
+Memory "memory" 127
+Number "0" 134
+CloseBracket ")" 135
+CloseBracket ")" 136
+LineComment ";; io vector\\n" 141
+OpenBracket "(" 156
+Data "data" 157
+OpenBracket "(" 162
+Integer32Constant "i32.const" 163
+Number "0" 173
+CloseBracket ")" 174
+String "\\"\\\\08\\"" 176
+CloseBracket ")" 181
+LineComment ";; pointer to string\\n" 183
+OpenBracket "(" 206
+Data "data" 207
+OpenBracket "(" 212
+Integer32Constant "i32.const" 213
+Number "4" 223
+CloseBracket ")" 224
+String "\\"\\\\0e\\"" 226
+CloseBracket ")" 231
+LineComment ";; length of string\\n" 233
+OpenBracket "(" 255
+Data "data" 256
+OpenBracket "(" 261
+Integer32Constant "i32.const" 262
+Number "8" 272
+CloseBracket ")" 273
+String "\\"Hello, World!\\\\n\\"" 275
+CloseBracket ")" 292
+OpenBracket "(" 297
+Global "global" 298
+Identifier "$stdout" 305
+Integer32 "i32" 313
+OpenBracket "(" 317
+Integer32Constant "i32.const" 318
+Number "1" 328
+CloseBracket ")" 329
+CloseBracket ")" 330
+OpenBracket "(" 335
+Function "func" 336
+OpenBracket "(" 341
+Export "export" 342
+String "\\"_start\\"" 349
+CloseBracket ")" 357
+OpenBracket "(" 362
+Drop "drop" 363
+OpenBracket "(" 372
+Call "call" 373
+Identifier "$fd_write" 378
+OpenBracket "(" 393
+GlobalGet "global.get" 394
+Identifier "$stdout" 405
+CloseBracket ")" 412
+OpenBracket "(" 419
+Integer32Constant "i32.const" 420
+Number "0" 430
+CloseBracket ")" 431
+LineComment ";; pointer to io vector\\n" 433
+OpenBracket "(" 462
+Integer32Constant "i32.const" 463
+Number "1" 473
+CloseBracket ")" 474
+LineComment ";; length of io vector\\n" 476
+OpenBracket "(" 504
+Integer32Constant "i32.const" 505
+Number "20" 515
+CloseBracket ")" 517
+LineComment ";; where to store number of bytes written\\n" 519
+CloseBracket ")" 565
+CloseBracket ")" 570
+CloseBracket ")" 574
+`;
