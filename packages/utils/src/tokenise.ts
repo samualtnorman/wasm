@@ -234,7 +234,7 @@ const NamesToKeywords = {
 } satisfies {
 	[K in Exclude<
 		keyof typeof TokenTag,
-		`Keyword` | `Number` | `String` | `Identifier` | `OpenBracket` | `CloseBracket` | `LineComment` |
+		`Keyword` | `Number` | `String${string}` | `Identifier` | `OpenBracket` | `CloseBracket` | `LineComment` |
 		`BlockComment` | `OffsetEquals` | `AlignEquals` | `Error`
 	>]: string
 }
@@ -261,7 +261,7 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 	}
 
 	const oneOf = (search: string) => () => {
-		if (index < code.length && search.includes(code[ index ]!)) {
+		if (index < code.length && search.includes(code[index]!)) {
 			index++
 
 			return true
@@ -344,19 +344,19 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 	const HexDigit = union(range(`0`, `9`), range(`A`, `F`), range(`a`, `f`))
 	const HexNumber = sequence(HexDigit, optional(many(sequence(optional(terminal(`_`)), HexDigit))))
 
-	const StringCharacter = union(
-		condition(() => code[index]! >= `\x20` && code[index]! != `\x7F` && code[index] != `"` && code[index] != `\\`),
-		terminal(`\\t`),
-		terminal(`\\n`),
-		terminal(`\\r`),
-		terminal(`\\"`),
-		terminal(`\\'`),
-		terminal(`\\\\`),
-		sequence(terminal(`\\u{`), HexNumber, terminal(`}`))
-	)
+	const StringNonEscape =
+		condition(() => code[index]! >= `\x20` && code[index]! != `\x7F` && code[index] != `"` && code[index] != `\\`)
 
-	const StringElement = union(StringCharacter, sequence(terminal(`\\`), HexDigit, HexDigit))
-	const String = sequence(terminal(`"`), optional(many(StringElement)), terminal(`"`))
+	const StringHexEscape = sequence(terminal(`\\`), HexDigit, HexDigit)
+	const StringTabEscape = terminal(`\\t`)
+	const StringNewlineEscape = terminal(`\\n`)
+	const StringReturnEscape = terminal(`\\r`)
+	const StringQuoteEscape = terminal(`\\"`)
+	const StringApostropheEscape = terminal(`\\'`)
+	const StringBackslashEscape = terminal(`\\\\`)
+	const StringUnicodeEscape = sequence(terminal(`\\u{`), HexNumber, terminal(`}`))
+
+	const Quote = terminal(`"`)
 	const Identifier = sequence(terminal(`$`), many(IdentifierCharacter))
 	const Number = sequence(range(`0`, `9`), optional(many(sequence(optional(terminal(`_`)), range(`0`, `9`)))))
 	const LineCharacter = condition(() => code[index] != `\n` && code[index] != `\r`)
@@ -399,11 +399,11 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 	const OpenBracket = terminal(`(`)
 	const CloseBracket = terminal(`)`)
 
-	const tokenFunctions: Record<Exclude<keyof typeof TokenTag, "Error">, () => boolean> = {
+	const tokenFunctions: Record<Exclude<keyof typeof TokenTag, `Error` | `String${string}`>, () => boolean> = {
 		...Object.fromEntries(Object.entries(NamesToKeywords)
 			.map(([ name, keyword ]) => [ name, sequence(terminal(keyword), negativeLookahead(IdentifierCharacter)) ])
 		) as Record<keyof typeof NamesToKeywords, () => boolean>,
-		AlignEquals, OffsetEquals, LineComment, BlockComment, Number: Float, Keyword, String, Identifier, OpenBracket,
+		AlignEquals, OffsetEquals, LineComment, BlockComment, Number: Float, Keyword, Identifier, OpenBracket,
 		CloseBracket
 	}
 
@@ -419,6 +419,41 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 				errorIndex = undefined
 			}
 
+			continue
+		}
+
+		if (Quote()) {
+			while (true) {
+				const stringElementStart = index
+				const Token = (tag: TokenTag) => ({ tag, index: stringElementStart, size: index - stringElementStart })
+
+				if (StringNonEscape())
+					yield Token(TokenTag.StringNonEscape)
+				else if (StringHexEscape())
+					yield Token(TokenTag.StringHexEscape)
+				else if (StringTabEscape())
+					yield Token(TokenTag.StringTabEscape)
+				else if (StringNewlineEscape())
+					yield Token(TokenTag.StringNewlineEscape)
+				else if (StringReturnEscape())
+					yield Token(TokenTag.StringReturnEscape)
+				else if (StringQuoteEscape())
+					yield Token(TokenTag.StringQuoteEscape)
+				else if (StringApostropheEscape())
+					yield Token(TokenTag.StringApostropheEscape)
+				else if (StringBackslashEscape())
+					yield Token(TokenTag.StringBackslashEscape)
+				else if (StringUnicodeEscape())
+					yield Token(TokenTag.StringUnicodeEscape)
+				else if (Quote())
+					break
+				else {
+					yield Token(TokenTag.StringInvalidCharacter)
+					break
+				}
+			}
+
+			yield Token(TokenTag.String, startIndex)
 			continue
 		}
 
@@ -497,6 +532,21 @@ if (import.meta.vitest) {
 		expect([ ...tokenise(`, 0`) ]).toMatchObject([ { tag: TokenTag.Error, size: 1 }, { tag: TokenTag.Number, size: 1 } ])
 	)
 
+	test(`string`, () =>
+		expect([ ...tokenise(String.raw`"a\00\t\n\r\"\'\\\u{0}"`) ]).toMatchObject([
+			{ tag: TokenTag.StringNonEscape, size: 1 },
+			{ tag: TokenTag.StringHexEscape, size: 3 },
+			{ tag: TokenTag.StringTabEscape, size: 2 },
+			{ tag: TokenTag.StringNewlineEscape, size: 2 },
+			{ tag: TokenTag.StringReturnEscape, size: 2 },
+			{ tag: TokenTag.StringQuoteEscape, size: 2 },
+			{ tag: TokenTag.StringApostropheEscape, size: 2 },
+			{ tag: TokenTag.StringBackslashEscape, size: 2 },
+			{ tag: TokenTag.StringUnicodeEscape, size: 5 },
+			{ tag: TokenTag.String, size: 23 },
+		])
+	)
+
 	function check(code: string) {
 		const tokens = [ ...tokenise(code) ]
 		const lastTokenIndex = tokens.length - 1
@@ -505,7 +555,8 @@ if (import.meta.vitest) {
 			const token = tokens[index]!
 			const nextToken = tokens[index + 1]!
 
-			expect(token.index + token.size).toBeLessThanOrEqual(nextToken.index)
+			if (nextToken.tag != TokenTag.String)
+				expect(token.index + token.size).toBeLessThanOrEqual(nextToken.index)
 		}
 
 		expect(lastTokenIndex).toBeLessThanOrEqual(code.length)

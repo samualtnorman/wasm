@@ -1,4 +1,4 @@
-declare enum TokenTagEnum { AlignEquals, Block, BlockComment, Branch, BranchIf, BranchTable, Call, CallIndirect, CloseBracket, Data, DataDrop, Declare, Drop, Element, ElementDrop, Else, End, Error, Export, External, ExternalReference, Float32, Float32Absolute, Float32Add, Float32Ceiling, Float32Constant, Float32ConvertInteger32Signed, Float32ConvertInteger32Unsigned, Float32ConvertInteger64Signed, Float32ConvertInteger64Unsigned, Float32CopySign, Float32DemoteFloat64, Float32Divide, Float32Equals, Float32Floor, Float32GreaterThan, Float32GreaterThanOrEquals, Float32LessThan, Float32LessThanOrEquals, Float32Load, Float32Maximum, Float32Minimum, Float32Multiply, Float32Nearest, Float32Negate, Float32NotEquals, Float32ReinterpretInteger32, Float32SquareRoot, Float32Store, Float32Subtract, Float32Truncate, Float64, Float64Absolute, Float64Add, Float64Ceiling, Float64Constant, Float64ConvertInteger32Signed, Float64ConvertInteger32Unsigned, Float64ConvertInteger64Signed, Float64ConvertInteger64Unsigned, Float64CopySign, Float64Divide, Float64Equals, Float64Floor, Float64GreaterThan, Float64GreaterThanOrEquals, Float64LessThan, Float64LessThanOrEquals, Float64Load, Float64Maximum, Float64Minimum, Float64Multiply, Float64Nearest, Float64Negate, Float64NotEquals, Float64PromoteFloat32, Float64ReinterpretInteger64, Float64SquareRoot, Float64Store, Float64Subtract, Float64Truncate, Function, FunctionReference, Global, GlobalGet, GlobalSet, Identifier, If, Import, Integer32, Integer32Add, Integer32And, Integer32Constant, Integer32CountLeadingZeros, Integer32CountTrailingZeros, Integer32DivideSigned, Integer32DivideUnsigned, Integer32Equals, Integer32EqualsZero, Integer32Extend16Signed, Integer32Extend8Signed, Integer32GreaterThanOrEqualsSigned, Integer32GreaterThanOrEqualsUnsigned, Integer32GreaterThanSigned, Integer32GreaterThanUnsigned, Integer32LessThanOrEqualsSigned, Integer32LessThanOrEqualsUnsigned, Integer32LessThanSigned, Integer32LessThanUnsigned, Integer32Load, Integer32Load16Signed, Integer32Load16Unsigned, Integer32Load8Signed, Integer32Load8Unsigned, Integer32Multiply, Integer32NotEqual, Integer32Or, Integer32PopCountNonZeros, Integer32ReinterpretFloat32, Integer32RemainderSigned, Integer32RemainderUnsigned, Integer32RotateLeft, Integer32RotateRight, Integer32ShiftLeft, Integer32ShiftRightSigned, Integer32ShiftRightUnsigned, Integer32Store, Integer32Store16, Integer32Store8, Integer32Subtract, Integer32TruncateFloat32Signed, Integer32TruncateFloat32Unsigned, Integer32TruncateFloat64Signed, Integer32TruncateFloat64Unsigned, Integer32TruncateSaturateFloat32Signed, Integer32TruncateSaturateFloat32Unsigned, Integer32TruncateSaturateFloat64Signed, Integer32TruncateSaturateFloat64Unsigned, Integer32WrapInteger64, Integer32Xor, Integer64, Integer64Add, Integer64And, Integer64Constant, Integer64CountLeadingZeros, Integer64CountTrailingZeros, Integer64DivideSigned, Integer64DivideUnsigned, Integer64Equals, Integer64EqualsZero, Integer64Extend16Signed, Integer64Extend32Signed, Integer64Extend8Signed, Integer64ExtendInteger32Signed, Integer64ExtendInteger32Unsigned, Integer64GreaterThanOrEqualsSigned, Integer64GreaterThanOrEqualsUnsigned, Integer64GreaterThanSigned, Integer64GreaterThanUnsigned, Integer64LessThanOrEqualsSigned, Integer64LessThanOrEqualsUnsigned, Integer64LessThanSigned, Integer64LessThanUnsigned, Integer64Load, Integer64Load16Signed, Integer64Load16Unsigned, Integer64Load32Signed, Integer64Load32Unsigned, Integer64Load8Signed, Integer64Load8Unsigned, Integer64Multiply, Integer64NotEqual, Integer64Or, Integer64PopCountNonZeros, Integer64ReinterpretFloat64, Integer64RemainderSigned, Integer64RemainderUnsigned, Integer64RotateLeft, Integer64RotateRight, Integer64ShiftLeft, Integer64ShiftRightSigned, Integer64ShiftRightUnsigned, Integer64Store, Integer64Store16, Integer64Store32, Integer64Store8, Integer64Subtract, Integer64TruncateFloat32Signed, Integer64TruncateFloat32Unsigned, Integer64TruncateFloat64Signed, Integer64TruncateFloat64Unsigned, Integer64TruncateSaturateFloat32Signed, Integer64TruncateSaturateFloat32Unsigned, Integer64TruncateSaturateFloat64Signed, Integer64TruncateSaturateFloat64Unsigned, Integer64Xor, Item, Keyword, LineComment, Local, LocalGet, LocalSet, LocalTee, Loop, Memory, MemoryCopy, MemoryFill, MemoryGrow, MemoryInitiate, MemorySize, Module, Mutable, NoOperation, Number, Offset, OffsetEquals, OpenBracket, Parameter, ReferenceFunction, ReferenceIsNull, ReferenceNull, Result, Return, Select, Start, String, Table, TableCopy, TableFill, TableGet, TableGrow, TableInitiate, TableSet, TableSize, Type, Unreachable, Vector128 }
+declare enum TokenTagEnum { AlignEquals, Block, BlockComment, Branch, BranchIf, BranchTable, Call, CallIndirect, CloseBracket, Data, DataDrop, Declare, Drop, Element, ElementDrop, Else, End, Error, Export, External, ExternalReference, Float32, Float32Absolute, Float32Add, Float32Ceiling, Float32Constant, Float32ConvertInteger32Signed, Float32ConvertInteger32Unsigned, Float32ConvertInteger64Signed, Float32ConvertInteger64Unsigned, Float32CopySign, Float32DemoteFloat64, Float32Divide, Float32Equals, Float32Floor, Float32GreaterThan, Float32GreaterThanOrEquals, Float32LessThan, Float32LessThanOrEquals, Float32Load, Float32Maximum, Float32Minimum, Float32Multiply, Float32Nearest, Float32Negate, Float32NotEquals, Float32ReinterpretInteger32, Float32SquareRoot, Float32Store, Float32Subtract, Float32Truncate, Float64, Float64Absolute, Float64Add, Float64Ceiling, Float64Constant, Float64ConvertInteger32Signed, Float64ConvertInteger32Unsigned, Float64ConvertInteger64Signed, Float64ConvertInteger64Unsigned, Float64CopySign, Float64Divide, Float64Equals, Float64Floor, Float64GreaterThan, Float64GreaterThanOrEquals, Float64LessThan, Float64LessThanOrEquals, Float64Load, Float64Maximum, Float64Minimum, Float64Multiply, Float64Nearest, Float64Negate, Float64NotEquals, Float64PromoteFloat32, Float64ReinterpretInteger64, Float64SquareRoot, Float64Store, Float64Subtract, Float64Truncate, Function, FunctionReference, Global, GlobalGet, GlobalSet, Identifier, If, Import, Integer32, Integer32Add, Integer32And, Integer32Constant, Integer32CountLeadingZeros, Integer32CountTrailingZeros, Integer32DivideSigned, Integer32DivideUnsigned, Integer32Equals, Integer32EqualsZero, Integer32Extend16Signed, Integer32Extend8Signed, Integer32GreaterThanOrEqualsSigned, Integer32GreaterThanOrEqualsUnsigned, Integer32GreaterThanSigned, Integer32GreaterThanUnsigned, Integer32LessThanOrEqualsSigned, Integer32LessThanOrEqualsUnsigned, Integer32LessThanSigned, Integer32LessThanUnsigned, Integer32Load, Integer32Load16Signed, Integer32Load16Unsigned, Integer32Load8Signed, Integer32Load8Unsigned, Integer32Multiply, Integer32NotEqual, Integer32Or, Integer32PopCountNonZeros, Integer32ReinterpretFloat32, Integer32RemainderSigned, Integer32RemainderUnsigned, Integer32RotateLeft, Integer32RotateRight, Integer32ShiftLeft, Integer32ShiftRightSigned, Integer32ShiftRightUnsigned, Integer32Store, Integer32Store16, Integer32Store8, Integer32Subtract, Integer32TruncateFloat32Signed, Integer32TruncateFloat32Unsigned, Integer32TruncateFloat64Signed, Integer32TruncateFloat64Unsigned, Integer32TruncateSaturateFloat32Signed, Integer32TruncateSaturateFloat32Unsigned, Integer32TruncateSaturateFloat64Signed, Integer32TruncateSaturateFloat64Unsigned, Integer32WrapInteger64, Integer32Xor, Integer64, Integer64Add, Integer64And, Integer64Constant, Integer64CountLeadingZeros, Integer64CountTrailingZeros, Integer64DivideSigned, Integer64DivideUnsigned, Integer64Equals, Integer64EqualsZero, Integer64Extend16Signed, Integer64Extend32Signed, Integer64Extend8Signed, Integer64ExtendInteger32Signed, Integer64ExtendInteger32Unsigned, Integer64GreaterThanOrEqualsSigned, Integer64GreaterThanOrEqualsUnsigned, Integer64GreaterThanSigned, Integer64GreaterThanUnsigned, Integer64LessThanOrEqualsSigned, Integer64LessThanOrEqualsUnsigned, Integer64LessThanSigned, Integer64LessThanUnsigned, Integer64Load, Integer64Load16Signed, Integer64Load16Unsigned, Integer64Load32Signed, Integer64Load32Unsigned, Integer64Load8Signed, Integer64Load8Unsigned, Integer64Multiply, Integer64NotEqual, Integer64Or, Integer64PopCountNonZeros, Integer64ReinterpretFloat64, Integer64RemainderSigned, Integer64RemainderUnsigned, Integer64RotateLeft, Integer64RotateRight, Integer64ShiftLeft, Integer64ShiftRightSigned, Integer64ShiftRightUnsigned, Integer64Store, Integer64Store16, Integer64Store32, Integer64Store8, Integer64Subtract, Integer64TruncateFloat32Signed, Integer64TruncateFloat32Unsigned, Integer64TruncateFloat64Signed, Integer64TruncateFloat64Unsigned, Integer64TruncateSaturateFloat32Signed, Integer64TruncateSaturateFloat32Unsigned, Integer64TruncateSaturateFloat64Signed, Integer64TruncateSaturateFloat64Unsigned, Integer64Xor, Item, Keyword, LineComment, Local, LocalGet, LocalSet, LocalTee, Loop, Memory, MemoryCopy, MemoryFill, MemoryGrow, MemoryInitiate, MemorySize, Module, Mutable, NoOperation, Number, Offset, OffsetEquals, OpenBracket, Parameter, ReferenceFunction, ReferenceIsNull, ReferenceNull, Result, Return, Select, Start, String, StringApostropheEscape, StringBackslashEscape, StringHexEscape, StringInvalidCharacter, StringNewlineEscape, StringNonEscape, StringQuoteEscape, StringReturnEscape, StringTabEscape, StringUnicodeEscape, Table, TableCopy, TableFill, TableGet, TableGrow, TableInitiate, TableSet, TableSize, Type, Unreachable, Vector128 }
 
 export const TokenTag = {
 	AlignEquals: 1 as TokenTagEnum.AlignEquals,
@@ -227,17 +227,27 @@ export const TokenTag = {
 	Select: 224 as TokenTagEnum.Select,
 	Start: 225 as TokenTagEnum.Start,
 	String: 226 as TokenTagEnum.String,
-	Table: 227 as TokenTagEnum.Table,
-	TableCopy: 228 as TokenTagEnum.TableCopy,
-	TableFill: 229 as TokenTagEnum.TableFill,
-	TableGet: 230 as TokenTagEnum.TableGet,
-	TableGrow: 231 as TokenTagEnum.TableGrow,
-	TableInitiate: 232 as TokenTagEnum.TableInitiate,
-	TableSet: 233 as TokenTagEnum.TableSet,
-	TableSize: 234 as TokenTagEnum.TableSize,
-	Type: 235 as TokenTagEnum.Type,
-	Unreachable: 236 as TokenTagEnum.Unreachable,
-	Vector128: 237 as TokenTagEnum.Vector128,
+	StringApostropheEscape: 227 as TokenTagEnum.StringApostropheEscape,
+	StringBackslashEscape: 228 as TokenTagEnum.StringBackslashEscape,
+	StringHexEscape: 229 as TokenTagEnum.StringHexEscape,
+	StringInvalidCharacter: 230 as TokenTagEnum.StringInvalidCharacter,
+	StringNewlineEscape: 231 as TokenTagEnum.StringNewlineEscape,
+	StringNonEscape: 232 as TokenTagEnum.StringNonEscape,
+	StringQuoteEscape: 233 as TokenTagEnum.StringQuoteEscape,
+	StringReturnEscape: 234 as TokenTagEnum.StringReturnEscape,
+	StringTabEscape: 235 as TokenTagEnum.StringTabEscape,
+	StringUnicodeEscape: 236 as TokenTagEnum.StringUnicodeEscape,
+	Table: 237 as TokenTagEnum.Table,
+	TableCopy: 238 as TokenTagEnum.TableCopy,
+	TableFill: 239 as TokenTagEnum.TableFill,
+	TableGet: 240 as TokenTagEnum.TableGet,
+	TableGrow: 241 as TokenTagEnum.TableGrow,
+	TableInitiate: 242 as TokenTagEnum.TableInitiate,
+	TableSet: 243 as TokenTagEnum.TableSet,
+	TableSize: 244 as TokenTagEnum.TableSize,
+	Type: 245 as TokenTagEnum.Type,
+	Unreachable: 246 as TokenTagEnum.Unreachable,
+	Vector128: 247 as TokenTagEnum.Vector128,
 }
 
 export type TokenTag = TokenTagEnum
@@ -469,6 +479,16 @@ export namespace TokenTag {
 	export type Select = typeof TokenTag.Select
 	export type Start = typeof TokenTag.Start
 	export type String = typeof TokenTag.String
+	export type StringApostropheEscape = typeof TokenTag.StringApostropheEscape
+	export type StringBackslashEscape = typeof TokenTag.StringBackslashEscape
+	export type StringHexEscape = typeof TokenTag.StringHexEscape
+	export type StringInvalidCharacter = typeof TokenTag.StringInvalidCharacter
+	export type StringNewlineEscape = typeof TokenTag.StringNewlineEscape
+	export type StringNonEscape = typeof TokenTag.StringNonEscape
+	export type StringQuoteEscape = typeof TokenTag.StringQuoteEscape
+	export type StringReturnEscape = typeof TokenTag.StringReturnEscape
+	export type StringTabEscape = typeof TokenTag.StringTabEscape
+	export type StringUnicodeEscape = typeof TokenTag.StringUnicodeEscape
 	export type Table = typeof TokenTag.Table
 	export type TableCopy = typeof TokenTag.TableCopy
 	export type TableFill = typeof TokenTag.TableFill
