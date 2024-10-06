@@ -1,12 +1,7 @@
 import { spliceString } from "@samual/lib/spliceString"
 import chalk, { type ChalkInstance } from "chalk"
-import { type Token, tokenise } from "./tokenise"
+import { tokenise } from "./tokenise"
 import { TokenTag } from "./TokenTag"
-
-const TokenTagsToNames = Object.fromEntries(Object.entries(TokenTag).map(([ name, tag ]) => [ tag, name ]))
-
-const tokenToDebugString = (token: Token, code: string) =>
-	`${TokenTagsToNames[token.tag]} ${JSON.stringify(code.slice(token.index, token.index + token.size))}`
 
 const code = `\
 (import "wasi_unstable" "fd_write" (func $fd_write (param i32 i32 i32 i32) (result i32)))

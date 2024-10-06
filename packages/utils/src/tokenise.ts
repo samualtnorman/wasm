@@ -1,5 +1,6 @@
 import { assert } from "@samual/lib/assert"
 import { TokenTag } from "./TokenTag"
+import { tokenToDebugString } from "./tokenToDebugString"
 
 export type Token = { tag: TokenTag, index: number, size: number }
 
@@ -445,10 +446,6 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 
 if (import.meta.vitest) {
 	const { test, expect } = import.meta.vitest
-	const TokenTagsToNames = Object.fromEntries(Object.entries(TokenTag).map(([ name, tag ]) => [ tag, name ]))
-
-	const tokenToDebugString = (token: Token, code: string) => `${TokenTagsToNames[token.tag]} ${
-		JSON.stringify(code.slice(token.index, token.index + token.size))} ${token.index}`
 
 	expect.addSnapshotSerializer({
 		serialize: (code: string) => [ ...tokenise(code) ].map(token => tokenToDebugString(token, code)).join("\n"),
