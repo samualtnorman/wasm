@@ -1,11 +1,12 @@
 import { tokenise } from "@samual/wasm-utils/dist/tokenise"
 import { TokenTag } from "@samual/wasm-utils/dist/TokenTag"
 import * as vscode from "vscode"
+import { Diagnostic, Range } from "vscode"
 
 const tokenTypes = [
 	`namespace`, `class`, `enum`, `interface`, `struct`, `typeParameter`, `type`, `parameter`, `variable`, `property`,
 	`enumMember`, `decorator`, `event`, `function`, `method`, `macro`, `label`, `comment`, `string`, `keyword`,
-	`number`, `regexp`, `operator`, `punctuation`, `storage.type`
+	`number`, `regexp`, `operator`, `punctuation`, `storage.type`, `invalid`
 ] as const satisfies string[]
 
 const tokenModifiers = [
@@ -256,8 +257,11 @@ const TOKENS: Record<
 	[TokenTag.Offset]: { tokenType: `keyword` },
 	[TokenTag.Start]: { tokenType: `keyword`, tokenModifiers: [ `declaration` ] },
 	[TokenTag.Table]: { tokenType: `keyword`, tokenModifiers: [ `declaration` ] },
-	[TokenTag.Type]: { tokenType: `keyword`, tokenModifiers: [ `declaration` ] }
+	[TokenTag.Type]: { tokenType: `keyword`, tokenModifiers: [ `declaration` ] },
+	[TokenTag.Error]: { tokenType: `invalid` }
 }
+
+const diagnosticCollection = vscode.languages.createDiagnosticCollection(`wat`)
 
 vscode.languages.registerDocumentSemanticTokensProvider(
 	{ language: `wat` },
@@ -265,13 +269,17 @@ vscode.languages.registerDocumentSemanticTokensProvider(
 		provideDocumentSemanticTokens(document) {
 			try {
 				const tokensBuilder = new vscode.SemanticTokensBuilder(legend)
+				const diagnostics: vscode.Diagnostic[] = []
 
 				for (const token of tokenise(document.getText())) {
 					try {
-						if (TOKENS[token.tag]) {
-							const start = document.positionAt(token.index)
-							const end = document.positionAt(token.index + token.size)
+						const start = document.positionAt(token.index)
+						const end = document.positionAt(token.index + token.size)
 
+						if (token.tag == TokenTag.Error)
+							diagnostics.push(new Diagnostic(new Range(start, end), `Syntax Error`))
+
+						if (TOKENS[token.tag]) {
 							if (start.line != end.line) {
 								pushToken(document.lineAt(start.line).range.with({ start }))
 
@@ -294,6 +302,8 @@ vscode.languages.registerDocumentSemanticTokensProvider(
 						outputChannel.appendLine(`Caught ${(error instanceof Error && error.stack) || String(error)}`)
 					}
 				}
+
+				diagnosticCollection.set(document.uri, diagnostics)
 
 				return tokensBuilder.build()
 			} catch (error) {
