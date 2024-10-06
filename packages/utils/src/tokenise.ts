@@ -491,6 +491,7 @@ if (import.meta.vitest) {
 	test(`error token`, () => check(`,`))
 	test(`collapse error tokens`, () => check(`,,`))
 	test(`seperate error tokens around whitespace`, () => check(`, ,`))
+	test(`error then keyword`, () => check(`,i32`))
 
 	function check(code: string) {
 		const tokens = [ ...tokenise(code) ]
