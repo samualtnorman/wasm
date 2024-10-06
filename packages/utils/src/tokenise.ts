@@ -411,16 +411,16 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 	const Token = (tag: TokenTag, startIndex: number) => ({ tag, index: startIndex, size: index - startIndex })
 
 	while_: while (index < code.length) {
+		const startIndex = index
+
 		if (Space()) {
 			if (errorIndex != undefined) {
-				yield Token(TokenTag.Error, errorIndex)
+				yield { tag: TokenTag.Error, index: errorIndex, size: startIndex - errorIndex }
 				errorIndex = undefined
 			}
 
 			continue
 		}
-
-		const startIndex = index
 
 		for (const name in tokenFunctions) {
 			if (tokenFunctions[name as keyof typeof tokenFunctions]()) {
@@ -492,6 +492,10 @@ if (import.meta.vitest) {
 	test(`collapse error tokens`, () => check(`,,`))
 	test(`seperate error tokens around whitespace`, () => check(`, ,`))
 	test(`error then keyword`, () => check(`,i32`))
+
+	test(`error before whitespace does not include whitespace`, () =>
+		expect([ ...tokenise(`, 0`) ]).toMatchObject([ { tag: TokenTag.Error, size: 1 }, { tag: TokenTag.Number, size: 1 } ])
+	)
 
 	function check(code: string) {
 		const tokens = [ ...tokenise(code) ]
