@@ -17,7 +17,7 @@ const tokenModifiers = [
 
 const legend = new vscode.SemanticTokensLegend(tokenTypes, tokenModifiers)
 
-const outputChannel = vscode.window.createOutputChannel(`WAT`)
+const outputChannel = vscode.window.createOutputChannel(`WebAssembly IDE`)
 
 const TOKENS: Record<
 	TokenTag,
