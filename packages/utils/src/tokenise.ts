@@ -534,21 +534,19 @@ if (import.meta.vitest) {
 		expect([ ...tokenise(`, 0`) ]).toMatchObject([ { tag: TokenTag.Error, size: 1 }, { tag: TokenTag.Number, size: 1 } ])
 	)
 
-	test(`string`, () =>
-		expect([ ...tokenise(String.raw`"a\00\t\n\r\"\'\\\u{0}"`) ]).toMatchObject([
-			{ tag: TokenTag.StringStartQuote, size: 1 },
-			{ tag: TokenTag.StringNonEscape, size: 1 },
-			{ tag: TokenTag.StringHexEscape, size: 3 },
-			{ tag: TokenTag.StringTabEscape, size: 2 },
-			{ tag: TokenTag.StringNewlineEscape, size: 2 },
-			{ tag: TokenTag.StringReturnEscape, size: 2 },
-			{ tag: TokenTag.StringQuoteEscape, size: 2 },
-			{ tag: TokenTag.StringApostropheEscape, size: 2 },
-			{ tag: TokenTag.StringBackslashEscape, size: 2 },
-			{ tag: TokenTag.StringUnicodeEscape, size: 5 },
-			{ tag: TokenTag.StringEndQuote, size: 1 },
-		])
-	)
+	test(`string`, () => expect([ ...tokenise(String.raw`"a\00\t\n\r\"\'\\\u{0}"`) ]).toMatchObject([
+		{ tag: TokenTag.StringStartQuote, size: 1 },
+		{ tag: TokenTag.StringNonEscape, size: 1 },
+		{ tag: TokenTag.StringHexEscape, size: 3 },
+		{ tag: TokenTag.StringTabEscape, size: 2 },
+		{ tag: TokenTag.StringNewlineEscape, size: 2 },
+		{ tag: TokenTag.StringReturnEscape, size: 2 },
+		{ tag: TokenTag.StringQuoteEscape, size: 2 },
+		{ tag: TokenTag.StringApostropheEscape, size: 2 },
+		{ tag: TokenTag.StringBackslashEscape, size: 2 },
+		{ tag: TokenTag.StringUnicodeEscape, size: 5 },
+		{ tag: TokenTag.StringEndQuote, size: 1 },
+	]))
 
 	function check(code: string) {
 		const tokens = [ ...tokenise(code) ]
