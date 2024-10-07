@@ -235,7 +235,7 @@ const NamesToKeywords = {
 	[K in Exclude<
 		keyof typeof TokenTag,
 		`Keyword` | `Number` | `String${string}` | `Identifier` | `OpenBracket` | `CloseBracket` | `LineComment` |
-		`BlockComment` | `OffsetEquals` | `AlignEquals` | `Error`
+		`BlockComment` | `OffsetEquals` | `AlignEquals` | `${string}Error`
 	>]: string
 }
 
@@ -399,7 +399,7 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 	const OpenBracket = terminal(`(`)
 	const CloseBracket = terminal(`)`)
 
-	const tokenFunctions: Record<Exclude<keyof typeof TokenTag, `Error` | `String${string}`>, () => boolean> = {
+	const tokenFunctions: Record<Exclude<keyof typeof TokenTag, `${string}Error` | `String${string}`>, () => boolean> = {
 		...Object.fromEntries(Object.entries(NamesToKeywords)
 			.map(([ name, keyword ]) => [ name, sequence(terminal(keyword), negativeLookahead(IdentifierCharacter)) ])
 		) as Record<keyof typeof NamesToKeywords, () => boolean>,
@@ -426,6 +426,11 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 			yield Token(TokenTag.StringStartQuote, startIndex)
 
 			while (true) {
+				if (index == code.length) {
+					yield { tag: TokenTag.UnterminatedStringError, index, size: 0 }
+					break
+				}
+
 				const stringElementStart = index
 				const Token = (tag: TokenTag) => ({ tag, index: stringElementStart, size: index - stringElementStart })
 
@@ -451,8 +456,8 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 					yield Token(TokenTag.StringEndQuote)
 					break
 				} else {
-					yield Token(TokenTag.StringInvalidCharacter)
-					break
+					index++
+					yield Token(TokenTag.StringInvalidCharacterError)
 				}
 			}
 
@@ -546,6 +551,17 @@ if (import.meta.vitest) {
 		{ tag: TokenTag.StringBackslashEscape, size: 2 },
 		{ tag: TokenTag.StringUnicodeEscape, size: 5 },
 		{ tag: TokenTag.StringEndQuote, size: 1 },
+	]))
+
+	test(`untermianted string`, () => expect([ ...tokenise(`"`) ]).toMatchObject([
+		{ tag: TokenTag.StringStartQuote, index: 0, size: 1 },
+		{ tag: TokenTag.UnterminatedStringError, index: 1, size: 0 }
+	]))
+
+	test(`string invalid character`, () => expect([ ...tokenise(`"\0"`) ]).toMatchObject([
+		{ tag: TokenTag.StringStartQuote, index: 0, size: 1 },
+		{ tag: TokenTag.StringInvalidCharacterError, index: 1, size: 1 },
+		{ tag: TokenTag.StringEndQuote, index: 2, size: 1 }
 	]))
 
 	function check(code: string) {

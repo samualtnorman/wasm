@@ -1,4 +1,5 @@
 {,Data,Element}{,Drop}
+{,UnterminatedString}Error
 {Function,External}{,Reference}
 {Line,Block}Comment
 {Open,Close}Bracket
@@ -9,7 +10,6 @@ Call{,Indirect}
 Declare
 Else
 End
-Error
 Export
 Global{,Get,Set}
 Identifier
@@ -31,7 +31,7 @@ Result
 Return
 Select
 Start
-String{{Start,End}Quote,{Non,Hex,Tab,Newline,Return,Quote,Apostrophe,Backslash,Unicode}Escape,InvalidCharacter}
+String{{Start,End}Quote,{Non,Hex,Tab,Newline,Return,Quote,Apostrophe,Backslash,Unicode}Escape,InvalidCharacterError}
 Table{,Copy,Fill,Get,Grow,Initiate,Set,Size}
 Type
 Unreachable
