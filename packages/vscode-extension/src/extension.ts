@@ -295,6 +295,8 @@ vscode.languages.registerDocumentSemanticTokensProvider({ language: `wat` }, {
 						addDiagnostic(`Invalid character${token.size > 1 ? `s` : ``}.`)
 					else if (token.tag == TokenTag.UnterminatedStringError)
 						addDiagnostic(`Unterminated string literal.`)
+					else if (token.tag == TokenTag.StringInvalidCharacterError)
+						addDiagnostic(`Invalid string character.`)
 
 					if (TOKENS[token.tag]) {
 						const pushToken = (range: vscode.Range) =>
