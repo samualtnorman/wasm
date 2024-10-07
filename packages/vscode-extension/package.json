@@ -19,6 +19,16 @@
 				"command": "webassembly-ide.debug-print-tokens",
 				"title": "WebAssembly IDE: Debug Print Tokens"
 			}
+		],
+		"semanticTokenScopes": [
+			{
+				"language": "wat",
+				"scopes": {
+					"stringEscape": [
+						"constant.character.escape"
+					]
+				}
+			}
 		]
 	},
 	"dependencies": {

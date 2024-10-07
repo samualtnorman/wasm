@@ -7,7 +7,7 @@ import { commands, Diagnostic, Range, window, type ExtensionContext } from "vsco
 const tokenTypes = [
 	`namespace`, `class`, `enum`, `interface`, `struct`, `typeParameter`, `type`, `parameter`, `variable`, `property`,
 	`enumMember`, `decorator`, `event`, `function`, `method`, `macro`, `label`, `comment`, `string`, `keyword`,
-	`number`, `regexp`, `operator`, `punctuation`, `storage.type`, `invalid`
+	`number`, `regexp`, `operator`, `punctuation`, `storage.type`, `invalid`, `stringEscape`
 ] as const satisfies string[]
 
 const tokenModifiers = [
@@ -99,7 +99,6 @@ const TOKENS: Record<
 	[TokenTag.Result]: { tokenType: `keyword` },
 	[TokenTag.Return]: { tokenType: `keyword` },
 	[TokenTag.Select]: { tokenType: `keyword` },
-	[TokenTag.String]: { tokenType: `string` },
 	[TokenTag.TableCopy]: { tokenType: `keyword` },
 	[TokenTag.TableFill]: { tokenType: `keyword` },
 	[TokenTag.TableGet]: { tokenType: `keyword` },
@@ -259,7 +258,18 @@ const TOKENS: Record<
 	[TokenTag.Start]: { tokenType: `keyword`, tokenModifiers: [ `declaration` ] },
 	[TokenTag.Table]: { tokenType: `keyword`, tokenModifiers: [ `declaration` ] },
 	[TokenTag.Type]: { tokenType: `keyword`, tokenModifiers: [ `declaration` ] },
-	[TokenTag.Error]: { tokenType: `invalid` }
+	[TokenTag.Error]: { tokenType: `invalid` },
+	[TokenTag.StringHexEscape]: { tokenType: `stringEscape` },
+	[TokenTag.StringTabEscape]: { tokenType: `stringEscape` },
+	[TokenTag.StringQuoteEscape]: { tokenType: `stringEscape` },
+	[TokenTag.StringReturnEscape]: { tokenType: `stringEscape` },
+	[TokenTag.StringNewlineEscape]: { tokenType: `stringEscape` },
+	[TokenTag.StringBackslashEscape]: { tokenType: `stringEscape` },
+	[TokenTag.StringUnicodeEscape]: { tokenType: `stringEscape` },
+	[TokenTag.StringApostropheEscape]: { tokenType: `stringEscape` },
+	[TokenTag.StringStartQuote]: { tokenType: `string` },
+	[TokenTag.StringEndQuote]: { tokenType: `string` },
+	[TokenTag.StringNonEscape]: { tokenType: `string` },
 }
 
 const diagnosticCollection = vscode.languages.createDiagnosticCollection(`wat`)
