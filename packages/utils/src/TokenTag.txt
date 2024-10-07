@@ -31,7 +31,7 @@ Result
 Return
 Select
 Start
-String{,{Non,Hex,Tab,Newline,Return,Quote,Apostrophe,Backslash,Unicode}Escape,InvalidCharacter}
+String{{Start,End}Quote,{Non,Hex,Tab,Newline,Return,Quote,Apostrophe,Backslash,Unicode}Escape,InvalidCharacter}
 Table{,Copy,Fill,Get,Grow,Initiate,Set,Size}
 Type
 Unreachable

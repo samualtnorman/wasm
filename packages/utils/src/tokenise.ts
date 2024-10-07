@@ -423,6 +423,8 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 		}
 
 		if (Quote()) {
+			yield Token(TokenTag.StringStartQuote, startIndex)
+
 			while (true) {
 				const stringElementStart = index
 				const Token = (tag: TokenTag) => ({ tag, index: stringElementStart, size: index - stringElementStart })
@@ -445,15 +447,15 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 					yield Token(TokenTag.StringBackslashEscape)
 				else if (StringUnicodeEscape())
 					yield Token(TokenTag.StringUnicodeEscape)
-				else if (Quote())
+				else if (Quote()) {
+					yield Token(TokenTag.StringEndQuote)
 					break
-				else {
+				} else {
 					yield Token(TokenTag.StringInvalidCharacter)
 					break
 				}
 			}
 
-			yield Token(TokenTag.String, startIndex)
 			continue
 		}
 
@@ -534,6 +536,7 @@ if (import.meta.vitest) {
 
 	test(`string`, () =>
 		expect([ ...tokenise(String.raw`"a\00\t\n\r\"\'\\\u{0}"`) ]).toMatchObject([
+			{ tag: TokenTag.StringStartQuote, size: 1 },
 			{ tag: TokenTag.StringNonEscape, size: 1 },
 			{ tag: TokenTag.StringHexEscape, size: 3 },
 			{ tag: TokenTag.StringTabEscape, size: 2 },
@@ -543,7 +546,7 @@ if (import.meta.vitest) {
 			{ tag: TokenTag.StringApostropheEscape, size: 2 },
 			{ tag: TokenTag.StringBackslashEscape, size: 2 },
 			{ tag: TokenTag.StringUnicodeEscape, size: 5 },
-			{ tag: TokenTag.String, size: 23 },
+			{ tag: TokenTag.StringEndQuote, size: 1 },
 		])
 	)
 
@@ -555,8 +558,7 @@ if (import.meta.vitest) {
 			const token = tokens[index]!
 			const nextToken = tokens[index + 1]!
 
-			if (nextToken.tag != TokenTag.String)
-				expect(token.index + token.size).toBeLessThanOrEqual(nextToken.index)
+			expect(token.index + token.size).toBeLessThanOrEqual(nextToken.index)
 		}
 
 		expect(lastTokenIndex).toBeLessThanOrEqual(code.length)

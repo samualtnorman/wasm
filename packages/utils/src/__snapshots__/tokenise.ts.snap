@@ -45,6 +45,7 @@ exports[`signed integer 1`] = `Number "+123" 0`;
 exports[`tokenise wasi hello world 1`] = `
 OpenBracket "(" 3
 Import "import" 4
+StringStartQuote "\\"" 11
 StringNonEscape "w" 12
 StringNonEscape "a" 13
 StringNonEscape "s" 14
@@ -58,7 +59,8 @@ StringNonEscape "a" 21
 StringNonEscape "b" 22
 StringNonEscape "l" 23
 StringNonEscape "e" 24
-String "\\"wasi_unstable\\"" 11
+StringEndQuote "\\"" 25
+StringStartQuote "\\"" 27
 StringNonEscape "f" 28
 StringNonEscape "d" 29
 StringNonEscape "_" 30
@@ -67,7 +69,7 @@ StringNonEscape "r" 32
 StringNonEscape "i" 33
 StringNonEscape "t" 34
 StringNonEscape "e" 35
-String "\\"fd_write\\"" 27
+StringEndQuote "\\"" 36
 OpenBracket "(" 38
 Function "func" 39
 Identifier "$fd_write" 44
@@ -90,13 +92,14 @@ Number "1" 104
 CloseBracket ")" 105
 OpenBracket "(" 109
 Export "export" 110
+StringStartQuote "\\"" 117
 StringNonEscape "m" 118
 StringNonEscape "e" 119
 StringNonEscape "m" 120
 StringNonEscape "o" 121
 StringNonEscape "r" 122
 StringNonEscape "y" 123
-String "\\"memory\\"" 117
+StringEndQuote "\\"" 124
 OpenBracket "(" 126
 Memory "memory" 127
 Number "0" 134
@@ -109,8 +112,9 @@ OpenBracket "(" 162
 Integer32Constant "i32.const" 163
 Number "0" 173
 CloseBracket ")" 174
+StringStartQuote "\\"" 176
 StringHexEscape "\\\\08" 177
-String "\\"\\\\08\\"" 176
+StringEndQuote "\\"" 180
 CloseBracket ")" 181
 LineComment ";; pointer to string\\n" 183
 OpenBracket "(" 206
@@ -119,8 +123,9 @@ OpenBracket "(" 212
 Integer32Constant "i32.const" 213
 Number "4" 223
 CloseBracket ")" 224
+StringStartQuote "\\"" 226
 StringHexEscape "\\\\0e" 227
-String "\\"\\\\0e\\"" 226
+StringEndQuote "\\"" 230
 CloseBracket ")" 231
 LineComment ";; length of string\\n" 233
 OpenBracket "(" 255
@@ -129,6 +134,7 @@ OpenBracket "(" 261
 Integer32Constant "i32.const" 262
 Number "8" 272
 CloseBracket ")" 273
+StringStartQuote "\\"" 275
 StringNonEscape "H" 276
 StringNonEscape "e" 277
 StringNonEscape "l" 278
@@ -143,7 +149,7 @@ StringNonEscape "l" 286
 StringNonEscape "d" 287
 StringNonEscape "!" 288
 StringNewlineEscape "\\\\n" 289
-String "\\"Hello, World!\\\\n\\"" 275
+StringEndQuote "\\"" 291
 CloseBracket ")" 292
 OpenBracket "(" 297
 Global "global" 298
@@ -158,13 +164,14 @@ OpenBracket "(" 335
 Function "func" 336
 OpenBracket "(" 341
 Export "export" 342
+StringStartQuote "\\"" 349
 StringNonEscape "_" 350
 StringNonEscape "s" 351
 StringNonEscape "t" 352
 StringNonEscape "a" 353
 StringNonEscape "r" 354
 StringNonEscape "t" 355
-String "\\"_start\\"" 349
+StringEndQuote "\\"" 356
 CloseBracket ")" 357
 OpenBracket "(" 362
 Drop "drop" 363
