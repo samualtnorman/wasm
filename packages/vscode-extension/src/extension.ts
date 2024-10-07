@@ -324,17 +324,21 @@ vscode.languages.registerDocumentSemanticTokensProvider({ language: `wat` }, {
 
 export function activate(context: ExtensionContext) {
 	context.subscriptions.push(commands.registerCommand(`webassembly-ide.debug-print-tokens`, () => {
-		if (!window.activeTextEditor) {
-			outputChannel.appendLine(`No active text editor`)
-			return
+		try {
+			if (!window.activeTextEditor) {
+				outputChannel.appendLine(`No active text editor`)
+				return
+			}
+
+			outputChannel.show()
+			outputChannel.appendLine(`Printing tokens for ${window.activeTextEditor.document.fileName}:`)
+
+			const code = window.activeTextEditor.document.getText()
+
+			for (const token of tokenise(code))
+				outputChannel.appendLine(tokenToDebugString(token, code))
+		} catch (error) {
+			printError(error)
 		}
-
-		outputChannel.show()
-		outputChannel.appendLine(`Printing tokens for ${window.activeTextEditor.document.fileName}:`)
-
-		const code = window.activeTextEditor.document.getText()
-
-		for (const token of tokenise(code))
-			outputChannel.appendLine(tokenToDebugString(token, code))
 	}))
 }
