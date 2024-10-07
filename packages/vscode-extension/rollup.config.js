@@ -17,7 +17,7 @@ export default /** @satisfies {import("rollup").RollupOptions} */ ({
 				[ babelPresetTypescript, { allowDeclareFields: true, optimizeConstEnums: true } ]
 			]
 		}),
-		nodeResolve({ extensions: [ ".ts", ".js" ] }),
+		nodeResolve({ extensions: [ ".ts", ".js" ], exportConditions: [ "node" ] }),
 		terser({ compress: { passes: Infinity }, maxWorkers: Math.floor(cpus().length / 2), ecma: 2020 })
 	],
 	strictDeprecations: true,
