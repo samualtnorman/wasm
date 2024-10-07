@@ -284,7 +284,9 @@ vscode.languages.registerDocumentSemanticTokensProvider({ language: `wat` }, {
 			const tokensBuilder = new vscode.SemanticTokensBuilder(legend)
 			const diagnostics: vscode.Diagnostic[] = []
 
-			for (const token of tokenise(document.getText())) {
+			tokens ||= [ ...tokenise(document.getText()) ]
+
+			for (const token of tokens) {
 				try {
 					const start = document.positionAt(token.index)
 					const end = document.positionAt(token.index + token.size)
@@ -341,7 +343,9 @@ export function activate(context: ExtensionContext) {
 
 				const code = window.activeTextEditor.document.getText()
 
-				for (const token of tokenise(code))
+				tokens ||= [ ...tokenise(code) ]
+
+				for (const token of tokens)
 					outputChannel.appendLine(tokenToDebugString(token, code))
 			} catch (error) {
 				printError(error)
