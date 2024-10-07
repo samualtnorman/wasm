@@ -18,11 +18,7 @@ export default /** @satisfies {import("rollup").RollupOptions} */ ({
 			]
 		}),
 		nodeResolve({ extensions: [ ".ts", ".js" ] }),
-		terser({
-			compress: { passes: Infinity },
-			maxWorkers: Math.floor(cpus().length / 2),
-			ecma: 2020
-		})
+		terser({ compress: { passes: Infinity }, maxWorkers: Math.floor(cpus().length / 2), ecma: 2020 })
 	],
 	strictDeprecations: true,
 	treeshake: { moduleSideEffects: false }
