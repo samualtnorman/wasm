@@ -288,11 +288,11 @@ vscode.languages.registerDocumentSemanticTokensProvider({ language: `wat` }, {
 					const start = document.positionAt(token.index)
 					const end = document.positionAt(token.index + token.size)
 
-					if (token.tag == TokenTag.Error) {
-						diagnostics.push(
-							new Diagnostic(new Range(start, end), `Invalid character${token.size > 1 ? `s` : ``}.`)
-						)
-					}
+					const addDiagnostic = (message: string) =>
+						diagnostics.push(new Diagnostic(new Range(start, end), message))
+
+					if (token.tag == TokenTag.Error)
+						addDiagnostic(`Invalid character${token.size > 1 ? `s` : ``}.`)
 
 					if (TOKENS[token.tag]) {
 						const pushToken = (range: vscode.Range) =>
