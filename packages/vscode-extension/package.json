@@ -1,5 +1,6 @@
 {
 	"name": "webassembly-ide",
+	"publisher": "samual",
 	"displayName": "WebAssembly IDE",
 	"description": "IDE features for WebAssembly and WebAssembly Text Format",
 	"version": "0.0.1",
