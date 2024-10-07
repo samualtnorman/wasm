@@ -1,8 +1,7 @@
 import { Token, tokenise } from "@samual/wasm-utils/dist/tokenise"
 import { TokenTag } from "@samual/wasm-utils/dist/TokenTag"
 import { tokenToDebugString } from "@samual/wasm-utils/dist/tokenToDebugString"
-import * as vscode from "vscode"
-import { commands, Diagnostic, Hover, languages, Range, window, workspace, type ExtensionContext } from "vscode"
+import { commands, Diagnostic, Hover, languages, Range, SemanticTokensBuilder, SemanticTokensLegend, window, workspace, type ExtensionContext } from "vscode"
 
 const tokenTypes = [
 	`namespace`, `class`, `enum`, `interface`, `struct`, `typeParameter`, `type`, `parameter`, `variable`, `property`,
@@ -15,8 +14,8 @@ const tokenModifiers = [
 	`documentation`, `defaultLibrary`
 ] as const satisfies string[]
 
-const legend = new vscode.SemanticTokensLegend(tokenTypes, tokenModifiers)
-const outputChannel = vscode.window.createOutputChannel(`WebAssembly IDE`)
+const legend = new SemanticTokensLegend(tokenTypes, tokenModifiers)
+const outputChannel = window.createOutputChannel(`WebAssembly IDE`)
 
 const TOKENS: Record<
 	TokenTag,
@@ -271,18 +270,18 @@ const TOKENS: Record<
 	[TokenTag.StringNonEscape]: { tokenType: `string` },
 }
 
-const diagnosticCollection = vscode.languages.createDiagnosticCollection(`wat`)
+const diagnosticCollection = languages.createDiagnosticCollection(`wat`)
 
 const printError = (error: unknown) =>
 	outputChannel.appendLine(`Caught ${(error instanceof Error && error.stack) || String(error)}`)
 
 let tokens: Token[] | undefined
 
-vscode.languages.registerDocumentSemanticTokensProvider({ language: `wat` }, {
+languages.registerDocumentSemanticTokensProvider({ language: `wat` }, {
 	provideDocumentSemanticTokens(document) {
 		try {
-			const tokensBuilder = new vscode.SemanticTokensBuilder(legend)
-			const diagnostics: vscode.Diagnostic[] = []
+			const tokensBuilder = new SemanticTokensBuilder(legend)
+			const diagnostics: Diagnostic[] = []
 
 			tokens ||= [ ...tokenise(document.getText()) ]
 
@@ -302,7 +301,7 @@ vscode.languages.registerDocumentSemanticTokensProvider({ language: `wat` }, {
 						addDiagnostic(`Invalid string character.`)
 
 					if (TOKENS[token.tag]) {
-						const pushToken = (range: vscode.Range) =>
+						const pushToken = (range: Range) =>
 							tokensBuilder.push(range, TOKENS[token.tag]!.tokenType, TOKENS[token.tag]!.tokenModifiers)
 
 						if (start.line != end.line) {
@@ -313,7 +312,7 @@ vscode.languages.registerDocumentSemanticTokensProvider({ language: `wat` }, {
 
 							pushToken(document.lineAt(end.line).range.with({ end }))
 						} else
-							pushToken(new vscode.Range(start, end))
+							pushToken(new Range(start, end))
 					}
 				} catch (error) {
 					printError(error)
