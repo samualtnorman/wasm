@@ -274,6 +274,9 @@ const TOKENS: Record<
 
 const diagnosticCollection = vscode.languages.createDiagnosticCollection(`wat`)
 
+const printError = (error: unknown) =>
+	outputChannel.appendLine(`Caught ${(error instanceof Error && error.stack) || String(error)}`)
+
 vscode.languages.registerDocumentSemanticTokensProvider({ language: `wat` }, {
 	provideDocumentSemanticTokens(document) {
 		try {
@@ -306,7 +309,7 @@ vscode.languages.registerDocumentSemanticTokensProvider({ language: `wat` }, {
 							pushToken(new vscode.Range(start, end))
 					}
 				} catch (error) {
-					outputChannel.appendLine(`Caught ${(error instanceof Error && error.stack) || String(error)}`)
+					printError(error)
 				}
 			}
 
@@ -314,7 +317,7 @@ vscode.languages.registerDocumentSemanticTokensProvider({ language: `wat` }, {
 
 			return tokensBuilder.build()
 		} catch (error) {
-			outputChannel.appendLine(`Caught ${(error instanceof Error && error.stack) || String(error)}`)
+			printError(error)
 		}
 	}
 }, legend)
