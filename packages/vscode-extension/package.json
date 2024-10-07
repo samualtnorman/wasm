@@ -27,6 +27,9 @@
 				"scopes": {
 					"stringEscape": [
 						"constant.character.escape"
+					],
+					"invalid": [
+						"invalid"
 					]
 				}
 			}
