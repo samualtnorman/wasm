@@ -1,8 +1,8 @@
-import { tokenise } from "@samual/wasm-utils/dist/tokenise"
+import { Token, tokenise } from "@samual/wasm-utils/dist/tokenise"
 import { TokenTag } from "@samual/wasm-utils/dist/TokenTag"
 import { tokenToDebugString } from "@samual/wasm-utils/dist/tokenToDebugString"
 import * as vscode from "vscode"
-import { commands, Diagnostic, Range, window, type ExtensionContext } from "vscode"
+import { commands, Diagnostic, Hover, languages, Range, window, workspace, type ExtensionContext } from "vscode"
 
 const tokenTypes = [
 	`namespace`, `class`, `enum`, `interface`, `struct`, `typeParameter`, `type`, `parameter`, `variable`, `property`,
@@ -16,7 +16,6 @@ const tokenModifiers = [
 ] as const satisfies string[]
 
 const legend = new vscode.SemanticTokensLegend(tokenTypes, tokenModifiers)
-
 const outputChannel = vscode.window.createOutputChannel(`WebAssembly IDE`)
 
 const TOKENS: Record<
@@ -277,6 +276,8 @@ const diagnosticCollection = vscode.languages.createDiagnosticCollection(`wat`)
 const printError = (error: unknown) =>
 	outputChannel.appendLine(`Caught ${(error instanceof Error && error.stack) || String(error)}`)
 
+let tokens: Token[] | undefined
+
 vscode.languages.registerDocumentSemanticTokensProvider({ language: `wat` }, {
 	provideDocumentSemanticTokens(document) {
 		try {
@@ -327,22 +328,38 @@ vscode.languages.registerDocumentSemanticTokensProvider({ language: `wat` }, {
 }, legend)
 
 export function activate(context: ExtensionContext) {
-	context.subscriptions.push(commands.registerCommand(`webassembly-ide.debug-print-tokens`, () => {
-		try {
-			if (!window.activeTextEditor) {
-				outputChannel.appendLine(`No active text editor`)
-				return
+	context.subscriptions.push(
+		commands.registerCommand(`webassembly-ide.debug-print-tokens`, () => {
+			try {
+				if (!window.activeTextEditor) {
+					outputChannel.appendLine(`No active text editor`)
+					return
+				}
+
+				outputChannel.show()
+				outputChannel.appendLine(`Printing tokens for ${window.activeTextEditor.document.fileName}:`)
+
+				const code = window.activeTextEditor.document.getText()
+
+				for (const token of tokenise(code))
+					outputChannel.appendLine(tokenToDebugString(token, code))
+			} catch (error) {
+				printError(error)
 			}
+		}),
+		workspace.onDidChangeTextDocument(() => tokens = undefined),
+		languages.registerHoverProvider({ language: `wat` }, {
+			provideHover(document, position) {
+				const code = document.getText()
+				const index = document.offsetAt(position)
 
-			outputChannel.show()
-			outputChannel.appendLine(`Printing tokens for ${window.activeTextEditor.document.fileName}:`)
+				tokens ||= [ ...tokenise(code) ]
 
-			const code = window.activeTextEditor.document.getText()
+				const token = tokens.find(token => index < token.index + token.size)
 
-			for (const token of tokenise(code))
-				outputChannel.appendLine(tokenToDebugString(token, code))
-		} catch (error) {
-			printError(error)
-		}
-	}))
+				if (token && index >= token.index)
+					return new Hover(`${index} ${tokenToDebugString(token, code)}`)
+			}
+		})
+	)
 }
