@@ -491,6 +491,11 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 					yield Token(TokenTag.StringEndQuote)
 					break
 				} else {
+					if (Newline()) {
+						yield Token(TokenTag.UnterminatedStringError)
+						break
+					}
+
 					index++
 					yield Token(TokenTag.StringInvalidCharacterError)
 				}
@@ -597,6 +602,13 @@ if (import.meta.vitest) {
 		{ tag: TokenTag.StringStartQuote, index: 0, size: 1 },
 		{ tag: TokenTag.StringInvalidCharacterError, index: 1, size: 1 },
 		{ tag: TokenTag.StringEndQuote, index: 2, size: 1 }
+	]))
+
+	test(`assume string ended on newline`, () => expect([ ...tokenise(`\"a\ni32`)]).toMatchObject([
+		{ tag: TokenTag.StringStartQuote, index: 0, size: 1 },
+		{ tag: TokenTag.StringNonEscape, index: 1, size: 1 },
+		{ tag: TokenTag.UnterminatedStringError, index: 2, size: 1 },
+		{ tag: TokenTag.Integer32, index: 3, size: 3 }
 	]))
 
 	function check(code: string) {
