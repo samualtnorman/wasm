@@ -1,9 +1,10 @@
 #!node_modules/.bin/rollup --config
 import babelPresetTypescript from "@babel/preset-typescript"
 import { babel } from "@rollup/plugin-babel"
+import json from "@rollup/plugin-json"
+import { nodeResolve } from "@rollup/plugin-node-resolve"
 import terser from "@rollup/plugin-terser"
 import { cpus } from "os"
-import { nodeResolve } from "@rollup/plugin-node-resolve"
 
 export default /** @satisfies {import("rollup").RollupOptions} */ ({
 	input: `src/extension.ts`,
@@ -18,6 +19,7 @@ export default /** @satisfies {import("rollup").RollupOptions} */ ({
 			]
 		}),
 		nodeResolve({ extensions: [ ".ts", ".js" ], exportConditions: [ "node" ] }),
+		json({ preferConst: true }),
 		terser({ compress: { passes: Infinity }, maxWorkers: Math.floor(cpus().length / 2), ecma: 2020 })
 	],
 	strictDeprecations: true,
