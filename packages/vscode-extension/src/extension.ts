@@ -298,7 +298,8 @@ const TOKENS = Object.fromEntries(Object.entries({
 	Vector128Store16Lane: { tokenType: `storeKeyword` },
 	Vector128Store32Lane: { tokenType: `storeKeyword` },
 	Vector128Store64Lane: { tokenType: `storeKeyword` },
-	Vector128Store8Lane: { tokenType: `storeKeyword` }
+	Vector128Store8Lane: { tokenType: `storeKeyword` },
+	StringInvalidEscapeError: { tokenType: `error` }
 } satisfies Record<
 	keyof typeof TokenTag,
 	{ tokenType: keyof typeof contributes.semanticTokenScopes[0]["scopes"], tokenModifiers?: typeof tokenModifiers[number][] } | undefined
@@ -333,6 +334,8 @@ languages.registerDocumentSemanticTokensProvider({ language: `wat` }, {
 						addDiagnostic(`Unterminated string literal.`)
 					else if (token.tag == TokenTag.StringInvalidCharacterError)
 						addDiagnostic(`Invalid string character.`)
+					else if (token.tag == TokenTag.StringInvalidEscapeError)
+						addDiagnostic(`Invalid string escape.`)
 
 					if (TOKENS[token.tag]) {
 						const pushToken = (range: Range) =>
