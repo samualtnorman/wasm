@@ -611,6 +611,13 @@ if (import.meta.vitest) {
 		{ tag: TokenTag.Integer32, index: 3, size: 3 }
 	]))
 
+	test(`invalid string escape`, () => expect([ ...tokenise(`"a\\ "`)]).toMatchObject([
+		{ tag: TokenTag.StringStartQuote, index: 0, size: 1 },
+		{ tag: TokenTag.StringNonEscape, index: 1, size: 1 },
+		{ tag: TokenTag.StringInvalidEscapeError, index: 2, size: 2 },
+		{ tag: TokenTag.StringEndQuote, index: 4, size: 1 }
+	]))
+
 	function check(code: string) {
 		const tokens = [ ...tokenise(code) ]
 		const lastTokenIndex = tokens.length - 1

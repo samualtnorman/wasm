@@ -31,7 +31,6 @@ Result
 Return
 Select
 Start
-String{{Start,End}Quote,{Non,Hex,Tab,Newline,Return,Quote,Apostrophe,Backslash,Unicode}Escape,InvalidCharacterError}
 Table{,Copy,Fill,Get,Grow,Initiate,Set,Size}
 Type
 Unreachable
@@ -88,4 +87,10 @@ Integer{
 	16x8{,Splat},
 	32x4{,Splat},
 	64x2{,Splat}
+}
+
+String{
+	{Non,Hex,Tab,Newline,Return,Quote,Apostrophe,Backslash,Unicode}Escape,
+	{Start,End}Quote,
+	Invalid{Character,Escape}Error
 }
