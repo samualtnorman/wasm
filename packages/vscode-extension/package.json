@@ -41,10 +41,12 @@
 						"keyword.control.start.wat"
 					],
 					"stringStartQuote": [
-						"punctuation.definition.string.begin.wat"
+						"punctuation.definition.string.begin.wat",
+						"string.quoted.double.wat"
 					],
 					"stringEndQuote": [
-						"punctuation.definition.string.end.wat"
+						"punctuation.definition.string.end.wat",
+						"string.quoted.double.wat"
 					],
 					"string": [
 						"string.quoted.double.wat"
