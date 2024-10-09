@@ -40,7 +40,7 @@
 		{
 			"label": "VSCode Extension: Emit package.json",
 			"type": "shell",
-			"command": "${workspaceFolder}/packages/vscode-extension/scripts/emit-package-json.js",
+			"command": "node ${workspaceFolder}/packages/vscode-extension/scripts/emit-package-json.js",
 			"options": { "cwd": "${workspaceFolder}/packages/vscode-extension" },
 			"problemMatcher": [],
 			"group": "build",
