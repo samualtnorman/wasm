@@ -1,4 +1,4 @@
-import { Token, tokenise } from "@samual/wasm-utils/dist/tokenise"
+import { tokenise, type Token } from "@samual/wasm-utils/dist/tokenise"
 import { TokenTag } from "@samual/wasm-utils/dist/TokenTag"
 import { tokenToDebugString } from "@samual/wasm-utils/dist/tokenToDebugString"
 import { commands, Diagnostic, Hover, languages, Range, SemanticTokensBuilder, SemanticTokensLegend, window, workspace, type ExtensionContext } from "vscode"
