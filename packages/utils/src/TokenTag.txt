@@ -92,5 +92,5 @@ Integer{
 String{
 	{Non,Hex,Tab,Newline,Return,Quote,Apostrophe,Backslash,Unicode}Escape,
 	{Start,End}Quote,
-	Invalid{Character,Escape}Error
+	Invalid{Character,{,Unicode}Escape}Error
 }

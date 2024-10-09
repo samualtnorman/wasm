@@ -389,7 +389,17 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 	const CharacterR = terminal(`r`)
 	const CharacterApostrophe = terminal(`'`)
 	const CharacterBackslash = terminal(`\\`)
-	const StringUnicodeEscapeAfterBackslash = sequence(terminal(`u{`), HexNumber, terminal(`}`))
+	const CharacterU = terminal(`u`)
+	const CharacterOpenSquigglyBracket = terminal(`{`)
+	const CharacterCloseSquigglyBracket = terminal(`}`)
+
+	const CharacterCloseSquigglyBracketBeforeStringEnds = sequence(
+		many(condition(() =>
+			code[index]! >= `\x20` && code[index]! != `\x7F` && code[index] != `"` && code[index] != `\\` &&
+			code[index] != `}`
+		)),
+		CharacterCloseSquigglyBracket
+	)
 
 	const Quote = terminal(`"`)
 	const Identifier = sequence(terminal(`$`), many(IdentifierCharacter))
@@ -484,9 +494,18 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 						yield Token(TokenTag.StringApostropheEscape)
 					else if (CharacterBackslash())
 						yield Token(TokenTag.StringBackslashEscape)
-					else if (StringUnicodeEscapeAfterBackslash())
-						yield Token(TokenTag.StringUnicodeEscape)
-					else {
+					else if (CharacterU()) {
+						if (!CharacterOpenSquigglyBracket())
+							yield Token(TokenTag.StringInvalidUnicodeEscapeError)
+						else if (HexNumber() && CharacterCloseSquigglyBracket())
+							yield Token(TokenTag.StringUnicodeEscape)
+						else if (CharacterCloseSquigglyBracket())
+							yield Token(TokenTag.StringInvalidUnicodeEscapeError)
+						else {
+							CharacterCloseSquigglyBracketBeforeStringEnds()
+							yield Token(TokenTag.StringInvalidUnicodeEscapeError)
+						}
+					} else {
 						index++
 						yield Token(TokenTag.StringInvalidEscapeError)
 					}
@@ -622,6 +641,34 @@ if (import.meta.vitest) {
 		{ tag: TokenTag.StringInvalidEscapeError, index: 2, size: 2 },
 		{ tag: TokenTag.StringEndQuote, index: 4, size: 1 }
 	]))
+
+	test(`invalid string unicode escape`, () => {
+		expect([ ...tokenise(`"\\u "`) ]).toMatchObject([
+			{ tag: TokenTag.StringStartQuote, index: 0, size: 1 },
+			{ tag: TokenTag.StringInvalidUnicodeEscapeError, index: 1, size: 2 },
+			{ tag: TokenTag.StringNonEscape, index: 3, size: 1 },
+			{ tag: TokenTag.StringEndQuote, index: 4, size: 1 }
+		])
+
+		expect([ ...tokenise(`"\\u{ "`)]).toMatchObject([
+			{ tag: TokenTag.StringStartQuote, index: 0, size: 1 },
+			{ tag: TokenTag.StringInvalidUnicodeEscapeError, index: 1, size: 3 },
+			{ tag: TokenTag.StringNonEscape, index: 4, size: 1 },
+			{ tag: TokenTag.StringEndQuote, index: 5, size: 1 }
+		])
+
+		expect([ ...tokenise(`"\\u{0 }"`)]).toMatchObject([
+			{ tag: TokenTag.StringStartQuote, index: 0, size: 1 },
+			{ tag: TokenTag.StringInvalidUnicodeEscapeError, index: 1, size: 6 },
+			{ tag: TokenTag.StringEndQuote, index: 7, size: 1 }
+		])
+
+		expect([ ...tokenise(`"\\u{}"`)]).toMatchObject([
+			{ tag: TokenTag.StringStartQuote, index: 0, size: 1 },
+			{ tag: TokenTag.StringInvalidUnicodeEscapeError, index: 1, size: 4 },
+			{ tag: TokenTag.StringEndQuote, index: 5, size: 1 }
+		])
+	})
 
 	function check(code: string) {
 		const tokens = [ ...tokenise(code) ]
