@@ -382,6 +382,7 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 	const StringNonEscape =
 		condition(() => code[index]! >= `\x20` && code[index]! != `\x7F` && code[index] != `"` && code[index] != `\\`)
 
+	const StringNonEscapes = many(StringNonEscape)
 	const Backslash = terminal(`\\`)
 	const DoubleHexDigits = sequence(HexDigit, HexDigit)
 	const CharacterT = terminal(`t`)
@@ -509,7 +510,7 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 						index++
 						yield Token(TokenTag.StringInvalidEscapeError)
 					}
-				} else if (StringNonEscape())
+				} else if (StringNonEscapes())
 					yield Token(TokenTag.StringNonEscape)
 				else if (Quote()) {
 					yield Token(TokenTag.StringEndQuote)
@@ -668,6 +669,12 @@ if (import.meta.vitest) {
 			{ tag: TokenTag.StringEndQuote, index: 5, size: 1 }
 		])
 	})
+
+	test(`collapse multiple non escape tokens into one token`, () => expectTokens(`"foo"`).toMatchObject([
+		{ tag: TokenTag.StringStartQuote, index: 0, size: 1 },
+		{ tag: TokenTag.StringNonEscape, index: 1, size: 3 },
+		{ tag: TokenTag.StringEndQuote, index: 4, size: 1 }
+	]))
 
 	function check(code: string) {
 		const tokens = [ ...tokenise(code) ]
