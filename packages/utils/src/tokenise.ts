@@ -552,11 +552,10 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 
 if (import.meta.vitest) {
 	const { test, expect } = import.meta.vitest
+	const expectTokens = (code: string) => expect([ ...tokenise(code) ])
 
-	expect.addSnapshotSerializer({
-		serialize: v => v,
-		test: _ => true
-	})
+	expect.addSnapshotSerializer({ serialize: v => v, test: _ => true })
+
 
 	test(`tokenise wasi hello world`, () => check(`
 		(import "wasi_unstable" "fd_write" (func $fd_write (param i32 i32 i32 i32) (result i32)))
@@ -600,10 +599,10 @@ if (import.meta.vitest) {
 	test(`error then keyword`, () => check(`,i32`))
 
 	test(`error before whitespace does not include whitespace`, () =>
-		expect([ ...tokenise(`, 0`) ]).toMatchObject([ { tag: TokenTag.Error, size: 1 }, { tag: TokenTag.Number, size: 1 } ])
+		expectTokens(`, 0`).toMatchObject([ { tag: TokenTag.Error, size: 1 }, { tag: TokenTag.Number, size: 1 } ])
 	)
 
-	test(`string`, () => expect([ ...tokenise(String.raw`"a\00\t\n\r\"\'\\\u{0}"`) ]).toMatchObject([
+	test(`string`, () => expectTokens(String.raw`"a\00\t\n\r\"\'\\\u{0}"`).toMatchObject([
 		{ tag: TokenTag.StringStartQuote, size: 1 },
 		{ tag: TokenTag.StringNonEscape, size: 1 },
 		{ tag: TokenTag.StringHexEscape, size: 3 },
@@ -617,25 +616,25 @@ if (import.meta.vitest) {
 		{ tag: TokenTag.StringEndQuote, size: 1 },
 	]))
 
-	test(`untermianted string`, () => expect([ ...tokenise(`"`) ]).toMatchObject([
+	test(`untermianted string`, () => expectTokens(`"`).toMatchObject([
 		{ tag: TokenTag.StringStartQuote, index: 0, size: 1 },
 		{ tag: TokenTag.UnterminatedStringError, index: 1, size: 0 }
 	]))
 
-	test(`string invalid character`, () => expect([ ...tokenise(`"\0"`) ]).toMatchObject([
+	test(`string invalid character`, () => expectTokens(`"\0"`).toMatchObject([
 		{ tag: TokenTag.StringStartQuote, index: 0, size: 1 },
 		{ tag: TokenTag.StringInvalidCharacterError, index: 1, size: 1 },
 		{ tag: TokenTag.StringEndQuote, index: 2, size: 1 }
 	]))
 
-	test(`assume string ended on newline`, () => expect([ ...tokenise(`\"a\ni32`)]).toMatchObject([
+	test(`assume string ended on newline`, () => expectTokens(`\"a\ni32`).toMatchObject([
 		{ tag: TokenTag.StringStartQuote, index: 0, size: 1 },
 		{ tag: TokenTag.StringNonEscape, index: 1, size: 1 },
 		{ tag: TokenTag.UnterminatedStringError, index: 2, size: 1 },
 		{ tag: TokenTag.Integer32, index: 3, size: 3 }
 	]))
 
-	test(`invalid string escape`, () => expect([ ...tokenise(`"a\\ "`)]).toMatchObject([
+	test(`invalid string escape`, () => expectTokens(`"a\\ "`).toMatchObject([
 		{ tag: TokenTag.StringStartQuote, index: 0, size: 1 },
 		{ tag: TokenTag.StringNonEscape, index: 1, size: 1 },
 		{ tag: TokenTag.StringInvalidEscapeError, index: 2, size: 2 },
@@ -643,27 +642,27 @@ if (import.meta.vitest) {
 	]))
 
 	test(`invalid string unicode escape`, () => {
-		expect([ ...tokenise(`"\\u "`) ]).toMatchObject([
+		expectTokens(`"\\u "`).toMatchObject([
 			{ tag: TokenTag.StringStartQuote, index: 0, size: 1 },
 			{ tag: TokenTag.StringInvalidUnicodeEscapeError, index: 1, size: 2 },
 			{ tag: TokenTag.StringNonEscape, index: 3, size: 1 },
 			{ tag: TokenTag.StringEndQuote, index: 4, size: 1 }
 		])
 
-		expect([ ...tokenise(`"\\u{ "`)]).toMatchObject([
+		expectTokens(`"\\u{ "`).toMatchObject([
 			{ tag: TokenTag.StringStartQuote, index: 0, size: 1 },
 			{ tag: TokenTag.StringInvalidUnicodeEscapeError, index: 1, size: 3 },
 			{ tag: TokenTag.StringNonEscape, index: 4, size: 1 },
 			{ tag: TokenTag.StringEndQuote, index: 5, size: 1 }
 		])
 
-		expect([ ...tokenise(`"\\u{0 }"`)]).toMatchObject([
+		expectTokens(`"\\u{0 }"`).toMatchObject([
 			{ tag: TokenTag.StringStartQuote, index: 0, size: 1 },
 			{ tag: TokenTag.StringInvalidUnicodeEscapeError, index: 1, size: 6 },
 			{ tag: TokenTag.StringEndQuote, index: 7, size: 1 }
 		])
 
-		expect([ ...tokenise(`"\\u{}"`)]).toMatchObject([
+		expectTokens(`"\\u{}"`).toMatchObject([
 			{ tag: TokenTag.StringStartQuote, index: 0, size: 1 },
 			{ tag: TokenTag.StringInvalidUnicodeEscapeError, index: 1, size: 4 },
 			{ tag: TokenTag.StringEndQuote, index: 5, size: 1 }
