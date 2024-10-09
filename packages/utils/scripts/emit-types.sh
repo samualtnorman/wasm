@@ -1,2 +1,2 @@
 #!/bin/sh
-node_modules/.bin/tsc --project src --declaration --emitDeclarationOnly --noEmit false --outDir dist $@
+node_modules/.bin/tsc --project src --noCheck --declaration --emitDeclarationOnly --noEmit false --outDir dist $@
