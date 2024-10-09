@@ -5,6 +5,8 @@
 	"description": "IDE features for WebAssembly and WebAssembly Text Format",
 	"version": "0.0.1",
 	"engines": {
+		"node": "^22",
+		"pnpm": "^9",
 		"vscode": "^1.92.0"
 	},
 	"categories": [
