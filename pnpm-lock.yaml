@@ -83,7 +83,7 @@ importers:
         specifier: ^22.7.4
         version: 22.7.4
       '@types/vscode':
-        specifier: ^1.93.0
+        specifier: ^1.92.0
         version: 1.94.0
       rollup:
         specifier: ^4.24.0
