@@ -18,20 +18,23 @@ const members = readFileSync(target, { encoding: "utf8" })
 	.sort()
 
 const code = `\
-declare enum ${enumName}Enum { ${members.join(`, `)} }
-
-export const ${enumName} = {
-${members.map((name, index) =>
-	`\t${name}: ${index + 1} as ${enumName}Enum.${name},`
-).join(`\n`)}
-}
+declare enum ${enumName}Enum {\n\t${members.join(`,\n\t`)}\n}
 
 export type ${enumName} = ${enumName}Enum
+export type ${enumName}Name = keyof typeof ${enumName}Enum
 
 export namespace ${enumName} {
 ${members.map(name =>
-	`\texport type ${name} = typeof ${enumName}.${name}`
+	`\texport type ${name} = ${enumName}Enum.${name}`
 ).join(`\n`)}
+}
+
+export const ${enumName}: { [K in ${enumName}Name]: typeof ${enumName}Enum[K] } = {
+${members.map((name, index) => `\t${name}: ${index + 1},`).join(`\n`)}
+}
+
+export const ${enumName}sToNames: Record<number, string> = {
+${members.map((name, index) => `\t${index + 1}: "${name}",`).join(`\n`)}
 }
 `
 
