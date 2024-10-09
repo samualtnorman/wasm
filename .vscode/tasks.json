@@ -4,12 +4,53 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"label": "Build Extension",
+			"label": "Utils: Rollup Dev",
 			"type": "shell",
-			"command": "${workspaceFolder}/packages/vscode-extension/node_modules/.bin/rollup --config && scripts/emit-package-json.js",
-			"options": {
-				"cwd": "${workspaceFolder}/packages/vscode-extension"
-			}
+			"command": "${workspaceFolder}/packages/utils/node_modules/.bin/rollup --config --watch",
+			"options": { "cwd": "${workspaceFolder}/packages/utils" },
+			"problemMatcher": "$rollup-ts-watch",
+			"group": "build",
+			"runOptions": { "runOn": "folderOpen", "instanceLimit": 1 },
+			"presentation": { "reveal": "silent" },
+			"isBackground": true
+		},
+		{
+			"label": "Utils: Emit Types Dev",
+			"type": "shell",
+			"command": "${workspaceFolder}/packages/utils/scripts/emit-types.sh --watch",
+			"options": { "cwd": "${workspaceFolder}/packages/utils" },
+			"problemMatcher": "$tsc-watch",
+			"group": "build",
+			"runOptions": { "runOn": "folderOpen", "instanceLimit": 1 },
+			"presentation": { "reveal": "silent" },
+			"isBackground": true
+		},
+		{
+			"label": "VSCode Extension: Rollup Dev",
+			"type": "shell",
+			"command": "${workspaceFolder}/packages/vscode-extension/node_modules/.bin/rollup --config --watch",
+			"options": { "cwd": "${workspaceFolder}/packages/vscode-extension" },
+			"problemMatcher": "$rollup-ts-watch",
+			"group": "build",
+			"runOptions": { "runOn": "folderOpen", "instanceLimit": 1 },
+			"presentation": { "reveal": "silent" },
+			"isBackground": true,
+			"dependsOn": "Utils: Rollup Dev"
+		},
+		{
+			"label": "VSCode Extension: Emit package.json",
+			"type": "shell",
+			"command": "${workspaceFolder}/packages/vscode-extension/scripts/emit-package-json.js",
+			"options": { "cwd": "${workspaceFolder}/packages/vscode-extension" },
+			"problemMatcher": [],
+			"group": "build",
+			"runOptions": { "instanceLimit": 1 },
+			"presentation": { "reveal": "silent" },
+			"isBackground": true
+		},
+		{
+			"label": "Run Extension Pre Launch",
+			"dependsOn": [ "VSCode Extension: Rollup Dev", "VSCode Extension: Emit package.json" ]
 		}
 	]
 }

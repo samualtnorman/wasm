@@ -13,7 +13,7 @@
 				"--extensionDevelopmentPath=${workspaceFolder}/packages/vscode-extension/dist",
 				"--disable-extensions"
 			],
-			"preLaunchTask": "Build Extension"
+			"preLaunchTask": "Run Extension Pre Launch"
 		}
 	]
 }
