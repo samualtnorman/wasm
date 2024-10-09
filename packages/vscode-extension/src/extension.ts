@@ -313,61 +313,6 @@ const printError = (error: unknown) =>
 
 let tokens: Token[] | undefined
 
-languages.registerDocumentSemanticTokensProvider({ language: `wat` }, {
-	provideDocumentSemanticTokens(document) {
-		try {
-			const tokensBuilder = new SemanticTokensBuilder(legend)
-			const diagnostics: Diagnostic[] = []
-
-			tokens ||= [ ...tokenise(document.getText()) ]
-
-			for (const token of tokens) {
-				try {
-					const start = document.positionAt(token.index)
-					const end = document.positionAt(token.index + token.size)
-
-					const addDiagnostic = (message: string) =>
-						diagnostics.push(new Diagnostic(new Range(start, end), message))
-
-					if (token.tag == TokenTag.Error)
-						addDiagnostic(`Invalid character${token.size > 1 ? `s` : ``}.`)
-					else if (token.tag == TokenTag.UnterminatedStringError)
-						addDiagnostic(`Unterminated string literal.`)
-					else if (token.tag == TokenTag.StringInvalidCharacterError)
-						addDiagnostic(`Invalid string character.`)
-					else if (token.tag == TokenTag.StringInvalidEscapeError)
-						addDiagnostic(`Invalid string escape.`)
-					else if (token.tag == TokenTag.StringInvalidUnicodeEscapeError)
-						addDiagnostic(`Invalid string unicode escape.`)
-
-					if (TOKENS[token.tag]) {
-						const pushToken = (range: Range) =>
-							tokensBuilder.push(range, TOKENS[token.tag]!.tokenType, TOKENS[token.tag]!.tokenModifiers)
-
-						if (start.line != end.line) {
-							pushToken(document.lineAt(start.line).range.with({ start }))
-
-							for (let line = start.line + 1; line < end.line; line++)
-								pushToken(document.lineAt(line).range)
-
-							pushToken(document.lineAt(end.line).range.with({ end }))
-						} else
-							pushToken(new Range(start, end))
-					}
-				} catch (error) {
-					printError(error)
-				}
-			}
-
-			diagnosticCollection.set(document.uri, diagnostics)
-
-			return tokensBuilder.build()
-		} catch (error) {
-			printError(error)
-		}
-	}
-}, legend)
-
 export function activate(context: ExtensionContext) {
 	context.subscriptions.push(
 		commands.registerCommand(`webassembly-ide.debug-print-tokens`, () => {
@@ -391,6 +336,60 @@ export function activate(context: ExtensionContext) {
 			}
 		}),
 		workspace.onDidChangeTextDocument(() => tokens = undefined),
+		languages.registerDocumentSemanticTokensProvider({ language: `wat` }, {
+			provideDocumentSemanticTokens(document) {
+				try {
+					const tokensBuilder = new SemanticTokensBuilder(legend)
+					const diagnostics: Diagnostic[] = []
+
+					tokens ||= [ ...tokenise(document.getText()) ]
+
+					for (const token of tokens) {
+						try {
+							const start = document.positionAt(token.index)
+							const end = document.positionAt(token.index + token.size)
+
+							const addDiagnostic = (message: string) =>
+								diagnostics.push(new Diagnostic(new Range(start, end), message))
+
+							if (token.tag == TokenTag.Error)
+								addDiagnostic(`Invalid character${token.size > 1 ? `s` : ``}.`)
+							else if (token.tag == TokenTag.UnterminatedStringError)
+								addDiagnostic(`Unterminated string literal.`)
+							else if (token.tag == TokenTag.StringInvalidCharacterError)
+								addDiagnostic(`Invalid string character.`)
+							else if (token.tag == TokenTag.StringInvalidEscapeError)
+								addDiagnostic(`Invalid string escape.`)
+							else if (token.tag == TokenTag.StringInvalidUnicodeEscapeError)
+								addDiagnostic(`Invalid string unicode escape.`)
+
+							if (TOKENS[token.tag]) {
+								const pushToken = (range: Range) =>
+									tokensBuilder.push(range, TOKENS[token.tag]!.tokenType, TOKENS[token.tag]!.tokenModifiers)
+
+								if (start.line != end.line) {
+									pushToken(document.lineAt(start.line).range.with({ start }))
+
+									for (let line = start.line + 1; line < end.line; line++)
+										pushToken(document.lineAt(line).range)
+
+									pushToken(document.lineAt(end.line).range.with({ end }))
+								} else
+									pushToken(new Range(start, end))
+							}
+						} catch (error) {
+							printError(error)
+						}
+					}
+
+					diagnosticCollection.set(document.uri, diagnostics)
+
+					return tokensBuilder.build()
+				} catch (error) {
+					printError(error)
+				}
+			}
+		}, legend),
 		languages.registerHoverProvider({ language: `wat` }, {
 			provideHover(document, position) {
 				const code = document.getText()
@@ -403,6 +402,8 @@ export function activate(context: ExtensionContext) {
 				if (token && index >= token.index)
 					return new Hover(`${index} ${tokenToDebugString(token, code)}`)
 			}
-		})
+		}),
+		outputChannel,
+		diagnosticCollection
 	)
 }
