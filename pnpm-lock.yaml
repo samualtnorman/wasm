@@ -56,10 +56,6 @@ importers:
         version: 5.6.2
 
   packages/vscode-extension:
-    dependencies:
-      '@samual/wasm-utils':
-        specifier: workspace:*
-        version: link:../utils
     devDependencies:
       '@babel/preset-typescript':
         specifier: ^7.25.7
@@ -76,6 +72,9 @@ importers:
       '@rollup/plugin-terser':
         specifier: ^0.4.4
         version: 0.4.4(rollup@4.24.0)
+      '@samual/wasm-utils':
+        specifier: workspace:*
+        version: link:../utils
       '@total-typescript/ts-reset':
         specifier: ^0.6.1
         version: 0.6.1
