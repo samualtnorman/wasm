@@ -1,18 +1,18 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`align=0 1`] = `
-AlignEquals "align=" 0
+KeywordAlignEquals "align=" 0
 Number "0" 6
 `;
 
 exports[`assume string ended on newline 1`] = `
 StringStartQuote "\\"" 0
 StringNonEscape "a" 1
-UnterminatedStringError "\\n" 2
-Integer32 "i32" 3
+ErrorStringUnterminated "\\n" 2
+KeywordInteger32 "i32" 3
 `;
 
-exports[`collapse error tokens 1`] = `Error ",," 0`;
+exports[`collapse error tokens 1`] = `ErrorInvalidCharacter ",," 0`;
 
 exports[`collapse multiple non escape tokens into one token 1`] = `
 StringStartQuote "\\"" 0
@@ -21,18 +21,18 @@ StringEndQuote "\\"" 4
 `;
 
 exports[`error before whitespace does not include whitespace 1`] = `
-Error "," 0
+ErrorInvalidCharacter "," 0
 Number "0" 2
 `;
 
 exports[`error then keyword 1`] = `
-Error "," 0
-Integer32 "i32" 1
+ErrorInvalidCharacter "," 0
+KeywordInteger32 "i32" 1
 `;
 
-exports[`error token 1`] = `Error "," 0`;
+exports[`error token 1`] = `ErrorInvalidCharacter "," 0`;
 
-exports[`funci32 1`] = `Keyword "funci32" 0`;
+exports[`funci32 1`] = `UnknownKeyword "funci32" 0`;
 
 exports[`hex 1`] = `Number "0x1" 0`;
 
@@ -41,39 +41,39 @@ exports[`hex exponent 1`] = `Number "0x1p1" 0`;
 exports[`invalid string escape 1`] = `
 StringStartQuote "\\"" 0
 StringNonEscape "a" 1
-StringInvalidEscapeError "\\\\ " 2
+ErrorStringInvalidEscape "\\\\ " 2
 StringEndQuote "\\"" 4
 `;
 
 exports[`invalid string unicode escape 1`] = `
 StringStartQuote "\\"" 0
-StringInvalidUnicodeEscapeError "\\\\u" 1
+ErrorStringInvalidUnicodeEscape "\\\\u" 1
 StringNonEscape " " 3
 StringEndQuote "\\"" 4
 `;
 
 exports[`invalid string unicode escape 2`] = `
 StringStartQuote "\\"" 0
-StringInvalidUnicodeEscapeError "\\\\u{" 1
+ErrorStringInvalidUnicodeEscape "\\\\u{" 1
 StringNonEscape " " 4
 StringEndQuote "\\"" 5
 `;
 
 exports[`invalid string unicode escape 3`] = `
 StringStartQuote "\\"" 0
-StringInvalidUnicodeEscapeError "\\\\u{0 }" 1
+ErrorStringInvalidUnicodeEscape "\\\\u{0 }" 1
 StringEndQuote "\\"" 7
 `;
 
 exports[`invalid string unicode escape 4`] = `
 StringStartQuote "\\"" 0
-StringInvalidUnicodeEscapeError "\\\\u{}" 1
+ErrorStringInvalidUnicodeEscape "\\\\u{}" 1
 StringEndQuote "\\"" 5
 `;
 
-exports[`line comment 1`] = `LineComment ";;" 0`;
+exports[`line comment 1`] = `CommentLine ";;" 0`;
 
-exports[`nested comment 1`] = `BlockComment "(; a (; b ;) c ;)" 0`;
+exports[`nested comment 1`] = `CommentBlock "(; a (; b ;) c ;)" 0`;
 
 exports[`number 1`] = `Number "3." 0`;
 
@@ -82,13 +82,13 @@ exports[`number with exponent 1`] = `Number "1e2" 0`;
 exports[`number with fraction 1`] = `Number "3.5" 0`;
 
 exports[`offset=0 1`] = `
-OffsetEquals "offset=" 0
+KeywordOffsetEquals "offset=" 0
 Number "0" 7
 `;
 
 exports[`seperate error tokens around whitespace 1`] = `
-Error "," 0
-Error "," 2
+ErrorInvalidCharacter "," 0
+ErrorInvalidCharacter "," 2
 `;
 
 exports[`signed integer 1`] = `Number "+123" 0`;
@@ -109,130 +109,130 @@ StringEndQuote "\\"" 22
 
 exports[`string invalid character 1`] = `
 StringStartQuote "\\"" 0
-StringInvalidCharacterError "\\u0000" 1
+ErrorStringInvalidCharacter "\\u0000" 1
 StringEndQuote "\\"" 2
 `;
 
 exports[`tokenise wasi hello world 1`] = `
-OpenBracket "(" 3
-Import "import" 4
+BracketOpen "(" 3
+KeywordImport "import" 4
 StringStartQuote "\\"" 11
 StringNonEscape "wasi_unstable" 12
 StringEndQuote "\\"" 25
 StringStartQuote "\\"" 27
 StringNonEscape "fd_write" 28
 StringEndQuote "\\"" 36
-OpenBracket "(" 38
-Function "func" 39
+BracketOpen "(" 38
+KeywordFunction "func" 39
 Identifier "$fd_write" 44
-OpenBracket "(" 54
-Parameter "param" 55
-Integer32 "i32" 61
-Integer32 "i32" 65
-Integer32 "i32" 69
-Integer32 "i32" 73
-CloseBracket ")" 76
-OpenBracket "(" 78
-Result "result" 79
-Integer32 "i32" 86
-CloseBracket ")" 89
-CloseBracket ")" 90
-CloseBracket ")" 91
-OpenBracket "(" 96
-Memory "memory" 97
+BracketOpen "(" 54
+KeywordParameter "param" 55
+KeywordInteger32 "i32" 61
+KeywordInteger32 "i32" 65
+KeywordInteger32 "i32" 69
+KeywordInteger32 "i32" 73
+BracketClose ")" 76
+BracketOpen "(" 78
+KeywordResult "result" 79
+KeywordInteger32 "i32" 86
+BracketClose ")" 89
+BracketClose ")" 90
+BracketClose ")" 91
+BracketOpen "(" 96
+KeywordMemory "memory" 97
 Number "1" 104
-CloseBracket ")" 105
-OpenBracket "(" 109
-Export "export" 110
+BracketClose ")" 105
+BracketOpen "(" 109
+KeywordExport "export" 110
 StringStartQuote "\\"" 117
 StringNonEscape "memory" 118
 StringEndQuote "\\"" 124
-OpenBracket "(" 126
-Memory "memory" 127
+BracketOpen "(" 126
+KeywordMemory "memory" 127
 Number "0" 134
-CloseBracket ")" 135
-CloseBracket ")" 136
-LineComment ";; io vector\\n" 141
-OpenBracket "(" 156
-Data "data" 157
-OpenBracket "(" 162
-Integer32Constant "i32.const" 163
+BracketClose ")" 135
+BracketClose ")" 136
+CommentLine ";; io vector\\n" 141
+BracketOpen "(" 156
+KeywordData "data" 157
+BracketOpen "(" 162
+KeywordInteger32Constant "i32.const" 163
 Number "0" 173
-CloseBracket ")" 174
+BracketClose ")" 174
 StringStartQuote "\\"" 176
 StringHexEscape "\\\\08" 177
 StringEndQuote "\\"" 180
-CloseBracket ")" 181
-LineComment ";; pointer to string\\n" 183
-OpenBracket "(" 206
-Data "data" 207
-OpenBracket "(" 212
-Integer32Constant "i32.const" 213
+BracketClose ")" 181
+CommentLine ";; pointer to string\\n" 183
+BracketOpen "(" 206
+KeywordData "data" 207
+BracketOpen "(" 212
+KeywordInteger32Constant "i32.const" 213
 Number "4" 223
-CloseBracket ")" 224
+BracketClose ")" 224
 StringStartQuote "\\"" 226
 StringHexEscape "\\\\0e" 227
 StringEndQuote "\\"" 230
-CloseBracket ")" 231
-LineComment ";; length of string\\n" 233
-OpenBracket "(" 255
-Data "data" 256
-OpenBracket "(" 261
-Integer32Constant "i32.const" 262
+BracketClose ")" 231
+CommentLine ";; length of string\\n" 233
+BracketOpen "(" 255
+KeywordData "data" 256
+BracketOpen "(" 261
+KeywordInteger32Constant "i32.const" 262
 Number "8" 272
-CloseBracket ")" 273
+BracketClose ")" 273
 StringStartQuote "\\"" 275
 StringNonEscape "Hello, World!" 276
 StringNewlineEscape "\\\\n" 289
 StringEndQuote "\\"" 291
-CloseBracket ")" 292
-OpenBracket "(" 297
-Global "global" 298
+BracketClose ")" 292
+BracketOpen "(" 297
+KeywordGlobal "global" 298
 Identifier "$stdout" 305
-Integer32 "i32" 313
-OpenBracket "(" 317
-Integer32Constant "i32.const" 318
+KeywordInteger32 "i32" 313
+BracketOpen "(" 317
+KeywordInteger32Constant "i32.const" 318
 Number "1" 328
-CloseBracket ")" 329
-CloseBracket ")" 330
-OpenBracket "(" 335
-Function "func" 336
-OpenBracket "(" 341
-Export "export" 342
+BracketClose ")" 329
+BracketClose ")" 330
+BracketOpen "(" 335
+KeywordFunction "func" 336
+BracketOpen "(" 341
+KeywordExport "export" 342
 StringStartQuote "\\"" 349
 StringNonEscape "_start" 350
 StringEndQuote "\\"" 356
-CloseBracket ")" 357
-OpenBracket "(" 362
-Drop "drop" 363
-OpenBracket "(" 372
-Call "call" 373
+BracketClose ")" 357
+BracketOpen "(" 362
+KeywordDrop "drop" 363
+BracketOpen "(" 372
+KeywordCall "call" 373
 Identifier "$fd_write" 378
-OpenBracket "(" 393
-GlobalGet "global.get" 394
+BracketOpen "(" 393
+KeywordGlobalGet "global.get" 394
 Identifier "$stdout" 405
-CloseBracket ")" 412
-OpenBracket "(" 419
-Integer32Constant "i32.const" 420
+BracketClose ")" 412
+BracketOpen "(" 419
+KeywordInteger32Constant "i32.const" 420
 Number "0" 430
-CloseBracket ")" 431
-LineComment ";; pointer to io vector\\n" 433
-OpenBracket "(" 462
-Integer32Constant "i32.const" 463
+BracketClose ")" 431
+CommentLine ";; pointer to io vector\\n" 433
+BracketOpen "(" 462
+KeywordInteger32Constant "i32.const" 463
 Number "1" 473
-CloseBracket ")" 474
-LineComment ";; length of io vector\\n" 476
-OpenBracket "(" 504
-Integer32Constant "i32.const" 505
+BracketClose ")" 474
+CommentLine ";; length of io vector\\n" 476
+BracketOpen "(" 504
+KeywordInteger32Constant "i32.const" 505
 Number "20" 515
-CloseBracket ")" 517
-LineComment ";; where to store number of bytes written\\n" 519
-CloseBracket ")" 565
-CloseBracket ")" 570
-CloseBracket ")" 574
+BracketClose ")" 517
+CommentLine ";; where to store number of bytes written\\n" 519
+BracketClose ")" 565
+BracketClose ")" 570
+BracketClose ")" 574
 `;
 
 exports[`untermianted string 1`] = `
 StringStartQuote "\\"" 0
-UnterminatedStringError "" 1
+ErrorStringUnterminated "" 1
 `;

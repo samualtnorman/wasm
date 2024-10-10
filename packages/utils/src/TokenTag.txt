@@ -1,96 +1,96 @@
-{,Data,Element}{,Drop}
-{,UnterminatedString}Error
-{Function,External}{,Reference}
-{Line,Block}Comment
-{Open,Close}Bracket
-AlignEquals
-Block
-Branch{,If,Table}
-Call{,Indirect}
-Declare
-Else
-End
-Export
-Global{,Get,Set}
+Keyword{
+	AlignEquals,
+	Block,
+	Branch{,If,Table},
+	Call{,Indirect},
+	Data{,Drop},
+	Declare,
+	Drop,
+	Element{,Drop},
+	Else,
+	End,
+	Export,
+	Global{,Get,Set},
+	If,
+	Import,
+	Item,
+	{Function,External}{,Reference},
+	Local{,Get,Set,Tee},
+	Loop,
+	Memory{,Size,Grow,Fill,Copy,Initiate},
+	Module,
+	Mutable,
+	NoOperation,
+	Offset{,Equals},
+	Parameter,
+	Reference{Function,{,Is}Null},
+	Result,
+	Return,
+	Select,
+	Start,
+	Table{,Copy,Fill,Get,Grow,Initiate,Set,Size},
+	Type,
+	Unreachable,
+	Vector128{,Load{,{8x8,16x4,32x2}{S,Uns}igned,{8,16,32,64}{Splat,Lane},{32,64}Zero},Store{,{8,16,32,64}Lane},Const},
+
+	Float{
+		{32,64}{,
+			{,Not}Equals,
+			{Less,Greater}Than{,OrEquals},
+			Absolute,
+			Add,
+			Ceiling,
+			Constant,
+			ConvertInteger{32,64}{S,Uns}igned,
+			CopySign,
+			Divide,
+			Floor,
+			Load,
+			M{in,ax}imum,
+			Multiply,
+			Nearest,
+			Negate,
+			SquareRoot,
+			Store,
+			Subtract,
+			Truncate
+		},
+		32{DemoteFloat64,ReinterpretInteger32,x4},
+		64{PromoteFloat32,ReinterpretInteger64,x2}
+	},
+
+	Integer{
+		{32,64}{,
+			{Count{Leading,Trailing},PopCountNon}Zeros,
+			{Divide,Remainder,ShiftRight,{Less,Greater}Than{,OrEquals},Truncate{,Saturate}Float{32,64}}{S,Uns}igned,
+			Add,
+			And,
+			Constant,
+			Equals{,Zero},
+			Extend{8,16}Signed,
+			Load{,{8,16}{S,Uns}igned},
+			Multiply,
+			NotEqual,
+			Or,
+			Rotate{Left,Right},
+			ShiftLeft,
+			Store{,8,16},
+			Subtract,
+			Xor
+		},
+		32{WrapInteger64,ReinterpretFloat32},
+		64{{Load,ExtendInteger}32{S,Uns}igned,Store32,ReinterpretFloat64,Extend32Signed},
+		8x16{,Splat,Shuffle,Swizzle},
+		16x8{,Splat},
+		32x4{,Splat},
+		64x2{,Splat}
+	}
+}
+
+Bracket{Open,Close}
+Comment{Line,Block}
+Error{InvalidCharacter,String{Unterminated,Invalid{Character,{,Unicode}Escape}}}
 Identifier
-If
-Import
-Item
-Keyword
-Local{,Get,Set,Tee}
-Loop
-Memory{,Size,Grow,Fill,Copy,Initiate}
-Module
-Mutable
-NoOperation
 Number
-Offset{,Equals}
-Parameter
-Reference{Function,{,Is}Null}
-Result
-Return
-Select
-Start
-Table{,Copy,Fill,Get,Grow,Initiate,Set,Size}
-Type
-Unreachable
-Vector128{,Load{,{8x8,16x4,32x2}{S,Uns}igned,{8,16,32,64}{Splat,Lane},{32,64}Zero},Store{,{8,16,32,64}Lane},Const}
-
-Float{
-	{32,64}{,
-		{,Not}Equals,
-		{Less,Greater}Than{,OrEquals},
-		Absolute,
-		Add,
-		Ceiling,
-		Constant,
-		ConvertInteger{32,64}{S,Uns}igned,
-		CopySign,
-		Divide,
-		Floor,
-		Load,
-		M{in,ax}imum,
-		Multiply,
-		Nearest,
-		Negate,
-		SquareRoot,
-		Store,
-		Subtract,
-		Truncate
-	},
-	32{DemoteFloat64,ReinterpretInteger32,x4},
-	64{PromoteFloat32,ReinterpretInteger64,x2}
-}
-
-Integer{
-	{32,64}{,
-		{Count{Leading,Trailing},PopCountNon}Zeros,
-		{Divide,Remainder,ShiftRight,{Less,Greater}Than{,OrEquals},Truncate{,Saturate}Float{32,64}}{S,Uns}igned,
-		Add,
-		And,
-		Constant,
-		Equals{,Zero},
-		Extend{8,16}Signed,
-		Load{,{8,16}{S,Uns}igned},
-		Multiply,
-		NotEqual,
-		Or,
-		Rotate{Left,Right},
-		ShiftLeft,
-		Store{,8,16},
-		Subtract,
-		Xor
-	},
-	32{WrapInteger64,ReinterpretFloat32},
-	64{{Load,ExtendInteger}32{S,Uns}igned,Store32,ReinterpretFloat64,Extend32Signed},
-	8x16{,Splat,Shuffle,Swizzle},
-	16x8{,Splat},
-	32x4{,Splat},
-	64x2{,Splat}
-}
-
-String{
-	{Non,Hex,Tab,Newline,Return,Quote,Apostrophe,Backslash,Unicode}Escape,
-	{Start,End}Quote,
-	Invalid{Character,{,Unicode}Escape}Error
-}
+String{{Non,Hex,Tab,Newline,Return,Quote,Apostrophe,Backslash,Unicode}Escape,{Start,End}Quote}
+UnknownKeyword

@@ -1,248 +1,282 @@
 declare enum TokenTagEnum {
-	AlignEquals,
-	Block,
-	BlockComment,
-	Branch,
-	BranchIf,
-	BranchTable,
-	Call,
-	CallIndirect,
-	CloseBracket,
-	Data,
-	DataDrop,
-	Declare,
-	Drop,
-	Element,
-	ElementDrop,
-	Else,
-	End,
-	Error,
-	Export,
-	External,
-	ExternalReference,
-	Float32,
-	Float32Absolute,
-	Float32Add,
-	Float32Ceiling,
-	Float32Constant,
-	Float32ConvertInteger32Signed,
-	Float32ConvertInteger32Unsigned,
-	Float32ConvertInteger64Signed,
-	Float32ConvertInteger64Unsigned,
-	Float32CopySign,
-	Float32DemoteFloat64,
-	Float32Divide,
-	Float32Equals,
-	Float32Floor,
-	Float32GreaterThan,
-	Float32GreaterThanOrEquals,
-	Float32LessThan,
-	Float32LessThanOrEquals,
-	Float32Load,
-	Float32Maximum,
-	Float32Minimum,
-	Float32Multiply,
-	Float32Nearest,
-	Float32Negate,
-	Float32NotEquals,
-	Float32ReinterpretInteger32,
-	Float32SquareRoot,
-	Float32Store,
-	Float32Subtract,
-	Float32Truncate,
-	Float32x4,
-	Float64,
-	Float64Absolute,
-	Float64Add,
-	Float64Ceiling,
-	Float64Constant,
-	Float64ConvertInteger32Signed,
-	Float64ConvertInteger32Unsigned,
-	Float64ConvertInteger64Signed,
-	Float64ConvertInteger64Unsigned,
-	Float64CopySign,
-	Float64Divide,
-	Float64Equals,
-	Float64Floor,
-	Float64GreaterThan,
-	Float64GreaterThanOrEquals,
-	Float64LessThan,
-	Float64LessThanOrEquals,
-	Float64Load,
-	Float64Maximum,
-	Float64Minimum,
-	Float64Multiply,
-	Float64Nearest,
-	Float64Negate,
-	Float64NotEquals,
-	Float64PromoteFloat32,
-	Float64ReinterpretInteger64,
-	Float64SquareRoot,
-	Float64Store,
-	Float64Subtract,
-	Float64Truncate,
-	Float64x2,
-	Function,
-	FunctionReference,
-	Global,
-	GlobalGet,
-	GlobalSet,
+	BracketClose,
+	BracketOpen,
+	CommentBlock,
+	CommentLine,
+	ErrorInvalidCharacter,
+	ErrorStringInvalidCharacter,
+	ErrorStringInvalidEscape,
+	ErrorStringInvalidUnicodeEscape,
+	ErrorStringUnterminated,
 	Identifier,
-	If,
-	Import,
-	Integer16x8,
-	Integer16x8Splat,
-	Integer32,
-	Integer32Add,
-	Integer32And,
-	Integer32Constant,
-	Integer32CountLeadingZeros,
-	Integer32CountTrailingZeros,
-	Integer32DivideSigned,
-	Integer32DivideUnsigned,
-	Integer32Equals,
-	Integer32EqualsZero,
-	Integer32Extend16Signed,
-	Integer32Extend8Signed,
-	Integer32GreaterThanOrEqualsSigned,
-	Integer32GreaterThanOrEqualsUnsigned,
-	Integer32GreaterThanSigned,
-	Integer32GreaterThanUnsigned,
-	Integer32LessThanOrEqualsSigned,
-	Integer32LessThanOrEqualsUnsigned,
-	Integer32LessThanSigned,
-	Integer32LessThanUnsigned,
-	Integer32Load,
-	Integer32Load16Signed,
-	Integer32Load16Unsigned,
-	Integer32Load8Signed,
-	Integer32Load8Unsigned,
-	Integer32Multiply,
-	Integer32NotEqual,
-	Integer32Or,
-	Integer32PopCountNonZeros,
-	Integer32ReinterpretFloat32,
-	Integer32RemainderSigned,
-	Integer32RemainderUnsigned,
-	Integer32RotateLeft,
-	Integer32RotateRight,
-	Integer32ShiftLeft,
-	Integer32ShiftRightSigned,
-	Integer32ShiftRightUnsigned,
-	Integer32Store,
-	Integer32Store16,
-	Integer32Store8,
-	Integer32Subtract,
-	Integer32TruncateFloat32Signed,
-	Integer32TruncateFloat32Unsigned,
-	Integer32TruncateFloat64Signed,
-	Integer32TruncateFloat64Unsigned,
-	Integer32TruncateSaturateFloat32Signed,
-	Integer32TruncateSaturateFloat32Unsigned,
-	Integer32TruncateSaturateFloat64Signed,
-	Integer32TruncateSaturateFloat64Unsigned,
-	Integer32WrapInteger64,
-	Integer32Xor,
-	Integer32x4,
-	Integer32x4Splat,
-	Integer64,
-	Integer64Add,
-	Integer64And,
-	Integer64Constant,
-	Integer64CountLeadingZeros,
-	Integer64CountTrailingZeros,
-	Integer64DivideSigned,
-	Integer64DivideUnsigned,
-	Integer64Equals,
-	Integer64EqualsZero,
-	Integer64Extend16Signed,
-	Integer64Extend32Signed,
-	Integer64Extend8Signed,
-	Integer64ExtendInteger32Signed,
-	Integer64ExtendInteger32Unsigned,
-	Integer64GreaterThanOrEqualsSigned,
-	Integer64GreaterThanOrEqualsUnsigned,
-	Integer64GreaterThanSigned,
-	Integer64GreaterThanUnsigned,
-	Integer64LessThanOrEqualsSigned,
-	Integer64LessThanOrEqualsUnsigned,
-	Integer64LessThanSigned,
-	Integer64LessThanUnsigned,
-	Integer64Load,
-	Integer64Load16Signed,
-	Integer64Load16Unsigned,
-	Integer64Load32Signed,
-	Integer64Load32Unsigned,
-	Integer64Load8Signed,
-	Integer64Load8Unsigned,
-	Integer64Multiply,
-	Integer64NotEqual,
-	Integer64Or,
-	Integer64PopCountNonZeros,
-	Integer64ReinterpretFloat64,
-	Integer64RemainderSigned,
-	Integer64RemainderUnsigned,
-	Integer64RotateLeft,
-	Integer64RotateRight,
-	Integer64ShiftLeft,
-	Integer64ShiftRightSigned,
-	Integer64ShiftRightUnsigned,
-	Integer64Store,
-	Integer64Store16,
-	Integer64Store32,
-	Integer64Store8,
-	Integer64Subtract,
-	Integer64TruncateFloat32Signed,
-	Integer64TruncateFloat32Unsigned,
-	Integer64TruncateFloat64Signed,
-	Integer64TruncateFloat64Unsigned,
-	Integer64TruncateSaturateFloat32Signed,
-	Integer64TruncateSaturateFloat32Unsigned,
-	Integer64TruncateSaturateFloat64Signed,
-	Integer64TruncateSaturateFloat64Unsigned,
-	Integer64Xor,
-	Integer64x2,
-	Integer64x2Splat,
-	Integer8x16,
-	Integer8x16Shuffle,
-	Integer8x16Splat,
-	Integer8x16Swizzle,
-	Item,
-	Keyword,
-	LineComment,
-	Local,
-	LocalGet,
-	LocalSet,
-	LocalTee,
-	Loop,
-	Memory,
-	MemoryCopy,
-	MemoryFill,
-	MemoryGrow,
-	MemoryInitiate,
-	MemorySize,
-	Module,
-	Mutable,
-	NoOperation,
+	KeywordAlignEquals,
+	KeywordBlock,
+	KeywordBranch,
+	KeywordBranchIf,
+	KeywordBranchTable,
+	KeywordCall,
+	KeywordCallIndirect,
+	KeywordData,
+	KeywordDataDrop,
+	KeywordDeclare,
+	KeywordDrop,
+	KeywordElement,
+	KeywordElementDrop,
+	KeywordElse,
+	KeywordEnd,
+	KeywordExport,
+	KeywordExternal,
+	KeywordExternalReference,
+	KeywordFloat32,
+	KeywordFloat32Absolute,
+	KeywordFloat32Add,
+	KeywordFloat32Ceiling,
+	KeywordFloat32Constant,
+	KeywordFloat32ConvertInteger32Signed,
+	KeywordFloat32ConvertInteger32Unsigned,
+	KeywordFloat32ConvertInteger64Signed,
+	KeywordFloat32ConvertInteger64Unsigned,
+	KeywordFloat32CopySign,
+	KeywordFloat32DemoteFloat64,
+	KeywordFloat32Divide,
+	KeywordFloat32Equals,
+	KeywordFloat32Floor,
+	KeywordFloat32GreaterThan,
+	KeywordFloat32GreaterThanOrEquals,
+	KeywordFloat32LessThan,
+	KeywordFloat32LessThanOrEquals,
+	KeywordFloat32Load,
+	KeywordFloat32Maximum,
+	KeywordFloat32Minimum,
+	KeywordFloat32Multiply,
+	KeywordFloat32Nearest,
+	KeywordFloat32Negate,
+	KeywordFloat32NotEquals,
+	KeywordFloat32ReinterpretInteger32,
+	KeywordFloat32SquareRoot,
+	KeywordFloat32Store,
+	KeywordFloat32Subtract,
+	KeywordFloat32Truncate,
+	KeywordFloat32x4,
+	KeywordFloat64,
+	KeywordFloat64Absolute,
+	KeywordFloat64Add,
+	KeywordFloat64Ceiling,
+	KeywordFloat64Constant,
+	KeywordFloat64ConvertInteger32Signed,
+	KeywordFloat64ConvertInteger32Unsigned,
+	KeywordFloat64ConvertInteger64Signed,
+	KeywordFloat64ConvertInteger64Unsigned,
+	KeywordFloat64CopySign,
+	KeywordFloat64Divide,
+	KeywordFloat64Equals,
+	KeywordFloat64Floor,
+	KeywordFloat64GreaterThan,
+	KeywordFloat64GreaterThanOrEquals,
+	KeywordFloat64LessThan,
+	KeywordFloat64LessThanOrEquals,
+	KeywordFloat64Load,
+	KeywordFloat64Maximum,
+	KeywordFloat64Minimum,
+	KeywordFloat64Multiply,
+	KeywordFloat64Nearest,
+	KeywordFloat64Negate,
+	KeywordFloat64NotEquals,
+	KeywordFloat64PromoteFloat32,
+	KeywordFloat64ReinterpretInteger64,
+	KeywordFloat64SquareRoot,
+	KeywordFloat64Store,
+	KeywordFloat64Subtract,
+	KeywordFloat64Truncate,
+	KeywordFloat64x2,
+	KeywordFunction,
+	KeywordFunctionReference,
+	KeywordGlobal,
+	KeywordGlobalGet,
+	KeywordGlobalSet,
+	KeywordIf,
+	KeywordImport,
+	KeywordInteger16x8,
+	KeywordInteger16x8Splat,
+	KeywordInteger32,
+	KeywordInteger32Add,
+	KeywordInteger32And,
+	KeywordInteger32Constant,
+	KeywordInteger32CountLeadingZeros,
+	KeywordInteger32CountTrailingZeros,
+	KeywordInteger32DivideSigned,
+	KeywordInteger32DivideUnsigned,
+	KeywordInteger32Equals,
+	KeywordInteger32EqualsZero,
+	KeywordInteger32Extend16Signed,
+	KeywordInteger32Extend8Signed,
+	KeywordInteger32GreaterThanOrEqualsSigned,
+	KeywordInteger32GreaterThanOrEqualsUnsigned,
+	KeywordInteger32GreaterThanSigned,
+	KeywordInteger32GreaterThanUnsigned,
+	KeywordInteger32LessThanOrEqualsSigned,
+	KeywordInteger32LessThanOrEqualsUnsigned,
+	KeywordInteger32LessThanSigned,
+	KeywordInteger32LessThanUnsigned,
+	KeywordInteger32Load,
+	KeywordInteger32Load16Signed,
+	KeywordInteger32Load16Unsigned,
+	KeywordInteger32Load8Signed,
+	KeywordInteger32Load8Unsigned,
+	KeywordInteger32Multiply,
+	KeywordInteger32NotEqual,
+	KeywordInteger32Or,
+	KeywordInteger32PopCountNonZeros,
+	KeywordInteger32ReinterpretFloat32,
+	KeywordInteger32RemainderSigned,
+	KeywordInteger32RemainderUnsigned,
+	KeywordInteger32RotateLeft,
+	KeywordInteger32RotateRight,
+	KeywordInteger32ShiftLeft,
+	KeywordInteger32ShiftRightSigned,
+	KeywordInteger32ShiftRightUnsigned,
+	KeywordInteger32Store,
+	KeywordInteger32Store16,
+	KeywordInteger32Store8,
+	KeywordInteger32Subtract,
+	KeywordInteger32TruncateFloat32Signed,
+	KeywordInteger32TruncateFloat32Unsigned,
+	KeywordInteger32TruncateFloat64Signed,
+	KeywordInteger32TruncateFloat64Unsigned,
+	KeywordInteger32TruncateSaturateFloat32Signed,
+	KeywordInteger32TruncateSaturateFloat32Unsigned,
+	KeywordInteger32TruncateSaturateFloat64Signed,
+	KeywordInteger32TruncateSaturateFloat64Unsigned,
+	KeywordInteger32WrapInteger64,
+	KeywordInteger32Xor,
+	KeywordInteger32x4,
+	KeywordInteger32x4Splat,
+	KeywordInteger64,
+	KeywordInteger64Add,
+	KeywordInteger64And,
+	KeywordInteger64Constant,
+	KeywordInteger64CountLeadingZeros,
+	KeywordInteger64CountTrailingZeros,
+	KeywordInteger64DivideSigned,
+	KeywordInteger64DivideUnsigned,
+	KeywordInteger64Equals,
+	KeywordInteger64EqualsZero,
+	KeywordInteger64Extend16Signed,
+	KeywordInteger64Extend32Signed,
+	KeywordInteger64Extend8Signed,
+	KeywordInteger64ExtendInteger32Signed,
+	KeywordInteger64ExtendInteger32Unsigned,
+	KeywordInteger64GreaterThanOrEqualsSigned,
+	KeywordInteger64GreaterThanOrEqualsUnsigned,
+	KeywordInteger64GreaterThanSigned,
+	KeywordInteger64GreaterThanUnsigned,
+	KeywordInteger64LessThanOrEqualsSigned,
+	KeywordInteger64LessThanOrEqualsUnsigned,
+	KeywordInteger64LessThanSigned,
+	KeywordInteger64LessThanUnsigned,
+	KeywordInteger64Load,
+	KeywordInteger64Load16Signed,
+	KeywordInteger64Load16Unsigned,
+	KeywordInteger64Load32Signed,
+	KeywordInteger64Load32Unsigned,
+	KeywordInteger64Load8Signed,
+	KeywordInteger64Load8Unsigned,
+	KeywordInteger64Multiply,
+	KeywordInteger64NotEqual,
+	KeywordInteger64Or,
+	KeywordInteger64PopCountNonZeros,
+	KeywordInteger64ReinterpretFloat64,
+	KeywordInteger64RemainderSigned,
+	KeywordInteger64RemainderUnsigned,
+	KeywordInteger64RotateLeft,
+	KeywordInteger64RotateRight,
+	KeywordInteger64ShiftLeft,
+	KeywordInteger64ShiftRightSigned,
+	KeywordInteger64ShiftRightUnsigned,
+	KeywordInteger64Store,
+	KeywordInteger64Store16,
+	KeywordInteger64Store32,
+	KeywordInteger64Store8,
+	KeywordInteger64Subtract,
+	KeywordInteger64TruncateFloat32Signed,
+	KeywordInteger64TruncateFloat32Unsigned,
+	KeywordInteger64TruncateFloat64Signed,
+	KeywordInteger64TruncateFloat64Unsigned,
+	KeywordInteger64TruncateSaturateFloat32Signed,
+	KeywordInteger64TruncateSaturateFloat32Unsigned,
+	KeywordInteger64TruncateSaturateFloat64Signed,
+	KeywordInteger64TruncateSaturateFloat64Unsigned,
+	KeywordInteger64Xor,
+	KeywordInteger64x2,
+	KeywordInteger64x2Splat,
+	KeywordInteger8x16,
+	KeywordInteger8x16Shuffle,
+	KeywordInteger8x16Splat,
+	KeywordInteger8x16Swizzle,
+	KeywordItem,
+	KeywordLocal,
+	KeywordLocalGet,
+	KeywordLocalSet,
+	KeywordLocalTee,
+	KeywordLoop,
+	KeywordMemory,
+	KeywordMemoryCopy,
+	KeywordMemoryFill,
+	KeywordMemoryGrow,
+	KeywordMemoryInitiate,
+	KeywordMemorySize,
+	KeywordModule,
+	KeywordMutable,
+	KeywordNoOperation,
+	KeywordOffset,
+	KeywordOffsetEquals,
+	KeywordParameter,
+	KeywordReferenceFunction,
+	KeywordReferenceIsNull,
+	KeywordReferenceNull,
+	KeywordResult,
+	KeywordReturn,
+	KeywordSelect,
+	KeywordStart,
+	KeywordTable,
+	KeywordTableCopy,
+	KeywordTableFill,
+	KeywordTableGet,
+	KeywordTableGrow,
+	KeywordTableInitiate,
+	KeywordTableSet,
+	KeywordTableSize,
+	KeywordType,
+	KeywordUnreachable,
+	KeywordVector128,
+	KeywordVector128Const,
+	KeywordVector128Load,
+	KeywordVector128Load16Lane,
+	KeywordVector128Load16Splat,
+	KeywordVector128Load16x4Signed,
+	KeywordVector128Load16x4Unsigned,
+	KeywordVector128Load32Lane,
+	KeywordVector128Load32Splat,
+	KeywordVector128Load32Zero,
+	KeywordVector128Load32x2Signed,
+	KeywordVector128Load32x2Unsigned,
+	KeywordVector128Load64Lane,
+	KeywordVector128Load64Splat,
+	KeywordVector128Load64Zero,
+	KeywordVector128Load8Lane,
+	KeywordVector128Load8Splat,
+	KeywordVector128Load8x8Signed,
+	KeywordVector128Load8x8Unsigned,
+	KeywordVector128Store,
+	KeywordVector128Store16Lane,
+	KeywordVector128Store32Lane,
+	KeywordVector128Store64Lane,
+	KeywordVector128Store8Lane,
 	Number,
-	Offset,
-	OffsetEquals,
-	OpenBracket,
-	Parameter,
-	ReferenceFunction,
-	ReferenceIsNull,
-	ReferenceNull,
-	Result,
-	Return,
-	Select,
-	Start,
 	StringApostropheEscape,
 	StringBackslashEscape,
 	StringEndQuote,
 	StringHexEscape,
-	StringInvalidCharacterError,
-	StringInvalidEscapeError,
-	StringInvalidUnicodeEscapeError,
 	StringNewlineEscape,
 	StringNonEscape,
 	StringQuoteEscape,
@@ -250,291 +284,291 @@ declare enum TokenTagEnum {
 	StringStartQuote,
 	StringTabEscape,
 	StringUnicodeEscape,
-	Table,
-	TableCopy,
-	TableFill,
-	TableGet,
-	TableGrow,
-	TableInitiate,
-	TableSet,
-	TableSize,
-	Type,
-	Unreachable,
-	UnterminatedStringError,
-	Vector128,
-	Vector128Const,
-	Vector128Load,
-	Vector128Load16Lane,
-	Vector128Load16Splat,
-	Vector128Load16x4Signed,
-	Vector128Load16x4Unsigned,
-	Vector128Load32Lane,
-	Vector128Load32Splat,
-	Vector128Load32Zero,
-	Vector128Load32x2Signed,
-	Vector128Load32x2Unsigned,
-	Vector128Load64Lane,
-	Vector128Load64Splat,
-	Vector128Load64Zero,
-	Vector128Load8Lane,
-	Vector128Load8Splat,
-	Vector128Load8x8Signed,
-	Vector128Load8x8Unsigned,
-	Vector128Store,
-	Vector128Store16Lane,
-	Vector128Store32Lane,
-	Vector128Store64Lane,
-	Vector128Store8Lane
+	UnknownKeyword
 }
 
 export type TokenTag = TokenTagEnum
 export type TokenTagName = keyof typeof TokenTagEnum
 
 export namespace TokenTag {
-	export type AlignEquals = TokenTagEnum.AlignEquals
-	export type Block = TokenTagEnum.Block
-	export type BlockComment = TokenTagEnum.BlockComment
-	export type Branch = TokenTagEnum.Branch
-	export type BranchIf = TokenTagEnum.BranchIf
-	export type BranchTable = TokenTagEnum.BranchTable
-	export type Call = TokenTagEnum.Call
-	export type CallIndirect = TokenTagEnum.CallIndirect
-	export type CloseBracket = TokenTagEnum.CloseBracket
-	export type Data = TokenTagEnum.Data
-	export type DataDrop = TokenTagEnum.DataDrop
-	export type Declare = TokenTagEnum.Declare
-	export type Drop = TokenTagEnum.Drop
-	export type Element = TokenTagEnum.Element
-	export type ElementDrop = TokenTagEnum.ElementDrop
-	export type Else = TokenTagEnum.Else
-	export type End = TokenTagEnum.End
-	export type Error = TokenTagEnum.Error
-	export type Export = TokenTagEnum.Export
-	export type External = TokenTagEnum.External
-	export type ExternalReference = TokenTagEnum.ExternalReference
-	export type Float32 = TokenTagEnum.Float32
-	export type Float32Absolute = TokenTagEnum.Float32Absolute
-	export type Float32Add = TokenTagEnum.Float32Add
-	export type Float32Ceiling = TokenTagEnum.Float32Ceiling
-	export type Float32Constant = TokenTagEnum.Float32Constant
-	export type Float32ConvertInteger32Signed = TokenTagEnum.Float32ConvertInteger32Signed
-	export type Float32ConvertInteger32Unsigned = TokenTagEnum.Float32ConvertInteger32Unsigned
-	export type Float32ConvertInteger64Signed = TokenTagEnum.Float32ConvertInteger64Signed
-	export type Float32ConvertInteger64Unsigned = TokenTagEnum.Float32ConvertInteger64Unsigned
-	export type Float32CopySign = TokenTagEnum.Float32CopySign
-	export type Float32DemoteFloat64 = TokenTagEnum.Float32DemoteFloat64
-	export type Float32Divide = TokenTagEnum.Float32Divide
-	export type Float32Equals = TokenTagEnum.Float32Equals
-	export type Float32Floor = TokenTagEnum.Float32Floor
-	export type Float32GreaterThan = TokenTagEnum.Float32GreaterThan
-	export type Float32GreaterThanOrEquals = TokenTagEnum.Float32GreaterThanOrEquals
-	export type Float32LessThan = TokenTagEnum.Float32LessThan
-	export type Float32LessThanOrEquals = TokenTagEnum.Float32LessThanOrEquals
-	export type Float32Load = TokenTagEnum.Float32Load
-	export type Float32Maximum = TokenTagEnum.Float32Maximum
-	export type Float32Minimum = TokenTagEnum.Float32Minimum
-	export type Float32Multiply = TokenTagEnum.Float32Multiply
-	export type Float32Nearest = TokenTagEnum.Float32Nearest
-	export type Float32Negate = TokenTagEnum.Float32Negate
-	export type Float32NotEquals = TokenTagEnum.Float32NotEquals
-	export type Float32ReinterpretInteger32 = TokenTagEnum.Float32ReinterpretInteger32
-	export type Float32SquareRoot = TokenTagEnum.Float32SquareRoot
-	export type Float32Store = TokenTagEnum.Float32Store
-	export type Float32Subtract = TokenTagEnum.Float32Subtract
-	export type Float32Truncate = TokenTagEnum.Float32Truncate
-	export type Float32x4 = TokenTagEnum.Float32x4
-	export type Float64 = TokenTagEnum.Float64
-	export type Float64Absolute = TokenTagEnum.Float64Absolute
-	export type Float64Add = TokenTagEnum.Float64Add
-	export type Float64Ceiling = TokenTagEnum.Float64Ceiling
-	export type Float64Constant = TokenTagEnum.Float64Constant
-	export type Float64ConvertInteger32Signed = TokenTagEnum.Float64ConvertInteger32Signed
-	export type Float64ConvertInteger32Unsigned = TokenTagEnum.Float64ConvertInteger32Unsigned
-	export type Float64ConvertInteger64Signed = TokenTagEnum.Float64ConvertInteger64Signed
-	export type Float64ConvertInteger64Unsigned = TokenTagEnum.Float64ConvertInteger64Unsigned
-	export type Float64CopySign = TokenTagEnum.Float64CopySign
-	export type Float64Divide = TokenTagEnum.Float64Divide
-	export type Float64Equals = TokenTagEnum.Float64Equals
-	export type Float64Floor = TokenTagEnum.Float64Floor
-	export type Float64GreaterThan = TokenTagEnum.Float64GreaterThan
-	export type Float64GreaterThanOrEquals = TokenTagEnum.Float64GreaterThanOrEquals
-	export type Float64LessThan = TokenTagEnum.Float64LessThan
-	export type Float64LessThanOrEquals = TokenTagEnum.Float64LessThanOrEquals
-	export type Float64Load = TokenTagEnum.Float64Load
-	export type Float64Maximum = TokenTagEnum.Float64Maximum
-	export type Float64Minimum = TokenTagEnum.Float64Minimum
-	export type Float64Multiply = TokenTagEnum.Float64Multiply
-	export type Float64Nearest = TokenTagEnum.Float64Nearest
-	export type Float64Negate = TokenTagEnum.Float64Negate
-	export type Float64NotEquals = TokenTagEnum.Float64NotEquals
-	export type Float64PromoteFloat32 = TokenTagEnum.Float64PromoteFloat32
-	export type Float64ReinterpretInteger64 = TokenTagEnum.Float64ReinterpretInteger64
-	export type Float64SquareRoot = TokenTagEnum.Float64SquareRoot
-	export type Float64Store = TokenTagEnum.Float64Store
-	export type Float64Subtract = TokenTagEnum.Float64Subtract
-	export type Float64Truncate = TokenTagEnum.Float64Truncate
-	export type Float64x2 = TokenTagEnum.Float64x2
-	export type Function = TokenTagEnum.Function
-	export type FunctionReference = TokenTagEnum.FunctionReference
-	export type Global = TokenTagEnum.Global
-	export type GlobalGet = TokenTagEnum.GlobalGet
-	export type GlobalSet = TokenTagEnum.GlobalSet
+	export type BracketClose = TokenTagEnum.BracketClose
+	export type BracketOpen = TokenTagEnum.BracketOpen
+	export type CommentBlock = TokenTagEnum.CommentBlock
+	export type CommentLine = TokenTagEnum.CommentLine
+	export type ErrorInvalidCharacter = TokenTagEnum.ErrorInvalidCharacter
+	export type ErrorStringInvalidCharacter = TokenTagEnum.ErrorStringInvalidCharacter
+	export type ErrorStringInvalidEscape = TokenTagEnum.ErrorStringInvalidEscape
+	export type ErrorStringInvalidUnicodeEscape = TokenTagEnum.ErrorStringInvalidUnicodeEscape
+	export type ErrorStringUnterminated = TokenTagEnum.ErrorStringUnterminated
 	export type Identifier = TokenTagEnum.Identifier
-	export type If = TokenTagEnum.If
-	export type Import = TokenTagEnum.Import
-	export type Integer16x8 = TokenTagEnum.Integer16x8
-	export type Integer16x8Splat = TokenTagEnum.Integer16x8Splat
-	export type Integer32 = TokenTagEnum.Integer32
-	export type Integer32Add = TokenTagEnum.Integer32Add
-	export type Integer32And = TokenTagEnum.Integer32And
-	export type Integer32Constant = TokenTagEnum.Integer32Constant
-	export type Integer32CountLeadingZeros = TokenTagEnum.Integer32CountLeadingZeros
-	export type Integer32CountTrailingZeros = TokenTagEnum.Integer32CountTrailingZeros
-	export type Integer32DivideSigned = TokenTagEnum.Integer32DivideSigned
-	export type Integer32DivideUnsigned = TokenTagEnum.Integer32DivideUnsigned
-	export type Integer32Equals = TokenTagEnum.Integer32Equals
-	export type Integer32EqualsZero = TokenTagEnum.Integer32EqualsZero
-	export type Integer32Extend16Signed = TokenTagEnum.Integer32Extend16Signed
-	export type Integer32Extend8Signed = TokenTagEnum.Integer32Extend8Signed
-	export type Integer32GreaterThanOrEqualsSigned = TokenTagEnum.Integer32GreaterThanOrEqualsSigned
-	export type Integer32GreaterThanOrEqualsUnsigned = TokenTagEnum.Integer32GreaterThanOrEqualsUnsigned
-	export type Integer32GreaterThanSigned = TokenTagEnum.Integer32GreaterThanSigned
-	export type Integer32GreaterThanUnsigned = TokenTagEnum.Integer32GreaterThanUnsigned
-	export type Integer32LessThanOrEqualsSigned = TokenTagEnum.Integer32LessThanOrEqualsSigned
-	export type Integer32LessThanOrEqualsUnsigned = TokenTagEnum.Integer32LessThanOrEqualsUnsigned
-	export type Integer32LessThanSigned = TokenTagEnum.Integer32LessThanSigned
-	export type Integer32LessThanUnsigned = TokenTagEnum.Integer32LessThanUnsigned
-	export type Integer32Load = TokenTagEnum.Integer32Load
-	export type Integer32Load16Signed = TokenTagEnum.Integer32Load16Signed
-	export type Integer32Load16Unsigned = TokenTagEnum.Integer32Load16Unsigned
-	export type Integer32Load8Signed = TokenTagEnum.Integer32Load8Signed
-	export type Integer32Load8Unsigned = TokenTagEnum.Integer32Load8Unsigned
-	export type Integer32Multiply = TokenTagEnum.Integer32Multiply
-	export type Integer32NotEqual = TokenTagEnum.Integer32NotEqual
-	export type Integer32Or = TokenTagEnum.Integer32Or
-	export type Integer32PopCountNonZeros = TokenTagEnum.Integer32PopCountNonZeros
-	export type Integer32ReinterpretFloat32 = TokenTagEnum.Integer32ReinterpretFloat32
-	export type Integer32RemainderSigned = TokenTagEnum.Integer32RemainderSigned
-	export type Integer32RemainderUnsigned = TokenTagEnum.Integer32RemainderUnsigned
-	export type Integer32RotateLeft = TokenTagEnum.Integer32RotateLeft
-	export type Integer32RotateRight = TokenTagEnum.Integer32RotateRight
-	export type Integer32ShiftLeft = TokenTagEnum.Integer32ShiftLeft
-	export type Integer32ShiftRightSigned = TokenTagEnum.Integer32ShiftRightSigned
-	export type Integer32ShiftRightUnsigned = TokenTagEnum.Integer32ShiftRightUnsigned
-	export type Integer32Store = TokenTagEnum.Integer32Store
-	export type Integer32Store16 = TokenTagEnum.Integer32Store16
-	export type Integer32Store8 = TokenTagEnum.Integer32Store8
-	export type Integer32Subtract = TokenTagEnum.Integer32Subtract
-	export type Integer32TruncateFloat32Signed = TokenTagEnum.Integer32TruncateFloat32Signed
-	export type Integer32TruncateFloat32Unsigned = TokenTagEnum.Integer32TruncateFloat32Unsigned
-	export type Integer32TruncateFloat64Signed = TokenTagEnum.Integer32TruncateFloat64Signed
-	export type Integer32TruncateFloat64Unsigned = TokenTagEnum.Integer32TruncateFloat64Unsigned
-	export type Integer32TruncateSaturateFloat32Signed = TokenTagEnum.Integer32TruncateSaturateFloat32Signed
-	export type Integer32TruncateSaturateFloat32Unsigned = TokenTagEnum.Integer32TruncateSaturateFloat32Unsigned
-	export type Integer32TruncateSaturateFloat64Signed = TokenTagEnum.Integer32TruncateSaturateFloat64Signed
-	export type Integer32TruncateSaturateFloat64Unsigned = TokenTagEnum.Integer32TruncateSaturateFloat64Unsigned
-	export type Integer32WrapInteger64 = TokenTagEnum.Integer32WrapInteger64
-	export type Integer32Xor = TokenTagEnum.Integer32Xor
-	export type Integer32x4 = TokenTagEnum.Integer32x4
-	export type Integer32x4Splat = TokenTagEnum.Integer32x4Splat
-	export type Integer64 = TokenTagEnum.Integer64
-	export type Integer64Add = TokenTagEnum.Integer64Add
-	export type Integer64And = TokenTagEnum.Integer64And
-	export type Integer64Constant = TokenTagEnum.Integer64Constant
-	export type Integer64CountLeadingZeros = TokenTagEnum.Integer64CountLeadingZeros
-	export type Integer64CountTrailingZeros = TokenTagEnum.Integer64CountTrailingZeros
-	export type Integer64DivideSigned = TokenTagEnum.Integer64DivideSigned
-	export type Integer64DivideUnsigned = TokenTagEnum.Integer64DivideUnsigned
-	export type Integer64Equals = TokenTagEnum.Integer64Equals
-	export type Integer64EqualsZero = TokenTagEnum.Integer64EqualsZero
-	export type Integer64Extend16Signed = TokenTagEnum.Integer64Extend16Signed
-	export type Integer64Extend32Signed = TokenTagEnum.Integer64Extend32Signed
-	export type Integer64Extend8Signed = TokenTagEnum.Integer64Extend8Signed
-	export type Integer64ExtendInteger32Signed = TokenTagEnum.Integer64ExtendInteger32Signed
-	export type Integer64ExtendInteger32Unsigned = TokenTagEnum.Integer64ExtendInteger32Unsigned
-	export type Integer64GreaterThanOrEqualsSigned = TokenTagEnum.Integer64GreaterThanOrEqualsSigned
-	export type Integer64GreaterThanOrEqualsUnsigned = TokenTagEnum.Integer64GreaterThanOrEqualsUnsigned
-	export type Integer64GreaterThanSigned = TokenTagEnum.Integer64GreaterThanSigned
-	export type Integer64GreaterThanUnsigned = TokenTagEnum.Integer64GreaterThanUnsigned
-	export type Integer64LessThanOrEqualsSigned = TokenTagEnum.Integer64LessThanOrEqualsSigned
-	export type Integer64LessThanOrEqualsUnsigned = TokenTagEnum.Integer64LessThanOrEqualsUnsigned
-	export type Integer64LessThanSigned = TokenTagEnum.Integer64LessThanSigned
-	export type Integer64LessThanUnsigned = TokenTagEnum.Integer64LessThanUnsigned
-	export type Integer64Load = TokenTagEnum.Integer64Load
-	export type Integer64Load16Signed = TokenTagEnum.Integer64Load16Signed
-	export type Integer64Load16Unsigned = TokenTagEnum.Integer64Load16Unsigned
-	export type Integer64Load32Signed = TokenTagEnum.Integer64Load32Signed
-	export type Integer64Load32Unsigned = TokenTagEnum.Integer64Load32Unsigned
-	export type Integer64Load8Signed = TokenTagEnum.Integer64Load8Signed
-	export type Integer64Load8Unsigned = TokenTagEnum.Integer64Load8Unsigned
-	export type Integer64Multiply = TokenTagEnum.Integer64Multiply
-	export type Integer64NotEqual = TokenTagEnum.Integer64NotEqual
-	export type Integer64Or = TokenTagEnum.Integer64Or
-	export type Integer64PopCountNonZeros = TokenTagEnum.Integer64PopCountNonZeros
-	export type Integer64ReinterpretFloat64 = TokenTagEnum.Integer64ReinterpretFloat64
-	export type Integer64RemainderSigned = TokenTagEnum.Integer64RemainderSigned
-	export type Integer64RemainderUnsigned = TokenTagEnum.Integer64RemainderUnsigned
-	export type Integer64RotateLeft = TokenTagEnum.Integer64RotateLeft
-	export type Integer64RotateRight = TokenTagEnum.Integer64RotateRight
-	export type Integer64ShiftLeft = TokenTagEnum.Integer64ShiftLeft
-	export type Integer64ShiftRightSigned = TokenTagEnum.Integer64ShiftRightSigned
-	export type Integer64ShiftRightUnsigned = TokenTagEnum.Integer64ShiftRightUnsigned
-	export type Integer64Store = TokenTagEnum.Integer64Store
-	export type Integer64Store16 = TokenTagEnum.Integer64Store16
-	export type Integer64Store32 = TokenTagEnum.Integer64Store32
-	export type Integer64Store8 = TokenTagEnum.Integer64Store8
-	export type Integer64Subtract = TokenTagEnum.Integer64Subtract
-	export type Integer64TruncateFloat32Signed = TokenTagEnum.Integer64TruncateFloat32Signed
-	export type Integer64TruncateFloat32Unsigned = TokenTagEnum.Integer64TruncateFloat32Unsigned
-	export type Integer64TruncateFloat64Signed = TokenTagEnum.Integer64TruncateFloat64Signed
-	export type Integer64TruncateFloat64Unsigned = TokenTagEnum.Integer64TruncateFloat64Unsigned
-	export type Integer64TruncateSaturateFloat32Signed = TokenTagEnum.Integer64TruncateSaturateFloat32Signed
-	export type Integer64TruncateSaturateFloat32Unsigned = TokenTagEnum.Integer64TruncateSaturateFloat32Unsigned
-	export type Integer64TruncateSaturateFloat64Signed = TokenTagEnum.Integer64TruncateSaturateFloat64Signed
-	export type Integer64TruncateSaturateFloat64Unsigned = TokenTagEnum.Integer64TruncateSaturateFloat64Unsigned
-	export type Integer64Xor = TokenTagEnum.Integer64Xor
-	export type Integer64x2 = TokenTagEnum.Integer64x2
-	export type Integer64x2Splat = TokenTagEnum.Integer64x2Splat
-	export type Integer8x16 = TokenTagEnum.Integer8x16
-	export type Integer8x16Shuffle = TokenTagEnum.Integer8x16Shuffle
-	export type Integer8x16Splat = TokenTagEnum.Integer8x16Splat
-	export type Integer8x16Swizzle = TokenTagEnum.Integer8x16Swizzle
-	export type Item = TokenTagEnum.Item
-	export type Keyword = TokenTagEnum.Keyword
-	export type LineComment = TokenTagEnum.LineComment
-	export type Local = TokenTagEnum.Local
-	export type LocalGet = TokenTagEnum.LocalGet
-	export type LocalSet = TokenTagEnum.LocalSet
-	export type LocalTee = TokenTagEnum.LocalTee
-	export type Loop = TokenTagEnum.Loop
-	export type Memory = TokenTagEnum.Memory
-	export type MemoryCopy = TokenTagEnum.MemoryCopy
-	export type MemoryFill = TokenTagEnum.MemoryFill
-	export type MemoryGrow = TokenTagEnum.MemoryGrow
-	export type MemoryInitiate = TokenTagEnum.MemoryInitiate
-	export type MemorySize = TokenTagEnum.MemorySize
-	export type Module = TokenTagEnum.Module
-	export type Mutable = TokenTagEnum.Mutable
-	export type NoOperation = TokenTagEnum.NoOperation
+	export type KeywordAlignEquals = TokenTagEnum.KeywordAlignEquals
+	export type KeywordBlock = TokenTagEnum.KeywordBlock
+	export type KeywordBranch = TokenTagEnum.KeywordBranch
+	export type KeywordBranchIf = TokenTagEnum.KeywordBranchIf
+	export type KeywordBranchTable = TokenTagEnum.KeywordBranchTable
+	export type KeywordCall = TokenTagEnum.KeywordCall
+	export type KeywordCallIndirect = TokenTagEnum.KeywordCallIndirect
+	export type KeywordData = TokenTagEnum.KeywordData
+	export type KeywordDataDrop = TokenTagEnum.KeywordDataDrop
+	export type KeywordDeclare = TokenTagEnum.KeywordDeclare
+	export type KeywordDrop = TokenTagEnum.KeywordDrop
+	export type KeywordElement = TokenTagEnum.KeywordElement
+	export type KeywordElementDrop = TokenTagEnum.KeywordElementDrop
+	export type KeywordElse = TokenTagEnum.KeywordElse
+	export type KeywordEnd = TokenTagEnum.KeywordEnd
+	export type KeywordExport = TokenTagEnum.KeywordExport
+	export type KeywordExternal = TokenTagEnum.KeywordExternal
+	export type KeywordExternalReference = TokenTagEnum.KeywordExternalReference
+	export type KeywordFloat32 = TokenTagEnum.KeywordFloat32
+	export type KeywordFloat32Absolute = TokenTagEnum.KeywordFloat32Absolute
+	export type KeywordFloat32Add = TokenTagEnum.KeywordFloat32Add
+	export type KeywordFloat32Ceiling = TokenTagEnum.KeywordFloat32Ceiling
+	export type KeywordFloat32Constant = TokenTagEnum.KeywordFloat32Constant
+	export type KeywordFloat32ConvertInteger32Signed = TokenTagEnum.KeywordFloat32ConvertInteger32Signed
+	export type KeywordFloat32ConvertInteger32Unsigned = TokenTagEnum.KeywordFloat32ConvertInteger32Unsigned
+	export type KeywordFloat32ConvertInteger64Signed = TokenTagEnum.KeywordFloat32ConvertInteger64Signed
+	export type KeywordFloat32ConvertInteger64Unsigned = TokenTagEnum.KeywordFloat32ConvertInteger64Unsigned
+	export type KeywordFloat32CopySign = TokenTagEnum.KeywordFloat32CopySign
+	export type KeywordFloat32DemoteFloat64 = TokenTagEnum.KeywordFloat32DemoteFloat64
+	export type KeywordFloat32Divide = TokenTagEnum.KeywordFloat32Divide
+	export type KeywordFloat32Equals = TokenTagEnum.KeywordFloat32Equals
+	export type KeywordFloat32Floor = TokenTagEnum.KeywordFloat32Floor
+	export type KeywordFloat32GreaterThan = TokenTagEnum.KeywordFloat32GreaterThan
+	export type KeywordFloat32GreaterThanOrEquals = TokenTagEnum.KeywordFloat32GreaterThanOrEquals
+	export type KeywordFloat32LessThan = TokenTagEnum.KeywordFloat32LessThan
+	export type KeywordFloat32LessThanOrEquals = TokenTagEnum.KeywordFloat32LessThanOrEquals
+	export type KeywordFloat32Load = TokenTagEnum.KeywordFloat32Load
+	export type KeywordFloat32Maximum = TokenTagEnum.KeywordFloat32Maximum
+	export type KeywordFloat32Minimum = TokenTagEnum.KeywordFloat32Minimum
+	export type KeywordFloat32Multiply = TokenTagEnum.KeywordFloat32Multiply
+	export type KeywordFloat32Nearest = TokenTagEnum.KeywordFloat32Nearest
+	export type KeywordFloat32Negate = TokenTagEnum.KeywordFloat32Negate
+	export type KeywordFloat32NotEquals = TokenTagEnum.KeywordFloat32NotEquals
+	export type KeywordFloat32ReinterpretInteger32 = TokenTagEnum.KeywordFloat32ReinterpretInteger32
+	export type KeywordFloat32SquareRoot = TokenTagEnum.KeywordFloat32SquareRoot
+	export type KeywordFloat32Store = TokenTagEnum.KeywordFloat32Store
+	export type KeywordFloat32Subtract = TokenTagEnum.KeywordFloat32Subtract
+	export type KeywordFloat32Truncate = TokenTagEnum.KeywordFloat32Truncate
+	export type KeywordFloat32x4 = TokenTagEnum.KeywordFloat32x4
+	export type KeywordFloat64 = TokenTagEnum.KeywordFloat64
+	export type KeywordFloat64Absolute = TokenTagEnum.KeywordFloat64Absolute
+	export type KeywordFloat64Add = TokenTagEnum.KeywordFloat64Add
+	export type KeywordFloat64Ceiling = TokenTagEnum.KeywordFloat64Ceiling
+	export type KeywordFloat64Constant = TokenTagEnum.KeywordFloat64Constant
+	export type KeywordFloat64ConvertInteger32Signed = TokenTagEnum.KeywordFloat64ConvertInteger32Signed
+	export type KeywordFloat64ConvertInteger32Unsigned = TokenTagEnum.KeywordFloat64ConvertInteger32Unsigned
+	export type KeywordFloat64ConvertInteger64Signed = TokenTagEnum.KeywordFloat64ConvertInteger64Signed
+	export type KeywordFloat64ConvertInteger64Unsigned = TokenTagEnum.KeywordFloat64ConvertInteger64Unsigned
+	export type KeywordFloat64CopySign = TokenTagEnum.KeywordFloat64CopySign
+	export type KeywordFloat64Divide = TokenTagEnum.KeywordFloat64Divide
+	export type KeywordFloat64Equals = TokenTagEnum.KeywordFloat64Equals
+	export type KeywordFloat64Floor = TokenTagEnum.KeywordFloat64Floor
+	export type KeywordFloat64GreaterThan = TokenTagEnum.KeywordFloat64GreaterThan
+	export type KeywordFloat64GreaterThanOrEquals = TokenTagEnum.KeywordFloat64GreaterThanOrEquals
+	export type KeywordFloat64LessThan = TokenTagEnum.KeywordFloat64LessThan
+	export type KeywordFloat64LessThanOrEquals = TokenTagEnum.KeywordFloat64LessThanOrEquals
+	export type KeywordFloat64Load = TokenTagEnum.KeywordFloat64Load
+	export type KeywordFloat64Maximum = TokenTagEnum.KeywordFloat64Maximum
+	export type KeywordFloat64Minimum = TokenTagEnum.KeywordFloat64Minimum
+	export type KeywordFloat64Multiply = TokenTagEnum.KeywordFloat64Multiply
+	export type KeywordFloat64Nearest = TokenTagEnum.KeywordFloat64Nearest
+	export type KeywordFloat64Negate = TokenTagEnum.KeywordFloat64Negate
+	export type KeywordFloat64NotEquals = TokenTagEnum.KeywordFloat64NotEquals
+	export type KeywordFloat64PromoteFloat32 = TokenTagEnum.KeywordFloat64PromoteFloat32
+	export type KeywordFloat64ReinterpretInteger64 = TokenTagEnum.KeywordFloat64ReinterpretInteger64
+	export type KeywordFloat64SquareRoot = TokenTagEnum.KeywordFloat64SquareRoot
+	export type KeywordFloat64Store = TokenTagEnum.KeywordFloat64Store
+	export type KeywordFloat64Subtract = TokenTagEnum.KeywordFloat64Subtract
+	export type KeywordFloat64Truncate = TokenTagEnum.KeywordFloat64Truncate
+	export type KeywordFloat64x2 = TokenTagEnum.KeywordFloat64x2
+	export type KeywordFunction = TokenTagEnum.KeywordFunction
+	export type KeywordFunctionReference = TokenTagEnum.KeywordFunctionReference
+	export type KeywordGlobal = TokenTagEnum.KeywordGlobal
+	export type KeywordGlobalGet = TokenTagEnum.KeywordGlobalGet
+	export type KeywordGlobalSet = TokenTagEnum.KeywordGlobalSet
+	export type KeywordIf = TokenTagEnum.KeywordIf
+	export type KeywordImport = TokenTagEnum.KeywordImport
+	export type KeywordInteger16x8 = TokenTagEnum.KeywordInteger16x8
+	export type KeywordInteger16x8Splat = TokenTagEnum.KeywordInteger16x8Splat
+	export type KeywordInteger32 = TokenTagEnum.KeywordInteger32
+	export type KeywordInteger32Add = TokenTagEnum.KeywordInteger32Add
+	export type KeywordInteger32And = TokenTagEnum.KeywordInteger32And
+	export type KeywordInteger32Constant = TokenTagEnum.KeywordInteger32Constant
+	export type KeywordInteger32CountLeadingZeros = TokenTagEnum.KeywordInteger32CountLeadingZeros
+	export type KeywordInteger32CountTrailingZeros = TokenTagEnum.KeywordInteger32CountTrailingZeros
+	export type KeywordInteger32DivideSigned = TokenTagEnum.KeywordInteger32DivideSigned
+	export type KeywordInteger32DivideUnsigned = TokenTagEnum.KeywordInteger32DivideUnsigned
+	export type KeywordInteger32Equals = TokenTagEnum.KeywordInteger32Equals
+	export type KeywordInteger32EqualsZero = TokenTagEnum.KeywordInteger32EqualsZero
+	export type KeywordInteger32Extend16Signed = TokenTagEnum.KeywordInteger32Extend16Signed
+	export type KeywordInteger32Extend8Signed = TokenTagEnum.KeywordInteger32Extend8Signed
+	export type KeywordInteger32GreaterThanOrEqualsSigned = TokenTagEnum.KeywordInteger32GreaterThanOrEqualsSigned
+	export type KeywordInteger32GreaterThanOrEqualsUnsigned = TokenTagEnum.KeywordInteger32GreaterThanOrEqualsUnsigned
+	export type KeywordInteger32GreaterThanSigned = TokenTagEnum.KeywordInteger32GreaterThanSigned
+	export type KeywordInteger32GreaterThanUnsigned = TokenTagEnum.KeywordInteger32GreaterThanUnsigned
+	export type KeywordInteger32LessThanOrEqualsSigned = TokenTagEnum.KeywordInteger32LessThanOrEqualsSigned
+	export type KeywordInteger32LessThanOrEqualsUnsigned = TokenTagEnum.KeywordInteger32LessThanOrEqualsUnsigned
+	export type KeywordInteger32LessThanSigned = TokenTagEnum.KeywordInteger32LessThanSigned
+	export type KeywordInteger32LessThanUnsigned = TokenTagEnum.KeywordInteger32LessThanUnsigned
+	export type KeywordInteger32Load = TokenTagEnum.KeywordInteger32Load
+	export type KeywordInteger32Load16Signed = TokenTagEnum.KeywordInteger32Load16Signed
+	export type KeywordInteger32Load16Unsigned = TokenTagEnum.KeywordInteger32Load16Unsigned
+	export type KeywordInteger32Load8Signed = TokenTagEnum.KeywordInteger32Load8Signed
+	export type KeywordInteger32Load8Unsigned = TokenTagEnum.KeywordInteger32Load8Unsigned
+	export type KeywordInteger32Multiply = TokenTagEnum.KeywordInteger32Multiply
+	export type KeywordInteger32NotEqual = TokenTagEnum.KeywordInteger32NotEqual
+	export type KeywordInteger32Or = TokenTagEnum.KeywordInteger32Or
+	export type KeywordInteger32PopCountNonZeros = TokenTagEnum.KeywordInteger32PopCountNonZeros
+	export type KeywordInteger32ReinterpretFloat32 = TokenTagEnum.KeywordInteger32ReinterpretFloat32
+	export type KeywordInteger32RemainderSigned = TokenTagEnum.KeywordInteger32RemainderSigned
+	export type KeywordInteger32RemainderUnsigned = TokenTagEnum.KeywordInteger32RemainderUnsigned
+	export type KeywordInteger32RotateLeft = TokenTagEnum.KeywordInteger32RotateLeft
+	export type KeywordInteger32RotateRight = TokenTagEnum.KeywordInteger32RotateRight
+	export type KeywordInteger32ShiftLeft = TokenTagEnum.KeywordInteger32ShiftLeft
+	export type KeywordInteger32ShiftRightSigned = TokenTagEnum.KeywordInteger32ShiftRightSigned
+	export type KeywordInteger32ShiftRightUnsigned = TokenTagEnum.KeywordInteger32ShiftRightUnsigned
+	export type KeywordInteger32Store = TokenTagEnum.KeywordInteger32Store
+	export type KeywordInteger32Store16 = TokenTagEnum.KeywordInteger32Store16
+	export type KeywordInteger32Store8 = TokenTagEnum.KeywordInteger32Store8
+	export type KeywordInteger32Subtract = TokenTagEnum.KeywordInteger32Subtract
+	export type KeywordInteger32TruncateFloat32Signed = TokenTagEnum.KeywordInteger32TruncateFloat32Signed
+	export type KeywordInteger32TruncateFloat32Unsigned = TokenTagEnum.KeywordInteger32TruncateFloat32Unsigned
+	export type KeywordInteger32TruncateFloat64Signed = TokenTagEnum.KeywordInteger32TruncateFloat64Signed
+	export type KeywordInteger32TruncateFloat64Unsigned = TokenTagEnum.KeywordInteger32TruncateFloat64Unsigned
+	export type KeywordInteger32TruncateSaturateFloat32Signed = TokenTagEnum.KeywordInteger32TruncateSaturateFloat32Signed
+	export type KeywordInteger32TruncateSaturateFloat32Unsigned = TokenTagEnum.KeywordInteger32TruncateSaturateFloat32Unsigned
+	export type KeywordInteger32TruncateSaturateFloat64Signed = TokenTagEnum.KeywordInteger32TruncateSaturateFloat64Signed
+	export type KeywordInteger32TruncateSaturateFloat64Unsigned = TokenTagEnum.KeywordInteger32TruncateSaturateFloat64Unsigned
+	export type KeywordInteger32WrapInteger64 = TokenTagEnum.KeywordInteger32WrapInteger64
+	export type KeywordInteger32Xor = TokenTagEnum.KeywordInteger32Xor
+	export type KeywordInteger32x4 = TokenTagEnum.KeywordInteger32x4
+	export type KeywordInteger32x4Splat = TokenTagEnum.KeywordInteger32x4Splat
+	export type KeywordInteger64 = TokenTagEnum.KeywordInteger64
+	export type KeywordInteger64Add = TokenTagEnum.KeywordInteger64Add
+	export type KeywordInteger64And = TokenTagEnum.KeywordInteger64And
+	export type KeywordInteger64Constant = TokenTagEnum.KeywordInteger64Constant
+	export type KeywordInteger64CountLeadingZeros = TokenTagEnum.KeywordInteger64CountLeadingZeros
+	export type KeywordInteger64CountTrailingZeros = TokenTagEnum.KeywordInteger64CountTrailingZeros
+	export type KeywordInteger64DivideSigned = TokenTagEnum.KeywordInteger64DivideSigned
+	export type KeywordInteger64DivideUnsigned = TokenTagEnum.KeywordInteger64DivideUnsigned
+	export type KeywordInteger64Equals = TokenTagEnum.KeywordInteger64Equals
+	export type KeywordInteger64EqualsZero = TokenTagEnum.KeywordInteger64EqualsZero
+	export type KeywordInteger64Extend16Signed = TokenTagEnum.KeywordInteger64Extend16Signed
+	export type KeywordInteger64Extend32Signed = TokenTagEnum.KeywordInteger64Extend32Signed
+	export type KeywordInteger64Extend8Signed = TokenTagEnum.KeywordInteger64Extend8Signed
+	export type KeywordInteger64ExtendInteger32Signed = TokenTagEnum.KeywordInteger64ExtendInteger32Signed
+	export type KeywordInteger64ExtendInteger32Unsigned = TokenTagEnum.KeywordInteger64ExtendInteger32Unsigned
+	export type KeywordInteger64GreaterThanOrEqualsSigned = TokenTagEnum.KeywordInteger64GreaterThanOrEqualsSigned
+	export type KeywordInteger64GreaterThanOrEqualsUnsigned = TokenTagEnum.KeywordInteger64GreaterThanOrEqualsUnsigned
+	export type KeywordInteger64GreaterThanSigned = TokenTagEnum.KeywordInteger64GreaterThanSigned
+	export type KeywordInteger64GreaterThanUnsigned = TokenTagEnum.KeywordInteger64GreaterThanUnsigned
+	export type KeywordInteger64LessThanOrEqualsSigned = TokenTagEnum.KeywordInteger64LessThanOrEqualsSigned
+	export type KeywordInteger64LessThanOrEqualsUnsigned = TokenTagEnum.KeywordInteger64LessThanOrEqualsUnsigned
+	export type KeywordInteger64LessThanSigned = TokenTagEnum.KeywordInteger64LessThanSigned
+	export type KeywordInteger64LessThanUnsigned = TokenTagEnum.KeywordInteger64LessThanUnsigned
+	export type KeywordInteger64Load = TokenTagEnum.KeywordInteger64Load
+	export type KeywordInteger64Load16Signed = TokenTagEnum.KeywordInteger64Load16Signed
+	export type KeywordInteger64Load16Unsigned = TokenTagEnum.KeywordInteger64Load16Unsigned
+	export type KeywordInteger64Load32Signed = TokenTagEnum.KeywordInteger64Load32Signed
+	export type KeywordInteger64Load32Unsigned = TokenTagEnum.KeywordInteger64Load32Unsigned
+	export type KeywordInteger64Load8Signed = TokenTagEnum.KeywordInteger64Load8Signed
+	export type KeywordInteger64Load8Unsigned = TokenTagEnum.KeywordInteger64Load8Unsigned
+	export type KeywordInteger64Multiply = TokenTagEnum.KeywordInteger64Multiply
+	export type KeywordInteger64NotEqual = TokenTagEnum.KeywordInteger64NotEqual
+	export type KeywordInteger64Or = TokenTagEnum.KeywordInteger64Or
+	export type KeywordInteger64PopCountNonZeros = TokenTagEnum.KeywordInteger64PopCountNonZeros
+	export type KeywordInteger64ReinterpretFloat64 = TokenTagEnum.KeywordInteger64ReinterpretFloat64
+	export type KeywordInteger64RemainderSigned = TokenTagEnum.KeywordInteger64RemainderSigned
+	export type KeywordInteger64RemainderUnsigned = TokenTagEnum.KeywordInteger64RemainderUnsigned
+	export type KeywordInteger64RotateLeft = TokenTagEnum.KeywordInteger64RotateLeft
+	export type KeywordInteger64RotateRight = TokenTagEnum.KeywordInteger64RotateRight
+	export type KeywordInteger64ShiftLeft = TokenTagEnum.KeywordInteger64ShiftLeft
+	export type KeywordInteger64ShiftRightSigned = TokenTagEnum.KeywordInteger64ShiftRightSigned
+	export type KeywordInteger64ShiftRightUnsigned = TokenTagEnum.KeywordInteger64ShiftRightUnsigned
+	export type KeywordInteger64Store = TokenTagEnum.KeywordInteger64Store
+	export type KeywordInteger64Store16 = TokenTagEnum.KeywordInteger64Store16
+	export type KeywordInteger64Store32 = TokenTagEnum.KeywordInteger64Store32
+	export type KeywordInteger64Store8 = TokenTagEnum.KeywordInteger64Store8
+	export type KeywordInteger64Subtract = TokenTagEnum.KeywordInteger64Subtract
+	export type KeywordInteger64TruncateFloat32Signed = TokenTagEnum.KeywordInteger64TruncateFloat32Signed
+	export type KeywordInteger64TruncateFloat32Unsigned = TokenTagEnum.KeywordInteger64TruncateFloat32Unsigned
+	export type KeywordInteger64TruncateFloat64Signed = TokenTagEnum.KeywordInteger64TruncateFloat64Signed
+	export type KeywordInteger64TruncateFloat64Unsigned = TokenTagEnum.KeywordInteger64TruncateFloat64Unsigned
+	export type KeywordInteger64TruncateSaturateFloat32Signed = TokenTagEnum.KeywordInteger64TruncateSaturateFloat32Signed
+	export type KeywordInteger64TruncateSaturateFloat32Unsigned = TokenTagEnum.KeywordInteger64TruncateSaturateFloat32Unsigned
+	export type KeywordInteger64TruncateSaturateFloat64Signed = TokenTagEnum.KeywordInteger64TruncateSaturateFloat64Signed
+	export type KeywordInteger64TruncateSaturateFloat64Unsigned = TokenTagEnum.KeywordInteger64TruncateSaturateFloat64Unsigned
+	export type KeywordInteger64Xor = TokenTagEnum.KeywordInteger64Xor
+	export type KeywordInteger64x2 = TokenTagEnum.KeywordInteger64x2
+	export type KeywordInteger64x2Splat = TokenTagEnum.KeywordInteger64x2Splat
+	export type KeywordInteger8x16 = TokenTagEnum.KeywordInteger8x16
+	export type KeywordInteger8x16Shuffle = TokenTagEnum.KeywordInteger8x16Shuffle
+	export type KeywordInteger8x16Splat = TokenTagEnum.KeywordInteger8x16Splat
+	export type KeywordInteger8x16Swizzle = TokenTagEnum.KeywordInteger8x16Swizzle
+	export type KeywordItem = TokenTagEnum.KeywordItem
+	export type KeywordLocal = TokenTagEnum.KeywordLocal
+	export type KeywordLocalGet = TokenTagEnum.KeywordLocalGet
+	export type KeywordLocalSet = TokenTagEnum.KeywordLocalSet
+	export type KeywordLocalTee = TokenTagEnum.KeywordLocalTee
+	export type KeywordLoop = TokenTagEnum.KeywordLoop
+	export type KeywordMemory = TokenTagEnum.KeywordMemory
+	export type KeywordMemoryCopy = TokenTagEnum.KeywordMemoryCopy
+	export type KeywordMemoryFill = TokenTagEnum.KeywordMemoryFill
+	export type KeywordMemoryGrow = TokenTagEnum.KeywordMemoryGrow
+	export type KeywordMemoryInitiate = TokenTagEnum.KeywordMemoryInitiate
+	export type KeywordMemorySize = TokenTagEnum.KeywordMemorySize
+	export type KeywordModule = TokenTagEnum.KeywordModule
+	export type KeywordMutable = TokenTagEnum.KeywordMutable
+	export type KeywordNoOperation = TokenTagEnum.KeywordNoOperation
+	export type KeywordOffset = TokenTagEnum.KeywordOffset
+	export type KeywordOffsetEquals = TokenTagEnum.KeywordOffsetEquals
+	export type KeywordParameter = TokenTagEnum.KeywordParameter
+	export type KeywordReferenceFunction = TokenTagEnum.KeywordReferenceFunction
+	export type KeywordReferenceIsNull = TokenTagEnum.KeywordReferenceIsNull
+	export type KeywordReferenceNull = TokenTagEnum.KeywordReferenceNull
+	export type KeywordResult = TokenTagEnum.KeywordResult
+	export type KeywordReturn = TokenTagEnum.KeywordReturn
+	export type KeywordSelect = TokenTagEnum.KeywordSelect
+	export type KeywordStart = TokenTagEnum.KeywordStart
+	export type KeywordTable = TokenTagEnum.KeywordTable
+	export type KeywordTableCopy = TokenTagEnum.KeywordTableCopy
+	export type KeywordTableFill = TokenTagEnum.KeywordTableFill
+	export type KeywordTableGet = TokenTagEnum.KeywordTableGet
+	export type KeywordTableGrow = TokenTagEnum.KeywordTableGrow
+	export type KeywordTableInitiate = TokenTagEnum.KeywordTableInitiate
+	export type KeywordTableSet = TokenTagEnum.KeywordTableSet
+	export type KeywordTableSize = TokenTagEnum.KeywordTableSize
+	export type KeywordType = TokenTagEnum.KeywordType
+	export type KeywordUnreachable = TokenTagEnum.KeywordUnreachable
+	export type KeywordVector128 = TokenTagEnum.KeywordVector128
+	export type KeywordVector128Const = TokenTagEnum.KeywordVector128Const
+	export type KeywordVector128Load = TokenTagEnum.KeywordVector128Load
+	export type KeywordVector128Load16Lane = TokenTagEnum.KeywordVector128Load16Lane
+	export type KeywordVector128Load16Splat = TokenTagEnum.KeywordVector128Load16Splat
+	export type KeywordVector128Load16x4Signed = TokenTagEnum.KeywordVector128Load16x4Signed
+	export type KeywordVector128Load16x4Unsigned = TokenTagEnum.KeywordVector128Load16x4Unsigned
+	export type KeywordVector128Load32Lane = TokenTagEnum.KeywordVector128Load32Lane
+	export type KeywordVector128Load32Splat = TokenTagEnum.KeywordVector128Load32Splat
+	export type KeywordVector128Load32Zero = TokenTagEnum.KeywordVector128Load32Zero
+	export type KeywordVector128Load32x2Signed = TokenTagEnum.KeywordVector128Load32x2Signed
+	export type KeywordVector128Load32x2Unsigned = TokenTagEnum.KeywordVector128Load32x2Unsigned
+	export type KeywordVector128Load64Lane = TokenTagEnum.KeywordVector128Load64Lane
+	export type KeywordVector128Load64Splat = TokenTagEnum.KeywordVector128Load64Splat
+	export type KeywordVector128Load64Zero = TokenTagEnum.KeywordVector128Load64Zero
+	export type KeywordVector128Load8Lane = TokenTagEnum.KeywordVector128Load8Lane
+	export type KeywordVector128Load8Splat = TokenTagEnum.KeywordVector128Load8Splat
+	export type KeywordVector128Load8x8Signed = TokenTagEnum.KeywordVector128Load8x8Signed
+	export type KeywordVector128Load8x8Unsigned = TokenTagEnum.KeywordVector128Load8x8Unsigned
+	export type KeywordVector128Store = TokenTagEnum.KeywordVector128Store
+	export type KeywordVector128Store16Lane = TokenTagEnum.KeywordVector128Store16Lane
+	export type KeywordVector128Store32Lane = TokenTagEnum.KeywordVector128Store32Lane
+	export type KeywordVector128Store64Lane = TokenTagEnum.KeywordVector128Store64Lane
+	export type KeywordVector128Store8Lane = TokenTagEnum.KeywordVector128Store8Lane
 	export type Number = TokenTagEnum.Number
-	export type Offset = TokenTagEnum.Offset
-	export type OffsetEquals = TokenTagEnum.OffsetEquals
-	export type OpenBracket = TokenTagEnum.OpenBracket
-	export type Parameter = TokenTagEnum.Parameter
-	export type ReferenceFunction = TokenTagEnum.ReferenceFunction
-	export type ReferenceIsNull = TokenTagEnum.ReferenceIsNull
-	export type ReferenceNull = TokenTagEnum.ReferenceNull
-	export type Result = TokenTagEnum.Result
-	export type Return = TokenTagEnum.Return
-	export type Select = TokenTagEnum.Select
-	export type Start = TokenTagEnum.Start
 	export type StringApostropheEscape = TokenTagEnum.StringApostropheEscape
 	export type StringBackslashEscape = TokenTagEnum.StringBackslashEscape
 	export type StringEndQuote = TokenTagEnum.StringEndQuote
 	export type StringHexEscape = TokenTagEnum.StringHexEscape
-	export type StringInvalidCharacterError = TokenTagEnum.StringInvalidCharacterError
-	export type StringInvalidEscapeError = TokenTagEnum.StringInvalidEscapeError
-	export type StringInvalidUnicodeEscapeError = TokenTagEnum.StringInvalidUnicodeEscapeError
 	export type StringNewlineEscape = TokenTagEnum.StringNewlineEscape
 	export type StringNonEscape = TokenTagEnum.StringNonEscape
 	export type StringQuoteEscape = TokenTagEnum.StringQuoteEscape
@@ -542,617 +576,583 @@ export namespace TokenTag {
 	export type StringStartQuote = TokenTagEnum.StringStartQuote
 	export type StringTabEscape = TokenTagEnum.StringTabEscape
 	export type StringUnicodeEscape = TokenTagEnum.StringUnicodeEscape
-	export type Table = TokenTagEnum.Table
-	export type TableCopy = TokenTagEnum.TableCopy
-	export type TableFill = TokenTagEnum.TableFill
-	export type TableGet = TokenTagEnum.TableGet
-	export type TableGrow = TokenTagEnum.TableGrow
-	export type TableInitiate = TokenTagEnum.TableInitiate
-	export type TableSet = TokenTagEnum.TableSet
-	export type TableSize = TokenTagEnum.TableSize
-	export type Type = TokenTagEnum.Type
-	export type Unreachable = TokenTagEnum.Unreachable
-	export type UnterminatedStringError = TokenTagEnum.UnterminatedStringError
-	export type Vector128 = TokenTagEnum.Vector128
-	export type Vector128Const = TokenTagEnum.Vector128Const
-	export type Vector128Load = TokenTagEnum.Vector128Load
-	export type Vector128Load16Lane = TokenTagEnum.Vector128Load16Lane
-	export type Vector128Load16Splat = TokenTagEnum.Vector128Load16Splat
-	export type Vector128Load16x4Signed = TokenTagEnum.Vector128Load16x4Signed
-	export type Vector128Load16x4Unsigned = TokenTagEnum.Vector128Load16x4Unsigned
-	export type Vector128Load32Lane = TokenTagEnum.Vector128Load32Lane
-	export type Vector128Load32Splat = TokenTagEnum.Vector128Load32Splat
-	export type Vector128Load32Zero = TokenTagEnum.Vector128Load32Zero
-	export type Vector128Load32x2Signed = TokenTagEnum.Vector128Load32x2Signed
-	export type Vector128Load32x2Unsigned = TokenTagEnum.Vector128Load32x2Unsigned
-	export type Vector128Load64Lane = TokenTagEnum.Vector128Load64Lane
-	export type Vector128Load64Splat = TokenTagEnum.Vector128Load64Splat
-	export type Vector128Load64Zero = TokenTagEnum.Vector128Load64Zero
-	export type Vector128Load8Lane = TokenTagEnum.Vector128Load8Lane
-	export type Vector128Load8Splat = TokenTagEnum.Vector128Load8Splat
-	export type Vector128Load8x8Signed = TokenTagEnum.Vector128Load8x8Signed
-	export type Vector128Load8x8Unsigned = TokenTagEnum.Vector128Load8x8Unsigned
-	export type Vector128Store = TokenTagEnum.Vector128Store
-	export type Vector128Store16Lane = TokenTagEnum.Vector128Store16Lane
-	export type Vector128Store32Lane = TokenTagEnum.Vector128Store32Lane
-	export type Vector128Store64Lane = TokenTagEnum.Vector128Store64Lane
-	export type Vector128Store8Lane = TokenTagEnum.Vector128Store8Lane
+	export type UnknownKeyword = TokenTagEnum.UnknownKeyword
 }
 
 export const TokenTag: { [K in TokenTagName]: typeof TokenTagEnum[K] } = {
-	AlignEquals: 1,
-	Block: 2,
-	BlockComment: 3,
-	Branch: 4,
-	BranchIf: 5,
-	BranchTable: 6,
-	Call: 7,
-	CallIndirect: 8,
-	CloseBracket: 9,
-	Data: 10,
-	DataDrop: 11,
-	Declare: 12,
-	Drop: 13,
-	Element: 14,
-	ElementDrop: 15,
-	Else: 16,
-	End: 17,
-	Error: 18,
-	Export: 19,
-	External: 20,
-	ExternalReference: 21,
-	Float32: 22,
-	Float32Absolute: 23,
-	Float32Add: 24,
-	Float32Ceiling: 25,
-	Float32Constant: 26,
-	Float32ConvertInteger32Signed: 27,
-	Float32ConvertInteger32Unsigned: 28,
-	Float32ConvertInteger64Signed: 29,
-	Float32ConvertInteger64Unsigned: 30,
-	Float32CopySign: 31,
-	Float32DemoteFloat64: 32,
-	Float32Divide: 33,
-	Float32Equals: 34,
-	Float32Floor: 35,
-	Float32GreaterThan: 36,
-	Float32GreaterThanOrEquals: 37,
-	Float32LessThan: 38,
-	Float32LessThanOrEquals: 39,
-	Float32Load: 40,
-	Float32Maximum: 41,
-	Float32Minimum: 42,
-	Float32Multiply: 43,
-	Float32Nearest: 44,
-	Float32Negate: 45,
-	Float32NotEquals: 46,
-	Float32ReinterpretInteger32: 47,
-	Float32SquareRoot: 48,
-	Float32Store: 49,
-	Float32Subtract: 50,
-	Float32Truncate: 51,
-	Float32x4: 52,
-	Float64: 53,
-	Float64Absolute: 54,
-	Float64Add: 55,
-	Float64Ceiling: 56,
-	Float64Constant: 57,
-	Float64ConvertInteger32Signed: 58,
-	Float64ConvertInteger32Unsigned: 59,
-	Float64ConvertInteger64Signed: 60,
-	Float64ConvertInteger64Unsigned: 61,
-	Float64CopySign: 62,
-	Float64Divide: 63,
-	Float64Equals: 64,
-	Float64Floor: 65,
-	Float64GreaterThan: 66,
-	Float64GreaterThanOrEquals: 67,
-	Float64LessThan: 68,
-	Float64LessThanOrEquals: 69,
-	Float64Load: 70,
-	Float64Maximum: 71,
-	Float64Minimum: 72,
-	Float64Multiply: 73,
-	Float64Nearest: 74,
-	Float64Negate: 75,
-	Float64NotEquals: 76,
-	Float64PromoteFloat32: 77,
-	Float64ReinterpretInteger64: 78,
-	Float64SquareRoot: 79,
-	Float64Store: 80,
-	Float64Subtract: 81,
-	Float64Truncate: 82,
-	Float64x2: 83,
-	Function: 84,
-	FunctionReference: 85,
-	Global: 86,
-	GlobalGet: 87,
-	GlobalSet: 88,
-	Identifier: 89,
-	If: 90,
-	Import: 91,
-	Integer16x8: 92,
-	Integer16x8Splat: 93,
-	Integer32: 94,
-	Integer32Add: 95,
-	Integer32And: 96,
-	Integer32Constant: 97,
-	Integer32CountLeadingZeros: 98,
-	Integer32CountTrailingZeros: 99,
-	Integer32DivideSigned: 100,
-	Integer32DivideUnsigned: 101,
-	Integer32Equals: 102,
-	Integer32EqualsZero: 103,
-	Integer32Extend16Signed: 104,
-	Integer32Extend8Signed: 105,
-	Integer32GreaterThanOrEqualsSigned: 106,
-	Integer32GreaterThanOrEqualsUnsigned: 107,
-	Integer32GreaterThanSigned: 108,
-	Integer32GreaterThanUnsigned: 109,
-	Integer32LessThanOrEqualsSigned: 110,
-	Integer32LessThanOrEqualsUnsigned: 111,
-	Integer32LessThanSigned: 112,
-	Integer32LessThanUnsigned: 113,
-	Integer32Load: 114,
-	Integer32Load16Signed: 115,
-	Integer32Load16Unsigned: 116,
-	Integer32Load8Signed: 117,
-	Integer32Load8Unsigned: 118,
-	Integer32Multiply: 119,
-	Integer32NotEqual: 120,
-	Integer32Or: 121,
-	Integer32PopCountNonZeros: 122,
-	Integer32ReinterpretFloat32: 123,
-	Integer32RemainderSigned: 124,
-	Integer32RemainderUnsigned: 125,
-	Integer32RotateLeft: 126,
-	Integer32RotateRight: 127,
-	Integer32ShiftLeft: 128,
-	Integer32ShiftRightSigned: 129,
-	Integer32ShiftRightUnsigned: 130,
-	Integer32Store: 131,
-	Integer32Store16: 132,
-	Integer32Store8: 133,
-	Integer32Subtract: 134,
-	Integer32TruncateFloat32Signed: 135,
-	Integer32TruncateFloat32Unsigned: 136,
-	Integer32TruncateFloat64Signed: 137,
-	Integer32TruncateFloat64Unsigned: 138,
-	Integer32TruncateSaturateFloat32Signed: 139,
-	Integer32TruncateSaturateFloat32Unsigned: 140,
-	Integer32TruncateSaturateFloat64Signed: 141,
-	Integer32TruncateSaturateFloat64Unsigned: 142,
-	Integer32WrapInteger64: 143,
-	Integer32Xor: 144,
-	Integer32x4: 145,
-	Integer32x4Splat: 146,
-	Integer64: 147,
-	Integer64Add: 148,
-	Integer64And: 149,
-	Integer64Constant: 150,
-	Integer64CountLeadingZeros: 151,
-	Integer64CountTrailingZeros: 152,
-	Integer64DivideSigned: 153,
-	Integer64DivideUnsigned: 154,
-	Integer64Equals: 155,
-	Integer64EqualsZero: 156,
-	Integer64Extend16Signed: 157,
-	Integer64Extend32Signed: 158,
-	Integer64Extend8Signed: 159,
-	Integer64ExtendInteger32Signed: 160,
-	Integer64ExtendInteger32Unsigned: 161,
-	Integer64GreaterThanOrEqualsSigned: 162,
-	Integer64GreaterThanOrEqualsUnsigned: 163,
-	Integer64GreaterThanSigned: 164,
-	Integer64GreaterThanUnsigned: 165,
-	Integer64LessThanOrEqualsSigned: 166,
-	Integer64LessThanOrEqualsUnsigned: 167,
-	Integer64LessThanSigned: 168,
-	Integer64LessThanUnsigned: 169,
-	Integer64Load: 170,
-	Integer64Load16Signed: 171,
-	Integer64Load16Unsigned: 172,
-	Integer64Load32Signed: 173,
-	Integer64Load32Unsigned: 174,
-	Integer64Load8Signed: 175,
-	Integer64Load8Unsigned: 176,
-	Integer64Multiply: 177,
-	Integer64NotEqual: 178,
-	Integer64Or: 179,
-	Integer64PopCountNonZeros: 180,
-	Integer64ReinterpretFloat64: 181,
-	Integer64RemainderSigned: 182,
-	Integer64RemainderUnsigned: 183,
-	Integer64RotateLeft: 184,
-	Integer64RotateRight: 185,
-	Integer64ShiftLeft: 186,
-	Integer64ShiftRightSigned: 187,
-	Integer64ShiftRightUnsigned: 188,
-	Integer64Store: 189,
-	Integer64Store16: 190,
-	Integer64Store32: 191,
-	Integer64Store8: 192,
-	Integer64Subtract: 193,
-	Integer64TruncateFloat32Signed: 194,
-	Integer64TruncateFloat32Unsigned: 195,
-	Integer64TruncateFloat64Signed: 196,
-	Integer64TruncateFloat64Unsigned: 197,
-	Integer64TruncateSaturateFloat32Signed: 198,
-	Integer64TruncateSaturateFloat32Unsigned: 199,
-	Integer64TruncateSaturateFloat64Signed: 200,
-	Integer64TruncateSaturateFloat64Unsigned: 201,
-	Integer64Xor: 202,
-	Integer64x2: 203,
-	Integer64x2Splat: 204,
-	Integer8x16: 205,
-	Integer8x16Shuffle: 206,
-	Integer8x16Splat: 207,
-	Integer8x16Swizzle: 208,
-	Item: 209,
-	Keyword: 210,
-	LineComment: 211,
-	Local: 212,
-	LocalGet: 213,
-	LocalSet: 214,
-	LocalTee: 215,
-	Loop: 216,
-	Memory: 217,
-	MemoryCopy: 218,
-	MemoryFill: 219,
-	MemoryGrow: 220,
-	MemoryInitiate: 221,
-	MemorySize: 222,
-	Module: 223,
-	Mutable: 224,
-	NoOperation: 225,
-	Number: 226,
-	Offset: 227,
-	OffsetEquals: 228,
-	OpenBracket: 229,
-	Parameter: 230,
-	ReferenceFunction: 231,
-	ReferenceIsNull: 232,
-	ReferenceNull: 233,
-	Result: 234,
-	Return: 235,
-	Select: 236,
-	Start: 237,
-	StringApostropheEscape: 238,
-	StringBackslashEscape: 239,
-	StringEndQuote: 240,
-	StringHexEscape: 241,
-	StringInvalidCharacterError: 242,
-	StringInvalidEscapeError: 243,
-	StringInvalidUnicodeEscapeError: 244,
-	StringNewlineEscape: 245,
-	StringNonEscape: 246,
-	StringQuoteEscape: 247,
-	StringReturnEscape: 248,
-	StringStartQuote: 249,
-	StringTabEscape: 250,
-	StringUnicodeEscape: 251,
-	Table: 252,
-	TableCopy: 253,
-	TableFill: 254,
-	TableGet: 255,
-	TableGrow: 256,
-	TableInitiate: 257,
-	TableSet: 258,
-	TableSize: 259,
-	Type: 260,
-	Unreachable: 261,
-	UnterminatedStringError: 262,
-	Vector128: 263,
-	Vector128Const: 264,
-	Vector128Load: 265,
-	Vector128Load16Lane: 266,
-	Vector128Load16Splat: 267,
-	Vector128Load16x4Signed: 268,
-	Vector128Load16x4Unsigned: 269,
-	Vector128Load32Lane: 270,
-	Vector128Load32Splat: 271,
-	Vector128Load32Zero: 272,
-	Vector128Load32x2Signed: 273,
-	Vector128Load32x2Unsigned: 274,
-	Vector128Load64Lane: 275,
-	Vector128Load64Splat: 276,
-	Vector128Load64Zero: 277,
-	Vector128Load8Lane: 278,
-	Vector128Load8Splat: 279,
-	Vector128Load8x8Signed: 280,
-	Vector128Load8x8Unsigned: 281,
-	Vector128Store: 282,
-	Vector128Store16Lane: 283,
-	Vector128Store32Lane: 284,
-	Vector128Store64Lane: 285,
-	Vector128Store8Lane: 286,
+	BracketClose: 1,
+	BracketOpen: 2,
+	CommentBlock: 3,
+	CommentLine: 4,
+	ErrorInvalidCharacter: 5,
+	ErrorStringInvalidCharacter: 6,
+	ErrorStringInvalidEscape: 7,
+	ErrorStringInvalidUnicodeEscape: 8,
+	ErrorStringUnterminated: 9,
+	Identifier: 10,
+	KeywordAlignEquals: 11,
+	KeywordBlock: 12,
+	KeywordBranch: 13,
+	KeywordBranchIf: 14,
+	KeywordBranchTable: 15,
+	KeywordCall: 16,
+	KeywordCallIndirect: 17,
+	KeywordData: 18,
+	KeywordDataDrop: 19,
+	KeywordDeclare: 20,
+	KeywordDrop: 21,
+	KeywordElement: 22,
+	KeywordElementDrop: 23,
+	KeywordElse: 24,
+	KeywordEnd: 25,
+	KeywordExport: 26,
+	KeywordExternal: 27,
+	KeywordExternalReference: 28,
+	KeywordFloat32: 29,
+	KeywordFloat32Absolute: 30,
+	KeywordFloat32Add: 31,
+	KeywordFloat32Ceiling: 32,
+	KeywordFloat32Constant: 33,
+	KeywordFloat32ConvertInteger32Signed: 34,
+	KeywordFloat32ConvertInteger32Unsigned: 35,
+	KeywordFloat32ConvertInteger64Signed: 36,
+	KeywordFloat32ConvertInteger64Unsigned: 37,
+	KeywordFloat32CopySign: 38,
+	KeywordFloat32DemoteFloat64: 39,
+	KeywordFloat32Divide: 40,
+	KeywordFloat32Equals: 41,
+	KeywordFloat32Floor: 42,
+	KeywordFloat32GreaterThan: 43,
+	KeywordFloat32GreaterThanOrEquals: 44,
+	KeywordFloat32LessThan: 45,
+	KeywordFloat32LessThanOrEquals: 46,
+	KeywordFloat32Load: 47,
+	KeywordFloat32Maximum: 48,
+	KeywordFloat32Minimum: 49,
+	KeywordFloat32Multiply: 50,
+	KeywordFloat32Nearest: 51,
+	KeywordFloat32Negate: 52,
+	KeywordFloat32NotEquals: 53,
+	KeywordFloat32ReinterpretInteger32: 54,
+	KeywordFloat32SquareRoot: 55,
+	KeywordFloat32Store: 56,
+	KeywordFloat32Subtract: 57,
+	KeywordFloat32Truncate: 58,
+	KeywordFloat32x4: 59,
+	KeywordFloat64: 60,
+	KeywordFloat64Absolute: 61,
+	KeywordFloat64Add: 62,
+	KeywordFloat64Ceiling: 63,
+	KeywordFloat64Constant: 64,
+	KeywordFloat64ConvertInteger32Signed: 65,
+	KeywordFloat64ConvertInteger32Unsigned: 66,
+	KeywordFloat64ConvertInteger64Signed: 67,
+	KeywordFloat64ConvertInteger64Unsigned: 68,
+	KeywordFloat64CopySign: 69,
+	KeywordFloat64Divide: 70,
+	KeywordFloat64Equals: 71,
+	KeywordFloat64Floor: 72,
+	KeywordFloat64GreaterThan: 73,
+	KeywordFloat64GreaterThanOrEquals: 74,
+	KeywordFloat64LessThan: 75,
+	KeywordFloat64LessThanOrEquals: 76,
+	KeywordFloat64Load: 77,
+	KeywordFloat64Maximum: 78,
+	KeywordFloat64Minimum: 79,
+	KeywordFloat64Multiply: 80,
+	KeywordFloat64Nearest: 81,
+	KeywordFloat64Negate: 82,
+	KeywordFloat64NotEquals: 83,
+	KeywordFloat64PromoteFloat32: 84,
+	KeywordFloat64ReinterpretInteger64: 85,
+	KeywordFloat64SquareRoot: 86,
+	KeywordFloat64Store: 87,
+	KeywordFloat64Subtract: 88,
+	KeywordFloat64Truncate: 89,
+	KeywordFloat64x2: 90,
+	KeywordFunction: 91,
+	KeywordFunctionReference: 92,
+	KeywordGlobal: 93,
+	KeywordGlobalGet: 94,
+	KeywordGlobalSet: 95,
+	KeywordIf: 96,
+	KeywordImport: 97,
+	KeywordInteger16x8: 98,
+	KeywordInteger16x8Splat: 99,
+	KeywordInteger32: 100,
+	KeywordInteger32Add: 101,
+	KeywordInteger32And: 102,
+	KeywordInteger32Constant: 103,
+	KeywordInteger32CountLeadingZeros: 104,
+	KeywordInteger32CountTrailingZeros: 105,
+	KeywordInteger32DivideSigned: 106,
+	KeywordInteger32DivideUnsigned: 107,
+	KeywordInteger32Equals: 108,
+	KeywordInteger32EqualsZero: 109,
+	KeywordInteger32Extend16Signed: 110,
+	KeywordInteger32Extend8Signed: 111,
+	KeywordInteger32GreaterThanOrEqualsSigned: 112,
+	KeywordInteger32GreaterThanOrEqualsUnsigned: 113,
+	KeywordInteger32GreaterThanSigned: 114,
+	KeywordInteger32GreaterThanUnsigned: 115,
+	KeywordInteger32LessThanOrEqualsSigned: 116,
+	KeywordInteger32LessThanOrEqualsUnsigned: 117,
+	KeywordInteger32LessThanSigned: 118,
+	KeywordInteger32LessThanUnsigned: 119,
+	KeywordInteger32Load: 120,
+	KeywordInteger32Load16Signed: 121,
+	KeywordInteger32Load16Unsigned: 122,
+	KeywordInteger32Load8Signed: 123,
+	KeywordInteger32Load8Unsigned: 124,
+	KeywordInteger32Multiply: 125,
+	KeywordInteger32NotEqual: 126,
+	KeywordInteger32Or: 127,
+	KeywordInteger32PopCountNonZeros: 128,
+	KeywordInteger32ReinterpretFloat32: 129,
+	KeywordInteger32RemainderSigned: 130,
+	KeywordInteger32RemainderUnsigned: 131,
+	KeywordInteger32RotateLeft: 132,
+	KeywordInteger32RotateRight: 133,
+	KeywordInteger32ShiftLeft: 134,
+	KeywordInteger32ShiftRightSigned: 135,
+	KeywordInteger32ShiftRightUnsigned: 136,
+	KeywordInteger32Store: 137,
+	KeywordInteger32Store16: 138,
+	KeywordInteger32Store8: 139,
+	KeywordInteger32Subtract: 140,
+	KeywordInteger32TruncateFloat32Signed: 141,
+	KeywordInteger32TruncateFloat32Unsigned: 142,
+	KeywordInteger32TruncateFloat64Signed: 143,
+	KeywordInteger32TruncateFloat64Unsigned: 144,
+	KeywordInteger32TruncateSaturateFloat32Signed: 145,
+	KeywordInteger32TruncateSaturateFloat32Unsigned: 146,
+	KeywordInteger32TruncateSaturateFloat64Signed: 147,
+	KeywordInteger32TruncateSaturateFloat64Unsigned: 148,
+	KeywordInteger32WrapInteger64: 149,
+	KeywordInteger32Xor: 150,
+	KeywordInteger32x4: 151,
+	KeywordInteger32x4Splat: 152,
+	KeywordInteger64: 153,
+	KeywordInteger64Add: 154,
+	KeywordInteger64And: 155,
+	KeywordInteger64Constant: 156,
+	KeywordInteger64CountLeadingZeros: 157,
+	KeywordInteger64CountTrailingZeros: 158,
+	KeywordInteger64DivideSigned: 159,
+	KeywordInteger64DivideUnsigned: 160,
+	KeywordInteger64Equals: 161,
+	KeywordInteger64EqualsZero: 162,
+	KeywordInteger64Extend16Signed: 163,
+	KeywordInteger64Extend32Signed: 164,
+	KeywordInteger64Extend8Signed: 165,
+	KeywordInteger64ExtendInteger32Signed: 166,
+	KeywordInteger64ExtendInteger32Unsigned: 167,
+	KeywordInteger64GreaterThanOrEqualsSigned: 168,
+	KeywordInteger64GreaterThanOrEqualsUnsigned: 169,
+	KeywordInteger64GreaterThanSigned: 170,
+	KeywordInteger64GreaterThanUnsigned: 171,
+	KeywordInteger64LessThanOrEqualsSigned: 172,
+	KeywordInteger64LessThanOrEqualsUnsigned: 173,
+	KeywordInteger64LessThanSigned: 174,
+	KeywordInteger64LessThanUnsigned: 175,
+	KeywordInteger64Load: 176,
+	KeywordInteger64Load16Signed: 177,
+	KeywordInteger64Load16Unsigned: 178,
+	KeywordInteger64Load32Signed: 179,
+	KeywordInteger64Load32Unsigned: 180,
+	KeywordInteger64Load8Signed: 181,
+	KeywordInteger64Load8Unsigned: 182,
+	KeywordInteger64Multiply: 183,
+	KeywordInteger64NotEqual: 184,
+	KeywordInteger64Or: 185,
+	KeywordInteger64PopCountNonZeros: 186,
+	KeywordInteger64ReinterpretFloat64: 187,
+	KeywordInteger64RemainderSigned: 188,
+	KeywordInteger64RemainderUnsigned: 189,
+	KeywordInteger64RotateLeft: 190,
+	KeywordInteger64RotateRight: 191,
+	KeywordInteger64ShiftLeft: 192,
+	KeywordInteger64ShiftRightSigned: 193,
+	KeywordInteger64ShiftRightUnsigned: 194,
+	KeywordInteger64Store: 195,
+	KeywordInteger64Store16: 196,
+	KeywordInteger64Store32: 197,
+	KeywordInteger64Store8: 198,
+	KeywordInteger64Subtract: 199,
+	KeywordInteger64TruncateFloat32Signed: 200,
+	KeywordInteger64TruncateFloat32Unsigned: 201,
+	KeywordInteger64TruncateFloat64Signed: 202,
+	KeywordInteger64TruncateFloat64Unsigned: 203,
+	KeywordInteger64TruncateSaturateFloat32Signed: 204,
+	KeywordInteger64TruncateSaturateFloat32Unsigned: 205,
+	KeywordInteger64TruncateSaturateFloat64Signed: 206,
+	KeywordInteger64TruncateSaturateFloat64Unsigned: 207,
+	KeywordInteger64Xor: 208,
+	KeywordInteger64x2: 209,
+	KeywordInteger64x2Splat: 210,
+	KeywordInteger8x16: 211,
+	KeywordInteger8x16Shuffle: 212,
+	KeywordInteger8x16Splat: 213,
+	KeywordInteger8x16Swizzle: 214,
+	KeywordItem: 215,
+	KeywordLocal: 216,
+	KeywordLocalGet: 217,
+	KeywordLocalSet: 218,
+	KeywordLocalTee: 219,
+	KeywordLoop: 220,
+	KeywordMemory: 221,
+	KeywordMemoryCopy: 222,
+	KeywordMemoryFill: 223,
+	KeywordMemoryGrow: 224,
+	KeywordMemoryInitiate: 225,
+	KeywordMemorySize: 226,
+	KeywordModule: 227,
+	KeywordMutable: 228,
+	KeywordNoOperation: 229,
+	KeywordOffset: 230,
+	KeywordOffsetEquals: 231,
+	KeywordParameter: 232,
+	KeywordReferenceFunction: 233,
+	KeywordReferenceIsNull: 234,
+	KeywordReferenceNull: 235,
+	KeywordResult: 236,
+	KeywordReturn: 237,
+	KeywordSelect: 238,
+	KeywordStart: 239,
+	KeywordTable: 240,
+	KeywordTableCopy: 241,
+	KeywordTableFill: 242,
+	KeywordTableGet: 243,
+	KeywordTableGrow: 244,
+	KeywordTableInitiate: 245,
+	KeywordTableSet: 246,
+	KeywordTableSize: 247,
+	KeywordType: 248,
+	KeywordUnreachable: 249,
+	KeywordVector128: 250,
+	KeywordVector128Const: 251,
+	KeywordVector128Load: 252,
+	KeywordVector128Load16Lane: 253,
+	KeywordVector128Load16Splat: 254,
+	KeywordVector128Load16x4Signed: 255,
+	KeywordVector128Load16x4Unsigned: 256,
+	KeywordVector128Load32Lane: 257,
+	KeywordVector128Load32Splat: 258,
+	KeywordVector128Load32Zero: 259,
+	KeywordVector128Load32x2Signed: 260,
+	KeywordVector128Load32x2Unsigned: 261,
+	KeywordVector128Load64Lane: 262,
+	KeywordVector128Load64Splat: 263,
+	KeywordVector128Load64Zero: 264,
+	KeywordVector128Load8Lane: 265,
+	KeywordVector128Load8Splat: 266,
+	KeywordVector128Load8x8Signed: 267,
+	KeywordVector128Load8x8Unsigned: 268,
+	KeywordVector128Store: 269,
+	KeywordVector128Store16Lane: 270,
+	KeywordVector128Store32Lane: 271,
+	KeywordVector128Store64Lane: 272,
+	KeywordVector128Store8Lane: 273,
+	Number: 274,
+	StringApostropheEscape: 275,
+	StringBackslashEscape: 276,
+	StringEndQuote: 277,
+	StringHexEscape: 278,
+	StringNewlineEscape: 279,
+	StringNonEscape: 280,
+	StringQuoteEscape: 281,
+	StringReturnEscape: 282,
+	StringStartQuote: 283,
+	StringTabEscape: 284,
+	StringUnicodeEscape: 285,
+	UnknownKeyword: 286,
 }
 
 export const TokenTagsToNames: Record<number, string> = {
-	1: "AlignEquals",
-	2: "Block",
-	3: "BlockComment",
-	4: "Branch",
-	5: "BranchIf",
-	6: "BranchTable",
-	7: "Call",
-	8: "CallIndirect",
-	9: "CloseBracket",
-	10: "Data",
-	11: "DataDrop",
-	12: "Declare",
-	13: "Drop",
-	14: "Element",
-	15: "ElementDrop",
-	16: "Else",
-	17: "End",
-	18: "Error",
-	19: "Export",
-	20: "External",
-	21: "ExternalReference",
-	22: "Float32",
-	23: "Float32Absolute",
-	24: "Float32Add",
-	25: "Float32Ceiling",
-	26: "Float32Constant",
-	27: "Float32ConvertInteger32Signed",
-	28: "Float32ConvertInteger32Unsigned",
-	29: "Float32ConvertInteger64Signed",
-	30: "Float32ConvertInteger64Unsigned",
-	31: "Float32CopySign",
-	32: "Float32DemoteFloat64",
-	33: "Float32Divide",
-	34: "Float32Equals",
-	35: "Float32Floor",
-	36: "Float32GreaterThan",
-	37: "Float32GreaterThanOrEquals",
-	38: "Float32LessThan",
-	39: "Float32LessThanOrEquals",
-	40: "Float32Load",
-	41: "Float32Maximum",
-	42: "Float32Minimum",
-	43: "Float32Multiply",
-	44: "Float32Nearest",
-	45: "Float32Negate",
-	46: "Float32NotEquals",
-	47: "Float32ReinterpretInteger32",
-	48: "Float32SquareRoot",
-	49: "Float32Store",
-	50: "Float32Subtract",
-	51: "Float32Truncate",
-	52: "Float32x4",
-	53: "Float64",
-	54: "Float64Absolute",
-	55: "Float64Add",
-	56: "Float64Ceiling",
-	57: "Float64Constant",
-	58: "Float64ConvertInteger32Signed",
-	59: "Float64ConvertInteger32Unsigned",
-	60: "Float64ConvertInteger64Signed",
-	61: "Float64ConvertInteger64Unsigned",
-	62: "Float64CopySign",
-	63: "Float64Divide",
-	64: "Float64Equals",
-	65: "Float64Floor",
-	66: "Float64GreaterThan",
-	67: "Float64GreaterThanOrEquals",
-	68: "Float64LessThan",
-	69: "Float64LessThanOrEquals",
-	70: "Float64Load",
-	71: "Float64Maximum",
-	72: "Float64Minimum",
-	73: "Float64Multiply",
-	74: "Float64Nearest",
-	75: "Float64Negate",
-	76: "Float64NotEquals",
-	77: "Float64PromoteFloat32",
-	78: "Float64ReinterpretInteger64",
-	79: "Float64SquareRoot",
-	80: "Float64Store",
-	81: "Float64Subtract",
-	82: "Float64Truncate",
-	83: "Float64x2",
-	84: "Function",
-	85: "FunctionReference",
-	86: "Global",
-	87: "GlobalGet",
-	88: "GlobalSet",
-	89: "Identifier",
-	90: "If",
-	91: "Import",
-	92: "Integer16x8",
-	93: "Integer16x8Splat",
-	94: "Integer32",
-	95: "Integer32Add",
-	96: "Integer32And",
-	97: "Integer32Constant",
-	98: "Integer32CountLeadingZeros",
-	99: "Integer32CountTrailingZeros",
-	100: "Integer32DivideSigned",
-	101: "Integer32DivideUnsigned",
-	102: "Integer32Equals",
-	103: "Integer32EqualsZero",
-	104: "Integer32Extend16Signed",
-	105: "Integer32Extend8Signed",
-	106: "Integer32GreaterThanOrEqualsSigned",
-	107: "Integer32GreaterThanOrEqualsUnsigned",
-	108: "Integer32GreaterThanSigned",
-	109: "Integer32GreaterThanUnsigned",
-	110: "Integer32LessThanOrEqualsSigned",
-	111: "Integer32LessThanOrEqualsUnsigned",
-	112: "Integer32LessThanSigned",
-	113: "Integer32LessThanUnsigned",
-	114: "Integer32Load",
-	115: "Integer32Load16Signed",
-	116: "Integer32Load16Unsigned",
-	117: "Integer32Load8Signed",
-	118: "Integer32Load8Unsigned",
-	119: "Integer32Multiply",
-	120: "Integer32NotEqual",
-	121: "Integer32Or",
-	122: "Integer32PopCountNonZeros",
-	123: "Integer32ReinterpretFloat32",
-	124: "Integer32RemainderSigned",
-	125: "Integer32RemainderUnsigned",
-	126: "Integer32RotateLeft",
-	127: "Integer32RotateRight",
-	128: "Integer32ShiftLeft",
-	129: "Integer32ShiftRightSigned",
-	130: "Integer32ShiftRightUnsigned",
-	131: "Integer32Store",
-	132: "Integer32Store16",
-	133: "Integer32Store8",
-	134: "Integer32Subtract",
-	135: "Integer32TruncateFloat32Signed",
-	136: "Integer32TruncateFloat32Unsigned",
-	137: "Integer32TruncateFloat64Signed",
-	138: "Integer32TruncateFloat64Unsigned",
-	139: "Integer32TruncateSaturateFloat32Signed",
-	140: "Integer32TruncateSaturateFloat32Unsigned",
-	141: "Integer32TruncateSaturateFloat64Signed",
-	142: "Integer32TruncateSaturateFloat64Unsigned",
-	143: "Integer32WrapInteger64",
-	144: "Integer32Xor",
-	145: "Integer32x4",
-	146: "Integer32x4Splat",
-	147: "Integer64",
-	148: "Integer64Add",
-	149: "Integer64And",
-	150: "Integer64Constant",
-	151: "Integer64CountLeadingZeros",
-	152: "Integer64CountTrailingZeros",
-	153: "Integer64DivideSigned",
-	154: "Integer64DivideUnsigned",
-	155: "Integer64Equals",
-	156: "Integer64EqualsZero",
-	157: "Integer64Extend16Signed",
-	158: "Integer64Extend32Signed",
-	159: "Integer64Extend8Signed",
-	160: "Integer64ExtendInteger32Signed",
-	161: "Integer64ExtendInteger32Unsigned",
-	162: "Integer64GreaterThanOrEqualsSigned",
-	163: "Integer64GreaterThanOrEqualsUnsigned",
-	164: "Integer64GreaterThanSigned",
-	165: "Integer64GreaterThanUnsigned",
-	166: "Integer64LessThanOrEqualsSigned",
-	167: "Integer64LessThanOrEqualsUnsigned",
-	168: "Integer64LessThanSigned",
-	169: "Integer64LessThanUnsigned",
-	170: "Integer64Load",
-	171: "Integer64Load16Signed",
-	172: "Integer64Load16Unsigned",
-	173: "Integer64Load32Signed",
-	174: "Integer64Load32Unsigned",
-	175: "Integer64Load8Signed",
-	176: "Integer64Load8Unsigned",
-	177: "Integer64Multiply",
-	178: "Integer64NotEqual",
-	179: "Integer64Or",
-	180: "Integer64PopCountNonZeros",
-	181: "Integer64ReinterpretFloat64",
-	182: "Integer64RemainderSigned",
-	183: "Integer64RemainderUnsigned",
-	184: "Integer64RotateLeft",
-	185: "Integer64RotateRight",
-	186: "Integer64ShiftLeft",
-	187: "Integer64ShiftRightSigned",
-	188: "Integer64ShiftRightUnsigned",
-	189: "Integer64Store",
-	190: "Integer64Store16",
-	191: "Integer64Store32",
-	192: "Integer64Store8",
-	193: "Integer64Subtract",
-	194: "Integer64TruncateFloat32Signed",
-	195: "Integer64TruncateFloat32Unsigned",
-	196: "Integer64TruncateFloat64Signed",
-	197: "Integer64TruncateFloat64Unsigned",
-	198: "Integer64TruncateSaturateFloat32Signed",
-	199: "Integer64TruncateSaturateFloat32Unsigned",
-	200: "Integer64TruncateSaturateFloat64Signed",
-	201: "Integer64TruncateSaturateFloat64Unsigned",
-	202: "Integer64Xor",
-	203: "Integer64x2",
-	204: "Integer64x2Splat",
-	205: "Integer8x16",
-	206: "Integer8x16Shuffle",
-	207: "Integer8x16Splat",
-	208: "Integer8x16Swizzle",
-	209: "Item",
-	210: "Keyword",
-	211: "LineComment",
-	212: "Local",
-	213: "LocalGet",
-	214: "LocalSet",
-	215: "LocalTee",
-	216: "Loop",
-	217: "Memory",
-	218: "MemoryCopy",
-	219: "MemoryFill",
-	220: "MemoryGrow",
-	221: "MemoryInitiate",
-	222: "MemorySize",
-	223: "Module",
-	224: "Mutable",
-	225: "NoOperation",
-	226: "Number",
-	227: "Offset",
-	228: "OffsetEquals",
-	229: "OpenBracket",
-	230: "Parameter",
-	231: "ReferenceFunction",
-	232: "ReferenceIsNull",
-	233: "ReferenceNull",
-	234: "Result",
-	235: "Return",
-	236: "Select",
-	237: "Start",
-	238: "StringApostropheEscape",
-	239: "StringBackslashEscape",
-	240: "StringEndQuote",
-	241: "StringHexEscape",
-	242: "StringInvalidCharacterError",
-	243: "StringInvalidEscapeError",
-	244: "StringInvalidUnicodeEscapeError",
-	245: "StringNewlineEscape",
-	246: "StringNonEscape",
-	247: "StringQuoteEscape",
-	248: "StringReturnEscape",
-	249: "StringStartQuote",
-	250: "StringTabEscape",
-	251: "StringUnicodeEscape",
-	252: "Table",
-	253: "TableCopy",
-	254: "TableFill",
-	255: "TableGet",
-	256: "TableGrow",
-	257: "TableInitiate",
-	258: "TableSet",
-	259: "TableSize",
-	260: "Type",
-	261: "Unreachable",
-	262: "UnterminatedStringError",
-	263: "Vector128",
-	264: "Vector128Const",
-	265: "Vector128Load",
-	266: "Vector128Load16Lane",
-	267: "Vector128Load16Splat",
-	268: "Vector128Load16x4Signed",
-	269: "Vector128Load16x4Unsigned",
-	270: "Vector128Load32Lane",
-	271: "Vector128Load32Splat",
-	272: "Vector128Load32Zero",
-	273: "Vector128Load32x2Signed",
-	274: "Vector128Load32x2Unsigned",
-	275: "Vector128Load64Lane",
-	276: "Vector128Load64Splat",
-	277: "Vector128Load64Zero",
-	278: "Vector128Load8Lane",
-	279: "Vector128Load8Splat",
-	280: "Vector128Load8x8Signed",
-	281: "Vector128Load8x8Unsigned",
-	282: "Vector128Store",
-	283: "Vector128Store16Lane",
-	284: "Vector128Store32Lane",
-	285: "Vector128Store64Lane",
-	286: "Vector128Store8Lane",
+	1: "BracketClose",
+	2: "BracketOpen",
+	3: "CommentBlock",
+	4: "CommentLine",
+	5: "ErrorInvalidCharacter",
+	6: "ErrorStringInvalidCharacter",
+	7: "ErrorStringInvalidEscape",
+	8: "ErrorStringInvalidUnicodeEscape",
+	9: "ErrorStringUnterminated",
+	10: "Identifier",
+	11: "KeywordAlignEquals",
+	12: "KeywordBlock",
+	13: "KeywordBranch",
+	14: "KeywordBranchIf",
+	15: "KeywordBranchTable",
+	16: "KeywordCall",
+	17: "KeywordCallIndirect",
+	18: "KeywordData",
+	19: "KeywordDataDrop",
+	20: "KeywordDeclare",
+	21: "KeywordDrop",
+	22: "KeywordElement",
+	23: "KeywordElementDrop",
+	24: "KeywordElse",
+	25: "KeywordEnd",
+	26: "KeywordExport",
+	27: "KeywordExternal",
+	28: "KeywordExternalReference",
+	29: "KeywordFloat32",
+	30: "KeywordFloat32Absolute",
+	31: "KeywordFloat32Add",
+	32: "KeywordFloat32Ceiling",
+	33: "KeywordFloat32Constant",
+	34: "KeywordFloat32ConvertInteger32Signed",
+	35: "KeywordFloat32ConvertInteger32Unsigned",
+	36: "KeywordFloat32ConvertInteger64Signed",
+	37: "KeywordFloat32ConvertInteger64Unsigned",
+	38: "KeywordFloat32CopySign",
+	39: "KeywordFloat32DemoteFloat64",
+	40: "KeywordFloat32Divide",
+	41: "KeywordFloat32Equals",
+	42: "KeywordFloat32Floor",
+	43: "KeywordFloat32GreaterThan",
+	44: "KeywordFloat32GreaterThanOrEquals",
+	45: "KeywordFloat32LessThan",
+	46: "KeywordFloat32LessThanOrEquals",
+	47: "KeywordFloat32Load",
+	48: "KeywordFloat32Maximum",
+	49: "KeywordFloat32Minimum",
+	50: "KeywordFloat32Multiply",
+	51: "KeywordFloat32Nearest",
+	52: "KeywordFloat32Negate",
+	53: "KeywordFloat32NotEquals",
+	54: "KeywordFloat32ReinterpretInteger32",
+	55: "KeywordFloat32SquareRoot",
+	56: "KeywordFloat32Store",
+	57: "KeywordFloat32Subtract",
+	58: "KeywordFloat32Truncate",
+	59: "KeywordFloat32x4",
+	60: "KeywordFloat64",
+	61: "KeywordFloat64Absolute",
+	62: "KeywordFloat64Add",
+	63: "KeywordFloat64Ceiling",
+	64: "KeywordFloat64Constant",
+	65: "KeywordFloat64ConvertInteger32Signed",
+	66: "KeywordFloat64ConvertInteger32Unsigned",
+	67: "KeywordFloat64ConvertInteger64Signed",
+	68: "KeywordFloat64ConvertInteger64Unsigned",
+	69: "KeywordFloat64CopySign",
+	70: "KeywordFloat64Divide",
+	71: "KeywordFloat64Equals",
+	72: "KeywordFloat64Floor",
+	73: "KeywordFloat64GreaterThan",
+	74: "KeywordFloat64GreaterThanOrEquals",
+	75: "KeywordFloat64LessThan",
+	76: "KeywordFloat64LessThanOrEquals",
+	77: "KeywordFloat64Load",
+	78: "KeywordFloat64Maximum",
+	79: "KeywordFloat64Minimum",
+	80: "KeywordFloat64Multiply",
+	81: "KeywordFloat64Nearest",
+	82: "KeywordFloat64Negate",
+	83: "KeywordFloat64NotEquals",
+	84: "KeywordFloat64PromoteFloat32",
+	85: "KeywordFloat64ReinterpretInteger64",
+	86: "KeywordFloat64SquareRoot",
+	87: "KeywordFloat64Store",
+	88: "KeywordFloat64Subtract",
+	89: "KeywordFloat64Truncate",
+	90: "KeywordFloat64x2",
+	91: "KeywordFunction",
+	92: "KeywordFunctionReference",
+	93: "KeywordGlobal",
+	94: "KeywordGlobalGet",
+	95: "KeywordGlobalSet",
+	96: "KeywordIf",
+	97: "KeywordImport",
+	98: "KeywordInteger16x8",
+	99: "KeywordInteger16x8Splat",
+	100: "KeywordInteger32",
+	101: "KeywordInteger32Add",
+	102: "KeywordInteger32And",
+	103: "KeywordInteger32Constant",
+	104: "KeywordInteger32CountLeadingZeros",
+	105: "KeywordInteger32CountTrailingZeros",
+	106: "KeywordInteger32DivideSigned",
+	107: "KeywordInteger32DivideUnsigned",
+	108: "KeywordInteger32Equals",
+	109: "KeywordInteger32EqualsZero",
+	110: "KeywordInteger32Extend16Signed",
+	111: "KeywordInteger32Extend8Signed",
+	112: "KeywordInteger32GreaterThanOrEqualsSigned",
+	113: "KeywordInteger32GreaterThanOrEqualsUnsigned",
+	114: "KeywordInteger32GreaterThanSigned",
+	115: "KeywordInteger32GreaterThanUnsigned",
+	116: "KeywordInteger32LessThanOrEqualsSigned",
+	117: "KeywordInteger32LessThanOrEqualsUnsigned",
+	118: "KeywordInteger32LessThanSigned",
+	119: "KeywordInteger32LessThanUnsigned",
+	120: "KeywordInteger32Load",
+	121: "KeywordInteger32Load16Signed",
+	122: "KeywordInteger32Load16Unsigned",
+	123: "KeywordInteger32Load8Signed",
+	124: "KeywordInteger32Load8Unsigned",
+	125: "KeywordInteger32Multiply",
+	126: "KeywordInteger32NotEqual",
+	127: "KeywordInteger32Or",
+	128: "KeywordInteger32PopCountNonZeros",
+	129: "KeywordInteger32ReinterpretFloat32",
+	130: "KeywordInteger32RemainderSigned",
+	131: "KeywordInteger32RemainderUnsigned",
+	132: "KeywordInteger32RotateLeft",
+	133: "KeywordInteger32RotateRight",
+	134: "KeywordInteger32ShiftLeft",
+	135: "KeywordInteger32ShiftRightSigned",
+	136: "KeywordInteger32ShiftRightUnsigned",
+	137: "KeywordInteger32Store",
+	138: "KeywordInteger32Store16",
+	139: "KeywordInteger32Store8",
+	140: "KeywordInteger32Subtract",
+	141: "KeywordInteger32TruncateFloat32Signed",
+	142: "KeywordInteger32TruncateFloat32Unsigned",
+	143: "KeywordInteger32TruncateFloat64Signed",
+	144: "KeywordInteger32TruncateFloat64Unsigned",
+	145: "KeywordInteger32TruncateSaturateFloat32Signed",
+	146: "KeywordInteger32TruncateSaturateFloat32Unsigned",
+	147: "KeywordInteger32TruncateSaturateFloat64Signed",
+	148: "KeywordInteger32TruncateSaturateFloat64Unsigned",
+	149: "KeywordInteger32WrapInteger64",
+	150: "KeywordInteger32Xor",
+	151: "KeywordInteger32x4",
+	152: "KeywordInteger32x4Splat",
+	153: "KeywordInteger64",
+	154: "KeywordInteger64Add",
+	155: "KeywordInteger64And",
+	156: "KeywordInteger64Constant",
+	157: "KeywordInteger64CountLeadingZeros",
+	158: "KeywordInteger64CountTrailingZeros",
+	159: "KeywordInteger64DivideSigned",
+	160: "KeywordInteger64DivideUnsigned",
+	161: "KeywordInteger64Equals",
+	162: "KeywordInteger64EqualsZero",
+	163: "KeywordInteger64Extend16Signed",
+	164: "KeywordInteger64Extend32Signed",
+	165: "KeywordInteger64Extend8Signed",
+	166: "KeywordInteger64ExtendInteger32Signed",
+	167: "KeywordInteger64ExtendInteger32Unsigned",
+	168: "KeywordInteger64GreaterThanOrEqualsSigned",
+	169: "KeywordInteger64GreaterThanOrEqualsUnsigned",
+	170: "KeywordInteger64GreaterThanSigned",
+	171: "KeywordInteger64GreaterThanUnsigned",
+	172: "KeywordInteger64LessThanOrEqualsSigned",
+	173: "KeywordInteger64LessThanOrEqualsUnsigned",
+	174: "KeywordInteger64LessThanSigned",
+	175: "KeywordInteger64LessThanUnsigned",
+	176: "KeywordInteger64Load",
+	177: "KeywordInteger64Load16Signed",
+	178: "KeywordInteger64Load16Unsigned",
+	179: "KeywordInteger64Load32Signed",
+	180: "KeywordInteger64Load32Unsigned",
+	181: "KeywordInteger64Load8Signed",
+	182: "KeywordInteger64Load8Unsigned",
+	183: "KeywordInteger64Multiply",
+	184: "KeywordInteger64NotEqual",
+	185: "KeywordInteger64Or",
+	186: "KeywordInteger64PopCountNonZeros",
+	187: "KeywordInteger64ReinterpretFloat64",
+	188: "KeywordInteger64RemainderSigned",
+	189: "KeywordInteger64RemainderUnsigned",
+	190: "KeywordInteger64RotateLeft",
+	191: "KeywordInteger64RotateRight",
+	192: "KeywordInteger64ShiftLeft",
+	193: "KeywordInteger64ShiftRightSigned",
+	194: "KeywordInteger64ShiftRightUnsigned",
+	195: "KeywordInteger64Store",
+	196: "KeywordInteger64Store16",
+	197: "KeywordInteger64Store32",
+	198: "KeywordInteger64Store8",
+	199: "KeywordInteger64Subtract",
+	200: "KeywordInteger64TruncateFloat32Signed",
+	201: "KeywordInteger64TruncateFloat32Unsigned",
+	202: "KeywordInteger64TruncateFloat64Signed",
+	203: "KeywordInteger64TruncateFloat64Unsigned",
+	204: "KeywordInteger64TruncateSaturateFloat32Signed",
+	205: "KeywordInteger64TruncateSaturateFloat32Unsigned",
+	206: "KeywordInteger64TruncateSaturateFloat64Signed",
+	207: "KeywordInteger64TruncateSaturateFloat64Unsigned",
+	208: "KeywordInteger64Xor",
+	209: "KeywordInteger64x2",
+	210: "KeywordInteger64x2Splat",
+	211: "KeywordInteger8x16",
+	212: "KeywordInteger8x16Shuffle",
+	213: "KeywordInteger8x16Splat",
+	214: "KeywordInteger8x16Swizzle",
+	215: "KeywordItem",
+	216: "KeywordLocal",
+	217: "KeywordLocalGet",
+	218: "KeywordLocalSet",
+	219: "KeywordLocalTee",
+	220: "KeywordLoop",
+	221: "KeywordMemory",
+	222: "KeywordMemoryCopy",
+	223: "KeywordMemoryFill",
+	224: "KeywordMemoryGrow",
+	225: "KeywordMemoryInitiate",
+	226: "KeywordMemorySize",
+	227: "KeywordModule",
+	228: "KeywordMutable",
+	229: "KeywordNoOperation",
+	230: "KeywordOffset",
+	231: "KeywordOffsetEquals",
+	232: "KeywordParameter",
+	233: "KeywordReferenceFunction",
+	234: "KeywordReferenceIsNull",
+	235: "KeywordReferenceNull",
+	236: "KeywordResult",
+	237: "KeywordReturn",
+	238: "KeywordSelect",
+	239: "KeywordStart",
+	240: "KeywordTable",
+	241: "KeywordTableCopy",
+	242: "KeywordTableFill",
+	243: "KeywordTableGet",
+	244: "KeywordTableGrow",
+	245: "KeywordTableInitiate",
+	246: "KeywordTableSet",
+	247: "KeywordTableSize",
+	248: "KeywordType",
+	249: "KeywordUnreachable",
+	250: "KeywordVector128",
+	251: "KeywordVector128Const",
+	252: "KeywordVector128Load",
+	253: "KeywordVector128Load16Lane",
+	254: "KeywordVector128Load16Splat",
+	255: "KeywordVector128Load16x4Signed",
+	256: "KeywordVector128Load16x4Unsigned",
+	257: "KeywordVector128Load32Lane",
+	258: "KeywordVector128Load32Splat",
+	259: "KeywordVector128Load32Zero",
+	260: "KeywordVector128Load32x2Signed",
+	261: "KeywordVector128Load32x2Unsigned",
+	262: "KeywordVector128Load64Lane",
+	263: "KeywordVector128Load64Splat",
+	264: "KeywordVector128Load64Zero",
+	265: "KeywordVector128Load8Lane",
+	266: "KeywordVector128Load8Splat",
+	267: "KeywordVector128Load8x8Signed",
+	268: "KeywordVector128Load8x8Unsigned",
+	269: "KeywordVector128Store",
+	270: "KeywordVector128Store16Lane",
+	271: "KeywordVector128Store32Lane",
+	272: "KeywordVector128Store64Lane",
+	273: "KeywordVector128Store8Lane",
+	274: "Number",
+	275: "StringApostropheEscape",
+	276: "StringBackslashEscape",
+	277: "StringEndQuote",
+	278: "StringHexEscape",
+	279: "StringNewlineEscape",
+	280: "StringNonEscape",
+	281: "StringQuoteEscape",
+	282: "StringReturnEscape",
+	283: "StringStartQuote",
+	284: "StringTabEscape",
+	285: "StringUnicodeEscape",
+	286: "UnknownKeyword",
 }
