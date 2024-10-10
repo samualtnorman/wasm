@@ -598,83 +598,21 @@ if (import.meta.vitest) {
 	test(`collapse error tokens`, () => check(`,,`))
 	test(`seperate error tokens around whitespace`, () => check(`, ,`))
 	test(`error then keyword`, () => check(`,i32`))
-
-	test(`error before whitespace does not include whitespace`, () =>
-		expectTokens(`, 0`).toMatchObject([ { tag: TokenTag.Error, size: 1 }, { tag: TokenTag.Number, size: 1 } ])
-	)
-
-	test(`string`, () => expectTokens(String.raw`"a\00\t\n\r\"\'\\\u{0}"`).toMatchObject([
-		{ tag: TokenTag.StringStartQuote, size: 1 },
-		{ tag: TokenTag.StringNonEscape, size: 1 },
-		{ tag: TokenTag.StringHexEscape, size: 3 },
-		{ tag: TokenTag.StringTabEscape, size: 2 },
-		{ tag: TokenTag.StringNewlineEscape, size: 2 },
-		{ tag: TokenTag.StringReturnEscape, size: 2 },
-		{ tag: TokenTag.StringQuoteEscape, size: 2 },
-		{ tag: TokenTag.StringApostropheEscape, size: 2 },
-		{ tag: TokenTag.StringBackslashEscape, size: 2 },
-		{ tag: TokenTag.StringUnicodeEscape, size: 5 },
-		{ tag: TokenTag.StringEndQuote, size: 1 },
-	]))
-
-	test(`untermianted string`, () => expectTokens(`"`).toMatchObject([
-		{ tag: TokenTag.StringStartQuote, index: 0, size: 1 },
-		{ tag: TokenTag.UnterminatedStringError, index: 1, size: 0 }
-	]))
-
-	test(`string invalid character`, () => expectTokens(`"\0"`).toMatchObject([
-		{ tag: TokenTag.StringStartQuote, index: 0, size: 1 },
-		{ tag: TokenTag.StringInvalidCharacterError, index: 1, size: 1 },
-		{ tag: TokenTag.StringEndQuote, index: 2, size: 1 }
-	]))
-
-	test(`assume string ended on newline`, () => expectTokens(`\"a\ni32`).toMatchObject([
-		{ tag: TokenTag.StringStartQuote, index: 0, size: 1 },
-		{ tag: TokenTag.StringNonEscape, index: 1, size: 1 },
-		{ tag: TokenTag.UnterminatedStringError, index: 2, size: 1 },
-		{ tag: TokenTag.Integer32, index: 3, size: 3 }
-	]))
-
-	test(`invalid string escape`, () => expectTokens(`"a\\ "`).toMatchObject([
-		{ tag: TokenTag.StringStartQuote, index: 0, size: 1 },
-		{ tag: TokenTag.StringNonEscape, index: 1, size: 1 },
-		{ tag: TokenTag.StringInvalidEscapeError, index: 2, size: 2 },
-		{ tag: TokenTag.StringEndQuote, index: 4, size: 1 }
-	]))
+	test(`error before whitespace does not include whitespace`, () => check(`, 0`))
+	test(`string`, () => check(String.raw`"a\00\t\n\r\"\'\\\u{0}"`))
+	test(`untermianted string`, () => check(`"`))
+	test(`string invalid character`, () => check(`"\0"`))
+	test(`assume string ended on newline`, () => check(`\"a\ni32`))
+	test(`invalid string escape`, () => check(`"a\\ "`))
 
 	test(`invalid string unicode escape`, () => {
-		expectTokens(`"\\u "`).toMatchObject([
-			{ tag: TokenTag.StringStartQuote, index: 0, size: 1 },
-			{ tag: TokenTag.StringInvalidUnicodeEscapeError, index: 1, size: 2 },
-			{ tag: TokenTag.StringNonEscape, index: 3, size: 1 },
-			{ tag: TokenTag.StringEndQuote, index: 4, size: 1 }
-		])
-
-		expectTokens(`"\\u{ "`).toMatchObject([
-			{ tag: TokenTag.StringStartQuote, index: 0, size: 1 },
-			{ tag: TokenTag.StringInvalidUnicodeEscapeError, index: 1, size: 3 },
-			{ tag: TokenTag.StringNonEscape, index: 4, size: 1 },
-			{ tag: TokenTag.StringEndQuote, index: 5, size: 1 }
-		])
-
-		expectTokens(`"\\u{0 }"`).toMatchObject([
-			{ tag: TokenTag.StringStartQuote, index: 0, size: 1 },
-			{ tag: TokenTag.StringInvalidUnicodeEscapeError, index: 1, size: 6 },
-			{ tag: TokenTag.StringEndQuote, index: 7, size: 1 }
-		])
-
-		expectTokens(`"\\u{}"`).toMatchObject([
-			{ tag: TokenTag.StringStartQuote, index: 0, size: 1 },
-			{ tag: TokenTag.StringInvalidUnicodeEscapeError, index: 1, size: 4 },
-			{ tag: TokenTag.StringEndQuote, index: 5, size: 1 }
-		])
+		check(`"\\u "`)
+		check(`"\\u{ "`)
+		check(`"\\u{0 }"`)
+		check(`"\\u{}"`)
 	})
 
-	test(`collapse multiple non escape tokens into one token`, () => expectTokens(`"foo"`).toMatchObject([
-		{ tag: TokenTag.StringStartQuote, index: 0, size: 1 },
-		{ tag: TokenTag.StringNonEscape, index: 1, size: 3 },
-		{ tag: TokenTag.StringEndQuote, index: 4, size: 1 }
-	]))
+	test(`collapse multiple non escape tokens into one token`, () => check(`"foo"`))
 
 	function check(code: string) {
 		const tokens = [ ...tokenise(code) ]

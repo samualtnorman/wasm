@@ -5,7 +5,25 @@ AlignEquals "align=" 0
 Number "0" 6
 `;
 
+exports[`assume string ended on newline 1`] = `
+StringStartQuote "\\"" 0
+StringNonEscape "a" 1
+UnterminatedStringError "\\n" 2
+Integer32 "i32" 3
+`;
+
 exports[`collapse error tokens 1`] = `Error ",," 0`;
+
+exports[`collapse multiple non escape tokens into one token 1`] = `
+StringStartQuote "\\"" 0
+StringNonEscape "foo" 1
+StringEndQuote "\\"" 4
+`;
+
+exports[`error before whitespace does not include whitespace 1`] = `
+Error "," 0
+Number "0" 2
+`;
 
 exports[`error then keyword 1`] = `
 Error "," 0
@@ -19,6 +37,39 @@ exports[`funci32 1`] = `Keyword "funci32" 0`;
 exports[`hex 1`] = `Number "0x1" 0`;
 
 exports[`hex exponent 1`] = `Number "0x1p1" 0`;
+
+exports[`invalid string escape 1`] = `
+StringStartQuote "\\"" 0
+StringNonEscape "a" 1
+StringInvalidEscapeError "\\\\ " 2
+StringEndQuote "\\"" 4
+`;
+
+exports[`invalid string unicode escape 1`] = `
+StringStartQuote "\\"" 0
+StringInvalidUnicodeEscapeError "\\\\u" 1
+StringNonEscape " " 3
+StringEndQuote "\\"" 4
+`;
+
+exports[`invalid string unicode escape 2`] = `
+StringStartQuote "\\"" 0
+StringInvalidUnicodeEscapeError "\\\\u{" 1
+StringNonEscape " " 4
+StringEndQuote "\\"" 5
+`;
+
+exports[`invalid string unicode escape 3`] = `
+StringStartQuote "\\"" 0
+StringInvalidUnicodeEscapeError "\\\\u{0 }" 1
+StringEndQuote "\\"" 7
+`;
+
+exports[`invalid string unicode escape 4`] = `
+StringStartQuote "\\"" 0
+StringInvalidUnicodeEscapeError "\\\\u{}" 1
+StringEndQuote "\\"" 5
+`;
 
 exports[`line comment 1`] = `LineComment ";;" 0`;
 
@@ -41,6 +92,26 @@ Error "," 2
 `;
 
 exports[`signed integer 1`] = `Number "+123" 0`;
+
+exports[`string 1`] = `
+StringStartQuote "\\"" 0
+StringNonEscape "a" 1
+StringHexEscape "\\\\00" 2
+StringTabEscape "\\\\t" 5
+StringNewlineEscape "\\\\n" 7
+StringReturnEscape "\\\\r" 9
+StringQuoteEscape "\\\\\\"" 11
+StringApostropheEscape "\\\\'" 13
+StringBackslashEscape "\\\\\\\\" 15
+StringUnicodeEscape "\\\\u{0}" 17
+StringEndQuote "\\"" 22
+`;
+
+exports[`string invalid character 1`] = `
+StringStartQuote "\\"" 0
+StringInvalidCharacterError "\\u0000" 1
+StringEndQuote "\\"" 2
+`;
 
 exports[`tokenise wasi hello world 1`] = `
 OpenBracket "(" 3
@@ -159,4 +230,9 @@ LineComment ";; where to store number of bytes written\\n" 519
 CloseBracket ")" 565
 CloseBracket ")" 570
 CloseBracket ")" 574
+`;
+
+exports[`untermianted string 1`] = `
+StringStartQuote "\\"" 0
+UnterminatedStringError "" 1
 `;
