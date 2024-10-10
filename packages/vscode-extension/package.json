@@ -2,6 +2,7 @@
 	"name": "webassembly-ide",
 	"displayName": "WebAssembly IDE",
 	"description": "IDE features for WebAssembly and WebAssembly Text Format",
+	"license": "MIT",
 	"repository": "github:samualtnorman/wasm",
 	"version": "0.0.1",
 	"type": "module",

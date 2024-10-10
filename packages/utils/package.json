@@ -1,5 +1,6 @@
 {
 	"name": "@samual/wasm-utils",
+	"license": "MIT",
 	"type": "module",
 	"engines": {
 		"node": "^22",
