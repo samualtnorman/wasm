@@ -47,13 +47,13 @@
 					"error": [
 						"invalid.wat"
 					],
-					"functionKeyword": [
+					"keywordFunction": [
 						"storage.type.function.wat"
 					],
-					"exportKeyword": [
+					"keywordExport": [
 						"keyword.control.export.wat"
 					],
-					"startKeyword": [
+					"keywordStart": [
 						"keyword.control.start.wat"
 					],
 					"stringStartQuote": [
@@ -67,166 +67,166 @@
 					"string": [
 						"string.quoted.double.wat"
 					],
-					"localKeyword": [
+					"keywordLocal": [
 						"storage.type.local.wat"
 					],
-					"alignEqualsKeyword": [
+					"keywordAlignEquals": [
 						"entity.other.attribute-name.align.wat"
 					],
-					"offsetEqualsKeyword": [
+					"keywordOffsetEquals": [
 						"entity.other.attribute-name.offset.wat"
 					],
-					"parameterKeyword": [
+					"keywordParameter": [
 						"keyword.control.parameter.wat"
 					],
-					"resultKeyword": [
+					"keywordResult": [
 						"keyword.control.result.wat"
 					],
-					"loopKeyword": [
+					"keywordLoop": [
 						"keyword.control.loop.wat"
 					],
-					"returnKeyword": [
+					"keywordReturn": [
 						"keyword.control.return.wat"
 					],
-					"branchKeyword": [
+					"keywordBranch": [
 						"keyword.control.branch.wat"
 					],
-					"branchIfKeyword": [
+					"keywordBranchIf": [
 						"keyword.control.branch.if.wat"
 					],
-					"branchTableKeyword": [
+					"keywordBranchTable": [
 						"keyword.control.branch.table.wat"
 					],
-					"importKeyword": [
+					"keywordImport": [
 						"keyword.control.import.wat"
 					],
-					"callKeyword": [
+					"keywordCall": [
 						"keyword.control.call.wat"
 					],
-					"callIndirectKeyword": [
+					"keywordCallIndirect": [
 						"keyword.control.call.indirect.wat"
 					],
-					"blockKeyword": [
+					"keywordBlock": [
 						"keyword.control.block.wat"
 					],
-					"blockComment": [
+					"commentBlock": [
 						"comment.block.wat"
 					],
-					"instructionKeyword": [
+					"keywordInstruction": [
 						"keyword.operator.expression.wat"
 					],
 					"bracket": [
 						"meta.brace.round.wat"
 					],
-					"elseKeyword": [
+					"keywordElse": [
 						"keyword.control.else.wat"
 					],
-					"endKeyword": [
+					"keywordEnd": [
 						"keyword.control.end.wat"
 					],
-					"keywordType": [
+					"typeKeyword": [
 						"support.type.primitive.wat"
 					],
 					"identifier": [
 						"variable.other.wat"
 					],
-					"ifKeyword": [
+					"keywordIf": [
 						"keyword.control.if.wat"
 					],
-					"unreachableKeyword": [
+					"keywordUnreachable": [
 						"keyword.control.unreachable.wat"
 					],
-					"moduleKeyword": [
+					"keywordModule": [
 						"keyword.control.module.wat"
 					],
-					"keywordUnknown": [
+					"unknownKeyword": [
 						"keyword.wat"
 					],
-					"lineComment": [
+					"commentLine": [
 						"comment.line.double-semicolon.wat"
 					],
-					"localGetKeyword": [
+					"keywordLocalGet": [
 						"storage.type.local.get.wat"
 					],
-					"localSetKeyword": [
+					"keywordLocalSet": [
 						"storage.type.local.set.wat"
 					],
-					"localTeeKeyword": [
+					"keywordLocalTee": [
 						"storage.type.local.tee.wat"
 					],
-					"globalGetKeyword": [
+					"keywordGlobalGet": [
 						"storage.type.global.get.wat"
 					],
-					"globalSetKeyword": [
+					"keywordGlobalSet": [
 						"storage.type.global.set.wat"
 					],
-					"memoryKeyword": [
+					"keywordMemory": [
 						"storage.type.memory.wat"
 					],
-					"memoryCopyKeyword": [
+					"keywordMemoryCopy": [
 						"storage.type.memory.copy.wat"
 					],
-					"memoryFillKeyword": [
+					"keywordMemoryFill": [
 						"storage.type.memory.fill.wat"
 					],
-					"memoryGrowKeyword": [
+					"keywordMemoryGrow": [
 						"storage.type.memory.grow.wat"
 					],
-					"memoryInitiateKeyword": [
+					"keywordMemoryInitiate": [
 						"storage.type.memory.initiate.wat"
 					],
-					"memorySizeKeyword": [
+					"keywordMemorySize": [
 						"storage.type.memory.size.wat"
 					],
-					"mutableKeyword": [
+					"keywordMutable": [
 						"storage.modifier.mut.wat"
 					],
-					"declareKeyword": [
+					"keywordDeclare": [
 						"storage.modifier.declare.wat"
 					],
-					"tableKeyword": [
+					"keywordTable": [
 						"storage.type.table.wat"
 					],
-					"tableCopyKeyword": [
+					"keywordTableCopy": [
 						"storage.type.table.copy.wat"
 					],
-					"tableFillKeyword": [
+					"keywordTableFill": [
 						"storage.type.table.fill.wat"
 					],
-					"tableGetKeyword": [
+					"keywordTableGet": [
 						"storage.type.table.get.wat"
 					],
-					"tableGrowKeyword": [
+					"keywordTableGrow": [
 						"storage.type.table.grow.wat"
 					],
-					"tableInitiateKeyword": [
+					"keywordTableInitiate": [
 						"storage.type.table.initiate.wat"
 					],
-					"tableSetKeyword": [
+					"keywordTableSet": [
 						"storage.type.table.set.wat"
 					],
-					"tableSizeKeyword": [
+					"keywordTableSize": [
 						"storage.type.table.size.wat"
 					],
-					"dataKeyword": [
+					"keywordData": [
 						"storage.type.data.wat"
 					],
-					"elementKeyword": [
+					"keywordElement": [
 						"storage.type.element.wat"
 					],
-					"globalKeyword": [
+					"keywordGlobal": [
 						"storage.type.global.wat"
 					],
-					"itemKeyword": [
+					"keywordItem": [
 						"storage.type.item.wat"
 					],
-					"typeKeyword": [
+					"keywordType": [
 						"storage.type.type.wat"
 					],
-					"loadKeyword": [
+					"keywordLoad": [
 						"storage.type.load.wat"
 					],
-					"storeKeyword": [
+					"keywordStore": [
 						"storage.type.store.wat"
 					],
 					"number": [
