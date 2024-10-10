@@ -1,6 +1,8 @@
-import { assert } from "@samual/lib/assert"
+import { negativeLookahead, Rule, sequence } from "./lib/parsing"
+import { terminal } from "./lib/parsing/string"
 import { TokenTag } from "./TokenTag"
 import { tokenToDebugString } from "./tokenToDebugString"
+import { Backslash, BracketClose, BracketOpen, CharacterApostrophe, CharacterBackslash, CharacterCloseSquigglyBracket, CharacterCloseSquigglyBracketBeforeStringEnds, CharacterN, CharacterOpenSquigglyBracket, CharacterR, CharacterT, CharacterU, CommentBlock, CommentLine, DoubleHexDigits, Float, HexNumber, Identifier, IdentifierCharacter, KeywordAlignEquals, KeywordOffsetEquals, Newline, Quote, Space, StringNonEscapes, UnknownKeyword } from "./utils/tokenising"
 
 export type Token = { tag: TokenTag, index: number, size: number }
 
@@ -275,177 +277,9 @@ const NamesToKeywords = {
 }
 
 export function* tokenise(code: string): Generator<Token, void, void> {
-	let index = 0
+	const index = { $: 0 }
 
-	const optional = (rule: () => boolean) => () => {
-		rule()
-
-		return true
-	}
-
-	const range = (first: string, last: string) => () => {
-		assert(first < last, HERE)
-
-		if (code[index]! >= first && code[index]! <= last) {
-			index++
-
-			return true
-		}
-
-		return false
-	}
-
-	const oneOf = (search: string) => () => {
-		if (index < code.length && search.includes(code[index]!)) {
-			index++
-
-			return true
-		}
-
-		return false
-	}
-
-	const union = (...rules: (() => boolean)[]) => () => {
-		for (const rule of rules) {
-			if (rule())
-				return true
-		}
-
-		return false
-	}
-
-	const condition = (checker: () => boolean) => () => {
-		if (index < code.length && checker()) {
-			index++
-
-			return true
-		}
-
-		return false
-	}
-
-	const terminal = (search: string) => () => {
-		if (code.startsWith(search, index)) {
-			index += search.length
-
-			return true
-		}
-
-		return false
-	}
-
-	const sequence = (...rules: (() => boolean)[]) => () => {
-		const startIndex = index
-
-		for (const rule of rules) {
-			if (!rule()) {
-				index = startIndex
-
-				return false
-			}
-		}
-
-		return true
-	}
-
-	const many = (rule: () => boolean) => () => {
-		if (!rule())
-			return false
-
-		while (rule());
-
-		return true
-	}
-
-	const negativeLookahead = (rule: () => boolean) => () => {
-		const start = index
-
-		if (rule()) {
-			index = start
-
-			return false
-		}
-
-		return true
-	}
-
-	const Newline = union(oneOf(`\n\r`), terminal(`\r\n`))
-	const Format = union(Newline, terminal(`\t`))
-
-	const IdentifierCharacter =
-		union(range(`0`, `9`), range(`A`, `Z`), range(`a`, `z`), oneOf(`!#$%&'*+-./:<=>?@\\^_\`|~`))
-
-	const UnknownKeyword = sequence(range(`a`, `z`), optional(many(IdentifierCharacter)))
-	const HexDigit = union(range(`0`, `9`), range(`A`, `F`), range(`a`, `f`))
-	const HexNumber = sequence(HexDigit, optional(many(sequence(optional(terminal(`_`)), HexDigit))))
-
-	const StringNonEscape =
-		condition(() => code[index]! >= `\x20` && code[index]! != `\x7F` && code[index] != `"` && code[index] != `\\`)
-
-	const StringNonEscapes = many(StringNonEscape)
-	const Backslash = terminal(`\\`)
-	const DoubleHexDigits = sequence(HexDigit, HexDigit)
-	const CharacterT = terminal(`t`)
-	const CharacterN = terminal(`n`)
-	const CharacterR = terminal(`r`)
-	const CharacterApostrophe = terminal(`'`)
-	const CharacterBackslash = terminal(`\\`)
-	const CharacterU = terminal(`u`)
-	const CharacterOpenSquigglyBracket = terminal(`{`)
-	const CharacterCloseSquigglyBracket = terminal(`}`)
-
-	const CharacterCloseSquigglyBracketBeforeStringEnds = sequence(
-		many(condition(() =>
-			code[index]! >= `\x20` && code[index]! != `\x7F` && code[index] != `"` && code[index] != `\\` &&
-			code[index] != `}`
-		)),
-		CharacterCloseSquigglyBracket
-	)
-
-	const Quote = terminal(`"`)
-	const Identifier = sequence(terminal(`$`), many(IdentifierCharacter))
-	const Number = sequence(range(`0`, `9`), optional(many(sequence(optional(terminal(`_`)), range(`0`, `9`)))))
-	const LineCharacter = condition(() => code[index] != `\n` && code[index] != `\r`)
-
-	const CommentLine =
-		sequence(terminal(`;;`), optional(many(LineCharacter)), union(Newline, () => index == code.length))
-
-	const BlockCharacter = union(
-		condition(() => code[index] != `;` && code[index] != `(`),
-		condition(() => code[index] == `;` && code[index + 1] != `)`),
-		condition(() => code[index] == `(` && code[index + 1] != `;`),
-		() => CommentBlock()
-	)
-
-	const CommentBlock = sequence(terminal(`(;`), optional(many(BlockCharacter)), terminal(`;)`))
-	const Space = many(union(terminal(` `), Format))
-	const Sign = optional(union(terminal(`+`), terminal(`-`)))
-	const Fraction = sequence(range(`0`, `9`), optional(many(sequence(optional(terminal(`_`)), range(`0`, `9`)))))
-	const HexFraction = sequence(HexDigit, optional(many(sequence(optional(terminal(`_`)), HexDigit))))
-
-	const DecimalFloat = sequence(
-		Number,
-		union(sequence(terminal(`.`), Fraction), optional(terminal(`.`))),
-		optional(sequence(oneOf(`Ee`), Sign, Number))
-	)
-
-	const HexFloat = sequence(
-		terminal(`0x`),
-		HexNumber,
-		union(sequence(terminal(`.`), HexFraction), optional(terminal(`.`))),
-		optional(sequence(oneOf(`Pp`), Sign, HexNumber))
-	)
-
-	const FloatMag =
-		union(HexFloat, DecimalFloat, terminal(`inf`), sequence(terminal(`nan:0x`), HexNumber), terminal(`nan`))
-
-	const KeywordOffsetEquals = terminal(`offset=`)
-	const KeywordAlignEquals = terminal(`align=`)
-	const Float = sequence(Sign, FloatMag)
-	const BracketOpen = terminal(`(`)
-	const BracketClose = terminal(`)`)
-
-	const tokenFunctions: Record<Exclude<keyof typeof TokenTag, `Error${string}` | `String${string}`>, () => boolean> = {
+	const tokenFunctions: Record<Exclude<keyof typeof TokenTag, `Error${string}` | `String${string}`>, Rule<string>> = {
 		...Object.fromEntries(Object.entries(NamesToKeywords)
 			.map(([ name, keyword ]) => [ name, sequence(terminal(keyword), negativeLookahead(IdentifierCharacter)) ])
 		) as Record<keyof typeof NamesToKeywords, () => boolean>,
@@ -454,12 +288,12 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 	}
 
 	let errorIndex: number | undefined
-	const Token = (tag: TokenTag, startIndex: number) => ({ tag, index: startIndex, size: index - startIndex })
+	const Token = (tag: TokenTag, startIndex: number) => ({ tag, index: startIndex, size: index.$ - startIndex })
 
-	while_: while (index < code.length) {
-		const startIndex = index
+	while_: while (index.$ < code.length) {
+		const startIndex = index.$
 
-		if (Space()) {
+		if (Space(code, index)) {
 			if (errorIndex != undefined) {
 				yield { tag: TokenTag.ErrorInvalidCharacter, index: errorIndex, size: startIndex - errorIndex }
 				errorIndex = undefined
@@ -468,60 +302,60 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 			continue
 		}
 
-		if (Quote()) {
+		if (Quote(code, index)) {
 			yield Token(TokenTag.StringStartQuote, startIndex)
 
 			while (true) {
-				if (index == code.length) {
-					yield { tag: TokenTag.ErrorStringUnterminated, index, size: 0 }
+				if (index.$ == code.length) {
+					yield { tag: TokenTag.ErrorStringUnterminated, index: index.$, size: 0 }
 					break
 				}
 
-				const stringElementStart = index
-				const Token = (tag: TokenTag) => ({ tag, index: stringElementStart, size: index - stringElementStart })
+				const stringElementStart = index.$
+				const Token = (tag: TokenTag) => ({ tag, index: stringElementStart, size: index.$ - stringElementStart })
 
-				if (Backslash()) {
-					if (DoubleHexDigits())
+				if (Backslash(code, index)) {
+					if (DoubleHexDigits(code, index))
 						yield Token(TokenTag.StringHexEscape)
-					else if (CharacterT())
+					else if (CharacterT(code, index))
 						yield Token(TokenTag.StringTabEscape)
-					else if (CharacterN())
+					else if (CharacterN(code, index))
 						yield Token(TokenTag.StringNewlineEscape)
-					else if (CharacterR())
+					else if (CharacterR(code, index))
 						yield Token(TokenTag.StringReturnEscape)
-					else if (Quote())
+					else if (Quote(code, index))
 						yield Token(TokenTag.StringQuoteEscape)
-					else if (CharacterApostrophe())
+					else if (CharacterApostrophe(code, index))
 						yield Token(TokenTag.StringApostropheEscape)
-					else if (CharacterBackslash())
+					else if (CharacterBackslash(code, index))
 						yield Token(TokenTag.StringBackslashEscape)
-					else if (CharacterU()) {
-						if (!CharacterOpenSquigglyBracket())
+					else if (CharacterU(code, index)) {
+						if (!CharacterOpenSquigglyBracket(code, index))
 							yield Token(TokenTag.ErrorStringInvalidUnicodeEscape)
-						else if (HexNumber() && CharacterCloseSquigglyBracket())
+						else if (HexNumber(code, index) && CharacterCloseSquigglyBracket(code, index))
 							yield Token(TokenTag.StringUnicodeEscape)
-						else if (CharacterCloseSquigglyBracket())
+						else if (CharacterCloseSquigglyBracket(code, index))
 							yield Token(TokenTag.ErrorStringInvalidUnicodeEscape)
 						else {
-							CharacterCloseSquigglyBracketBeforeStringEnds()
+							CharacterCloseSquigglyBracketBeforeStringEnds(code, index)
 							yield Token(TokenTag.ErrorStringInvalidUnicodeEscape)
 						}
 					} else {
-						index++
+						index.$++
 						yield Token(TokenTag.ErrorStringInvalidEscape)
 					}
-				} else if (StringNonEscapes())
+				} else if (StringNonEscapes(code, index))
 					yield Token(TokenTag.StringNonEscape)
-				else if (Quote()) {
+				else if (Quote(code, index)) {
 					yield Token(TokenTag.StringEndQuote)
 					break
 				} else {
-					if (Newline()) {
+					if (Newline(code, index)) {
 						yield Token(TokenTag.ErrorStringUnterminated)
 						break
 					}
 
-					index++
+					index.$++
 					yield Token(TokenTag.ErrorStringInvalidCharacter)
 				}
 			}
@@ -530,7 +364,7 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 		}
 
 		for (const name in tokenFunctions) {
-			if (tokenFunctions[name as keyof typeof tokenFunctions]()) {
+			if (tokenFunctions[name as keyof typeof tokenFunctions](code, index)) {
 				if (errorIndex != undefined) {
 					yield { tag: TokenTag.ErrorInvalidCharacter, index: errorIndex, size: startIndex - errorIndex }
 					errorIndex = undefined
@@ -542,9 +376,9 @@ export function* tokenise(code: string): Generator<Token, void, void> {
 		}
 
 		if (errorIndex == undefined)
-			errorIndex = index
+			errorIndex = index.$
 
-		index++
+		index.$++
 	}
 
 	if (errorIndex != undefined)
