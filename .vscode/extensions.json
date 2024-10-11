@@ -1,5 +1,9 @@
 {
 	"recommendations": [
-		"paulober.rollup-problem-matcher"
+		"paulober.rollup-problem-matcher",
+		"usernamehw.errorlens",
+		"yoavbls.pretty-ts-errors",
+		"tyriar.sort-lines",
+		"vitest.explorer"
 	]
 }
