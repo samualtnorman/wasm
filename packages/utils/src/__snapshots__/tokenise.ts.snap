@@ -96,14 +96,14 @@ exports[`signed integer 1`] = `Number "+123" 0`;
 exports[`string 1`] = `
 StringStartQuote "\\"" 0
 StringNonEscape "a" 1
-StringHexEscape "\\\\00" 2
-StringTabEscape "\\\\t" 5
-StringNewlineEscape "\\\\n" 7
-StringReturnEscape "\\\\r" 9
-StringQuoteEscape "\\\\\\"" 11
-StringApostropheEscape "\\\\'" 13
-StringBackslashEscape "\\\\\\\\" 15
-StringUnicodeEscape "\\\\u{0}" 17
+StringEscapeHex "\\\\00" 2
+StringEscapeTab "\\\\t" 5
+StringEscapeNewline "\\\\n" 7
+StringEscapeReturn "\\\\r" 9
+StringEscapeQuote "\\\\\\"" 11
+StringEscapeApostrophe "\\\\'" 13
+StringEscapeBackslash "\\\\\\\\" 15
+StringEscapeUnicode "\\\\u{0}" 17
 StringEndQuote "\\"" 22
 `;
 
@@ -160,7 +160,7 @@ KeywordInteger32Constant "i32.const" 163
 Number "0" 173
 BracketClose ")" 174
 StringStartQuote "\\"" 176
-StringHexEscape "\\\\08" 177
+StringEscapeHex "\\\\08" 177
 StringEndQuote "\\"" 180
 BracketClose ")" 181
 CommentLine ";; pointer to string\\n" 183
@@ -171,7 +171,7 @@ KeywordInteger32Constant "i32.const" 213
 Number "4" 223
 BracketClose ")" 224
 StringStartQuote "\\"" 226
-StringHexEscape "\\\\0e" 227
+StringEscapeHex "\\\\0e" 227
 StringEndQuote "\\"" 230
 BracketClose ")" 231
 CommentLine ";; length of string\\n" 233
@@ -183,7 +183,7 @@ Number "8" 272
 BracketClose ")" 273
 StringStartQuote "\\"" 275
 StringNonEscape "Hello, World!" 276
-StringNewlineEscape "\\\\n" 289
+StringEscapeNewline "\\\\n" 289
 StringEndQuote "\\"" 291
 BracketClose ")" 292
 BracketOpen "(" 297

@@ -273,17 +273,17 @@ declare enum TokenTagEnum {
 	KeywordVector128Store64Lane,
 	KeywordVector128Store8Lane,
 	Number,
-	StringApostropheEscape,
-	StringBackslashEscape,
 	StringEndQuote,
-	StringHexEscape,
-	StringNewlineEscape,
+	StringEscapeApostrophe,
+	StringEscapeBackslash,
+	StringEscapeHex,
+	StringEscapeNewline,
+	StringEscapeQuote,
+	StringEscapeReturn,
+	StringEscapeTab,
+	StringEscapeUnicode,
 	StringNonEscape,
-	StringQuoteEscape,
-	StringReturnEscape,
 	StringStartQuote,
-	StringTabEscape,
-	StringUnicodeEscape,
 	UnknownKeyword
 }
 
@@ -565,17 +565,17 @@ export namespace TokenTag {
 	export type KeywordVector128Store64Lane = TokenTagEnum.KeywordVector128Store64Lane
 	export type KeywordVector128Store8Lane = TokenTagEnum.KeywordVector128Store8Lane
 	export type Number = TokenTagEnum.Number
-	export type StringApostropheEscape = TokenTagEnum.StringApostropheEscape
-	export type StringBackslashEscape = TokenTagEnum.StringBackslashEscape
 	export type StringEndQuote = TokenTagEnum.StringEndQuote
-	export type StringHexEscape = TokenTagEnum.StringHexEscape
-	export type StringNewlineEscape = TokenTagEnum.StringNewlineEscape
+	export type StringEscapeApostrophe = TokenTagEnum.StringEscapeApostrophe
+	export type StringEscapeBackslash = TokenTagEnum.StringEscapeBackslash
+	export type StringEscapeHex = TokenTagEnum.StringEscapeHex
+	export type StringEscapeNewline = TokenTagEnum.StringEscapeNewline
+	export type StringEscapeQuote = TokenTagEnum.StringEscapeQuote
+	export type StringEscapeReturn = TokenTagEnum.StringEscapeReturn
+	export type StringEscapeTab = TokenTagEnum.StringEscapeTab
+	export type StringEscapeUnicode = TokenTagEnum.StringEscapeUnicode
 	export type StringNonEscape = TokenTagEnum.StringNonEscape
-	export type StringQuoteEscape = TokenTagEnum.StringQuoteEscape
-	export type StringReturnEscape = TokenTagEnum.StringReturnEscape
 	export type StringStartQuote = TokenTagEnum.StringStartQuote
-	export type StringTabEscape = TokenTagEnum.StringTabEscape
-	export type StringUnicodeEscape = TokenTagEnum.StringUnicodeEscape
 	export type UnknownKeyword = TokenTagEnum.UnknownKeyword
 }
 
@@ -854,17 +854,17 @@ export const TokenTag: { [K in TokenTagName]: typeof TokenTagEnum[K] } = {
 	KeywordVector128Store64Lane: 272,
 	KeywordVector128Store8Lane: 273,
 	Number: 274,
-	StringApostropheEscape: 275,
-	StringBackslashEscape: 276,
-	StringEndQuote: 277,
-	StringHexEscape: 278,
-	StringNewlineEscape: 279,
-	StringNonEscape: 280,
-	StringQuoteEscape: 281,
-	StringReturnEscape: 282,
-	StringStartQuote: 283,
-	StringTabEscape: 284,
-	StringUnicodeEscape: 285,
+	StringEndQuote: 275,
+	StringEscapeApostrophe: 276,
+	StringEscapeBackslash: 277,
+	StringEscapeHex: 278,
+	StringEscapeNewline: 279,
+	StringEscapeQuote: 280,
+	StringEscapeReturn: 281,
+	StringEscapeTab: 282,
+	StringEscapeUnicode: 283,
+	StringNonEscape: 284,
+	StringStartQuote: 285,
 	UnknownKeyword: 286,
 }
 
@@ -1143,16 +1143,16 @@ export const TokenTagsToNames: Record<number, string> = {
 	272: "KeywordVector128Store64Lane",
 	273: "KeywordVector128Store8Lane",
 	274: "Number",
-	275: "StringApostropheEscape",
-	276: "StringBackslashEscape",
-	277: "StringEndQuote",
-	278: "StringHexEscape",
-	279: "StringNewlineEscape",
-	280: "StringNonEscape",
-	281: "StringQuoteEscape",
-	282: "StringReturnEscape",
-	283: "StringStartQuote",
-	284: "StringTabEscape",
-	285: "StringUnicodeEscape",
+	275: "StringEndQuote",
+	276: "StringEscapeApostrophe",
+	277: "StringEscapeBackslash",
+	278: "StringEscapeHex",
+	279: "StringEscapeNewline",
+	280: "StringEscapeQuote",
+	281: "StringEscapeReturn",
+	282: "StringEscapeTab",
+	283: "StringEscapeUnicode",
+	284: "StringNonEscape",
+	285: "StringStartQuote",
 	286: "UnknownKeyword",
 }

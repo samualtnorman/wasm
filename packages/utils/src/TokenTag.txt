@@ -92,5 +92,5 @@ Comment{Line,Block}
 Error{InvalidCharacter,String{Unterminated,Invalid{Character,{,Unicode}Escape}}}
 Identifier
 Number
-String{{Non,Hex,Tab,Newline,Return,Quote,Apostrophe,Backslash,Unicode}Escape,{Start,End}Quote}
+String{NonEscape,Escape{Hex,Tab,Newline,Return,Quote,Apostrophe,Backslash,Unicode},{Start,End}Quote}
 UnknownKeyword
