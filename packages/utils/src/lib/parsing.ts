@@ -28,10 +28,10 @@ export const optional = <S extends Source>(rule: Rule<S>): Rule<S> => (source, i
 }
 
 export const negativeLookahead = <S extends Source>(rule: Rule<S>): Rule<S> => (source, index) => {
-	const start = index
+	const start = index.$
 
 	if (rule(source, index)) {
-		index = start
+		index.$ = start
 
 		return false
 	}
@@ -60,4 +60,20 @@ export const sequence = <S extends Source>(...rules: Rule<S>[]): Rule<S> => (sou
 	}
 
 	return true
+}
+
+if (import.meta.vitest) {
+	const { test, expect } = import.meta.vitest
+
+	test(`negative lookahead does not move index`, () => {
+		const index = { $: 0 }
+
+		expect(negativeLookahead((_, index) => {
+			index.$++
+
+			return true
+		})([], index)).toBe(false)
+
+		expect(index.$).toBe(0)
+	})
 }
