@@ -87,7 +87,7 @@ Keyword{
 	}
 }
 
-Bracket{Open,Close}
+{Open,Close}Bracket
 Comment{Line,Block}
 Error{InvalidCharacter,String{Unterminated,Invalid{Character,{,Unicode}Escape}},UnterminatedCommentBlock}
 Identifier

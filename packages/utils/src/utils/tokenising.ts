@@ -79,8 +79,8 @@ export const FloatMag =
 export const KeywordOffsetEquals = terminal(`offset=`)
 export const KeywordAlignEquals = terminal(`align=`)
 export const Float = sequence(Sign, FloatMag)
-export const BracketOpen = terminal(`(`)
-export const BracketClose = terminal(`)`)
+export const OpenBracket = terminal(`(`)
+export const CloseBracket = terminal(`)`)
 
 export const NamesToKeywords = {
 	KeywordInteger32: `i32`,
@@ -347,7 +347,7 @@ export const NamesToKeywords = {
 } satisfies {
 	[K in Exclude<
 		keyof typeof TokenTag,
-		`UnknownKeyword` | `Number` | `String${string}` | `Identifier` | `Bracket${string}` | `Comment${string}` |
+		`UnknownKeyword` | `Number` | `String${string}` | `Identifier` | `${string}Bracket` | `Comment${string}` |
 		`KeywordOffsetEquals` | `KeywordAlignEquals` | `Error${string}`
 	>]: string
 }
@@ -356,8 +356,8 @@ export const TokenFunctions: Record<Exclude<keyof typeof TokenTag, `Error${strin
 	...Object.fromEntries(Object.entries(NamesToKeywords)
 		.map(([ name, keyword ]) => [ name, sequence(terminal(keyword), negativeLookahead(IdentifierCharacter)) ])
 	) as Record<keyof typeof NamesToKeywords, () => boolean>,
-	KeywordAlignEquals, KeywordOffsetEquals, CommentLine, Number: Float, UnknownKeyword, Identifier, BracketOpen,
-	BracketClose
+	KeywordAlignEquals, KeywordOffsetEquals, CommentLine, Number: Float, UnknownKeyword, Identifier, OpenBracket,
+	CloseBracket
 }
 
 export const ValidCharacterOrSpaceNegativeLookahead =
