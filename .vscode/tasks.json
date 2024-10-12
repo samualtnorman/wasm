@@ -26,6 +26,17 @@
 			"isBackground": true
 		},
 		{
+			"label": "Utils: Emit TokenTag Enum",
+			"type": "shell",
+			"command": "node ${workspaceFolder}/packages/utils/scripts/emit-enum.js ${workspaceFolder}/packages/utils/src/TokenTag.txt",
+			"options": { "cwd": "${workspaceFolder}/packages/utils" },
+			"problemMatcher": [],
+			"group": "build",
+			"runOptions": { "instanceLimit": 1 },
+			"presentation": { "reveal": "silent" },
+			"isBackground": true
+		},
+		{
 			"label": "VSCode Extension: Rollup Dev",
 			"type": "shell",
 			"command": "${workspaceFolder}/packages/vscode-extension/node_modules/.bin/rollup --config --watch",
