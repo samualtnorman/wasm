@@ -36,6 +36,10 @@
 			{
 				"command": "webassembly-ide.debug-print-tokens",
 				"title": "WebAssembly IDE: Debug Print Tokens"
+			},
+			{
+				"command": "webassembly-ide.debug-reparse",
+				"title": "WebAssembly IDE: Debug Reparse"
 			}
 		],
 		"semanticTokenScopes": [

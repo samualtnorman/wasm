@@ -336,6 +336,13 @@ export function activate(context: ExtensionContext) {
 				printError(error)
 			}
 		}),
+		commands.registerCommand(`webassembly-ide.debug-reparse`, () => {
+			try {
+				tokens.length = 0
+			} catch (error) {
+				printError(error)
+			}
+		}),
 		workspace.onDidChangeTextDocument(({ document, contentChanges }) => {
 			try {
 				if (document.languageId != `wat`)
