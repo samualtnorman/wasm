@@ -17,6 +17,9 @@ importers:
       babel-plugin-here:
         specifier: 1.0.2-87a5573
         version: 1.0.2-87a5573
+      typescript:
+        specifier: ^5.6.2
+        version: 5.6.2
       vitest:
         specifier: ^2.1.2
         version: 2.1.2(@types/node@22.7.4)(terser@5.34.1)
