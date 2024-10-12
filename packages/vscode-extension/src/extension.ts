@@ -428,8 +428,12 @@ export function activate(context: ExtensionContext) {
 					const tokens = getTokens(code)
 					const token = tokens[offsetToTokenIndex(tokens, offset)]
 
-					if (token && offset >= token.index)
-						return new Hover(`${offset} ${tokenToDebugString(token, code)}`)
+					if (token && offset >= token.index) {
+						return new Hover(
+							`${offset} ${tokenToDebugString(token, code)}`,
+							new Range(document.positionAt(token.index), document.positionAt(token.index + token.size))
+						)
+					}
 				} catch (error) {
 					printError(error)
 				}
