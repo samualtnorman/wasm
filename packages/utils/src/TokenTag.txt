@@ -89,7 +89,7 @@ Keyword{
 
 Bracket{Open,Close}
 Comment{Line,Block}
-Error{InvalidCharacter,String{Unterminated,Invalid{Character,{,Unicode}Escape}}}
+Error{InvalidCharacter,String{Unterminated,Invalid{Character,{,Unicode}Escape}},UnterminatedCommentBlock}
 Identifier
 Number
 String{NonEscape,Escape{Hex,Tab,Newline,Return,Quote,Apostrophe,Backslash,Unicode},{Start,End}Quote}

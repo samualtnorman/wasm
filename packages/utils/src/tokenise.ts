@@ -73,6 +73,10 @@ if (import.meta.vitest) {
 
 	test(`collapse multiple non escape tokens into one token`, () => check(`"foo"`))
 
+	test(`unterminated comment block`, () => expectTokens(`(;`).toMatchObject([
+		{ tag: TokenTag.ErrorUnterminatedCommentBlock, index: 0, size: 2 }
+	]))
+
 	function check(code: string) {
 		const tokens = [ ...tokenise(code) ]
 		const lastTokenIndex = tokens.length - 1

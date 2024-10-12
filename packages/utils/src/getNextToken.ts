@@ -1,6 +1,6 @@
 import { Token } from "./tokenise"
 import { TokenTag } from "./TokenTag"
-import { Backslash, CharacterApostrophe, CharacterBackslash, CharacterCloseSquigglyBracket, CharacterCloseSquigglyBracketBeforeStringEnds, CharacterN, CharacterOpenSquigglyBracket, CharacterR, CharacterT, CharacterU, DoubleHexDigits, HexNumber, InvalidCharacter, Newline, Quote, Space, StringNonEscapes, TokenFunctions } from "./utils/tokenising"
+import { Backslash, CharacterApostrophe, CharacterBackslash, CharacterCloseSquigglyBracket, CharacterCloseSquigglyBracketBeforeStringEnds, CharacterN, CharacterOpenSquigglyBracket, CharacterR, CharacterT, CharacterU, CommentBlockEnd, CommentBlockInner, CommentBlockStart, DoubleHexDigits, HexNumber, InvalidCharacter, Newline, Quote, Space, StringNonEscapes, TokenFunctions } from "./utils/tokenising"
 
 const INSIDE_STRING_TOKEN_TAGS = [
 	TokenTag.StringEscapeApostrophe, TokenTag.StringEscapeBackslash, TokenTag.StringEscapeHex,
@@ -83,6 +83,15 @@ export function getNextToken(code: string, previousToken?: Token): Token | undef
 
 	if (Quote(code, index))
 		return Token(TokenTag.StringStartQuote)
+
+	if (CommentBlockStart(code, index)) {
+		CommentBlockInner(code, index)
+
+		if (CommentBlockEnd(code, index))
+			return Token(TokenTag.CommentBlock)
+
+		return Token(TokenTag.ErrorUnterminatedCommentBlock)
+	}
 
 	for (const name in TokenFunctions) {
 		if (TokenFunctions[name as keyof typeof TokenFunctions](code, index))

@@ -51,7 +51,10 @@ export const BlockCharacter: Rule<string> = union(
 	(source, index) => CommentBlock(source, index)
 )
 
-export const CommentBlock = sequence(terminal(`(;`), optional(many(BlockCharacter)), terminal(`;)`))
+export const CommentBlockStart = terminal(`(;`)
+export const CommentBlockEnd = terminal(`;)`)
+export const CommentBlockInner = many(BlockCharacter)
+export const CommentBlock = sequence(CommentBlockStart, optional(CommentBlockInner), CommentBlockEnd)
 export const Space = many(union(terminal(` `), Format))
 export const Sign = optional(union(terminal(`+`), terminal(`-`)))
 export const Fraction = sequence(range(`0`, `9`), optional(many(sequence(optional(terminal(`_`)), range(`0`, `9`)))))
@@ -349,12 +352,12 @@ export const NamesToKeywords = {
 	>]: string
 }
 
-export const TokenFunctions: Record<Exclude<keyof typeof TokenTag, `Error${string}` | `String${string}`>, Rule<string>> = {
+export const TokenFunctions: Record<Exclude<keyof typeof TokenTag, `Error${string}` | `String${string}` | `CommentBlock`>, Rule<string>> = {
 	...Object.fromEntries(Object.entries(NamesToKeywords)
 		.map(([ name, keyword ]) => [ name, sequence(terminal(keyword), negativeLookahead(IdentifierCharacter)) ])
 	) as Record<keyof typeof NamesToKeywords, () => boolean>,
-	KeywordAlignEquals, KeywordOffsetEquals, CommentLine, CommentBlock, Number: Float, UnknownKeyword, Identifier,
-	BracketOpen, BracketClose
+	KeywordAlignEquals, KeywordOffsetEquals, CommentLine, Number: Float, UnknownKeyword, Identifier, BracketOpen,
+	BracketClose
 }
 
 export const ValidCharacterOrSpaceNegativeLookahead =

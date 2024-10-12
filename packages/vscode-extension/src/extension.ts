@@ -302,7 +302,8 @@ const TOKENS = Object.fromEntries(Object.entries({
 	KeywordVector128Store64Lane: { tokenType: `keywordStore` },
 	KeywordVector128Store8Lane: { tokenType: `keywordStore` },
 	ErrorStringInvalidEscape: { tokenType: `error` },
-	ErrorStringInvalidUnicodeEscape: { tokenType: `error` }
+	ErrorStringInvalidUnicodeEscape: { tokenType: `error` },
+	ErrorUnterminatedCommentBlock: { tokenType: `error` }
 } satisfies Record<
 	keyof typeof TokenTag,
 	{ tokenType: keyof typeof contributes.semanticTokenScopes[0]["scopes"], tokenModifiers?: typeof tokenModifiers[number][] } | undefined
@@ -389,6 +390,8 @@ export function activate(context: ExtensionContext) {
 								addDiagnostic(`Invalid string escape.`)
 							else if (token.tag == TokenTag.ErrorStringInvalidUnicodeEscape)
 								addDiagnostic(`Invalid string unicode escape.`)
+							else if (token.tag == TokenTag.ErrorUnterminatedCommentBlock)
+								addDiagnostic(`Unterminated block comment.`)
 
 							if (TOKENS[token.tag]) {
 								const pushToken = (range: Range) =>
