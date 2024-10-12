@@ -310,9 +310,6 @@ const TOKENS = Object.fromEntries(Object.entries({
 
 const diagnosticCollection = languages.createDiagnosticCollection(`wat`)
 
-const printError = (error: unknown) =>
-	outputChannel.appendLine(`Caught ${(error instanceof Error && error.stack) || String(error)}`)
-
 const tokens: Token[] = []
 let needReparsing = true
 
@@ -438,6 +435,11 @@ export function activate(context: ExtensionContext) {
 		outputChannel,
 		diagnosticCollection
 	)
+}
+
+function printError(error: unknown) {
+	outputChannel.show()
+	outputChannel.appendLine(`Caught ${(error instanceof Error && error.stack) || String(error)}`)
 }
 
 function getTokens(code: string): Token[] {
