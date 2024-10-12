@@ -20,7 +20,12 @@ export default /** @satisfies {import("rollup").RollupOptions} */ ({
 		}),
 		nodeResolve({ extensions: [ ".ts", ".js" ], exportConditions: [ "node" ] }),
 		json({ preferConst: true }),
-		terser({ compress: { passes: Infinity }, maxWorkers: Math.floor(cpus().length / 2), ecma: 2020 })
+		terser({
+			compress: { passes: Infinity, unsafe: true },
+			mangle: false,
+			ecma: 2020,
+			maxWorkers: Math.floor(cpus().length / 2)
+		})
 	],
 	strictDeprecations: true,
 	treeshake: { moduleSideEffects: false }
