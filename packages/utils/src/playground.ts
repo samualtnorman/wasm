@@ -32,7 +32,7 @@ let highlighted = code
 // for (const token of tokenise(code))
 // 	console.log(tokenToDebugString(token, code))
 
-const TokenTagsToChalkInstances: { [K in TokenTag]?: ChalkInstance } = {
+const TokenTagsToStringHighlighterFunctions: { [K in TokenTag]?: (text: string) => string } = {
 	[TokenTag.UnknownKeyword]: chalk.magenta,
 	[TokenTag.KeywordFunction]: chalk.magenta,
 	[TokenTag.KeywordParameter]: chalk.magenta,
@@ -73,10 +73,10 @@ const TokenTagsToChalkInstances: { [K in TokenTag]?: ChalkInstance } = {
 }
 
 for (const token of [ ...tokenise(code) ].reverse()) {
-	const chalkInstance = TokenTagsToChalkInstances[token.tag]
+	const highlighterFunction = TokenTagsToStringHighlighterFunctions[token.tag]
 
-	if (chalkInstance) {
-		const chalked = chalkInstance(code.slice(token.index, token.index + token.size))
+	if (highlighterFunction) {
+		const chalked = highlighterFunction(code.slice(token.index, token.index + token.size))
 
 		highlighted = spliceString(highlighted, chalked, token.index, token.size)
 	}
