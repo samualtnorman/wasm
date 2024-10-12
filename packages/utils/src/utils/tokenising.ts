@@ -356,3 +356,8 @@ export const TokenFunctions: Record<Exclude<keyof typeof TokenTag, `Error${strin
 	KeywordAlignEquals, KeywordOffsetEquals, CommentLine, CommentBlock, Number: Float, UnknownKeyword, Identifier,
 	BracketOpen, BracketClose
 }
+
+export const ValidCharacterOrSpaceNegativeLookahead =
+	negativeLookahead(union(Quote, ...Object.values(TokenFunctions), Space))
+
+export const InvalidCharacter = condition<string>(ValidCharacterOrSpaceNegativeLookahead)

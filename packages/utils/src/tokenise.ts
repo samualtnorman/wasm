@@ -1,108 +1,14 @@
+import { getNextToken } from "./getNextToken"
 import { TokenTag } from "./TokenTag"
 import { tokenToDebugString } from "./tokenToDebugString"
-import { Backslash, CharacterApostrophe, CharacterBackslash, CharacterCloseSquigglyBracket, CharacterCloseSquigglyBracketBeforeStringEnds, CharacterN, CharacterOpenSquigglyBracket, CharacterR, CharacterT, CharacterU, DoubleHexDigits, HexNumber, Newline, Quote, Space, StringNonEscapes, TokenFunctions } from "./utils/tokenising"
 
 export type Token = { tag: TokenTag, index: number, size: number }
 
 export function* tokenise(code: string): Generator<Token, void, void> {
-	const index = { $: 0 }
+	let token: Token | undefined
 
-	let errorIndex: number | undefined
-	const Token = (tag: TokenTag, startIndex: number) => ({ tag, index: startIndex, size: index.$ - startIndex })
-
-	while_: while (index.$ < code.length) {
-		const startIndex = index.$
-
-		if (Space(code, index)) {
-			if (errorIndex != undefined) {
-				yield { tag: TokenTag.ErrorInvalidCharacter, index: errorIndex, size: startIndex - errorIndex }
-				errorIndex = undefined
-			}
-
-			continue
-		}
-
-		if (Quote(code, index)) {
-			yield Token(TokenTag.StringStartQuote, startIndex)
-
-			while (true) {
-				if (index.$ == code.length) {
-					yield { tag: TokenTag.ErrorStringUnterminated, index: index.$, size: 0 }
-					break
-				}
-
-				const stringElementStart = index.$
-				const Token = (tag: TokenTag) => ({ tag, index: stringElementStart, size: index.$ - stringElementStart })
-
-				if (Backslash(code, index)) {
-					if (DoubleHexDigits(code, index))
-						yield Token(TokenTag.StringEscapeHex)
-					else if (CharacterT(code, index))
-						yield Token(TokenTag.StringEscapeTab)
-					else if (CharacterN(code, index))
-						yield Token(TokenTag.StringEscapeNewline)
-					else if (CharacterR(code, index))
-						yield Token(TokenTag.StringEscapeReturn)
-					else if (Quote(code, index))
-						yield Token(TokenTag.StringEscapeQuote)
-					else if (CharacterApostrophe(code, index))
-						yield Token(TokenTag.StringEscapeApostrophe)
-					else if (CharacterBackslash(code, index))
-						yield Token(TokenTag.StringEscapeBackslash)
-					else if (CharacterU(code, index)) {
-						if (!CharacterOpenSquigglyBracket(code, index))
-							yield Token(TokenTag.ErrorStringInvalidUnicodeEscape)
-						else if (HexNumber(code, index) && CharacterCloseSquigglyBracket(code, index))
-							yield Token(TokenTag.StringEscapeUnicode)
-						else if (CharacterCloseSquigglyBracket(code, index))
-							yield Token(TokenTag.ErrorStringInvalidUnicodeEscape)
-						else {
-							CharacterCloseSquigglyBracketBeforeStringEnds(code, index)
-							yield Token(TokenTag.ErrorStringInvalidUnicodeEscape)
-						}
-					} else {
-						index.$++
-						yield Token(TokenTag.ErrorStringInvalidEscape)
-					}
-				} else if (StringNonEscapes(code, index))
-					yield Token(TokenTag.StringNonEscape)
-				else if (Quote(code, index)) {
-					yield Token(TokenTag.StringEndQuote)
-					break
-				} else {
-					if (Newline(code, index)) {
-						yield Token(TokenTag.ErrorStringUnterminated)
-						break
-					}
-
-					index.$++
-					yield Token(TokenTag.ErrorStringInvalidCharacter)
-				}
-			}
-
-			continue
-		}
-
-		for (const name in TokenFunctions) {
-			if (TokenFunctions[name as keyof typeof TokenFunctions](code, index)) {
-				if (errorIndex != undefined) {
-					yield { tag: TokenTag.ErrorInvalidCharacter, index: errorIndex, size: startIndex - errorIndex }
-					errorIndex = undefined
-				}
-
-				yield Token(TokenTag[name as keyof typeof TokenFunctions], startIndex)
-				continue while_
-			}
-		}
-
-		if (errorIndex == undefined)
-			errorIndex = index.$
-
-		index.$++
-	}
-
-	if (errorIndex != undefined)
-		yield Token(TokenTag.ErrorInvalidCharacter, errorIndex)
+	while ((token = getNextToken(code, token)))
+		yield token
 }
 
 if (import.meta.vitest) {
@@ -110,7 +16,6 @@ if (import.meta.vitest) {
 	const expectTokens = (code: string) => expect([ ...tokenise(code) ])
 
 	expect.addSnapshotSerializer({ serialize: v => v, test: _ => true })
-
 
 	test(`tokenise wasi hello world`, () => check(`
 		(import "wasi_unstable" "fd_write" (func $fd_write (param i32 i32 i32 i32) (result i32)))
