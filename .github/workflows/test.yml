@@ -10,6 +10,7 @@ jobs:
     - { name: Setup Node.js environment, uses: actions/setup-node@v4, with: { node-version: ">=22" } }
     - { name: Setup pnpm, uses: pnpm/action-setup@v4, with: { version: ^9, run_install: true } }
     - run: export PATH=$PWD/node_modules/.bin:$PATH
+    - run: (cd packages/utils && scripts/emit-types.sh)
     - run: tsc
     - run: tsc --project packages/utils/src
     - run: tsc --project packages/vscode-extension/src
