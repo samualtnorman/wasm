@@ -1,7 +1,7 @@
 import { getNextToken } from "@samual/wasm-utils/dist/getNextToken"
 import { offsetToTokenIndex } from "@samual/wasm-utils/dist/offsetToTokenIndex"
 import { type Token } from "@samual/wasm-utils/dist/tokenise"
-import { TokenTag } from "@samual/wasm-utils/dist/TokenTag"
+import { TokenTag, type TokenTagName } from "@samual/wasm-utils/dist/TokenTag"
 import { tokenToDebugString } from "@samual/wasm-utils/dist/tokenToDebugString"
 import { commands, Diagnostic, Hover, languages, Range, SemanticTokensBuilder, SemanticTokensLegend, window, workspace, type ExtensionContext } from "vscode"
 import { contributes } from "../package.json"
@@ -305,9 +305,9 @@ const TOKENS = Object.fromEntries(Object.entries({
 	ErrorStringInvalidUnicodeEscape: { tokenType: `error` },
 	ErrorUnterminatedCommentBlock: { tokenType: `error` }
 } satisfies Record<
-	keyof typeof TokenTag,
+	TokenTagName,
 	{ tokenType: keyof typeof contributes.semanticTokenScopes[0]["scopes"], tokenModifiers?: typeof tokenModifiers[number][] } | undefined
->).map(([ name, value ]) => [ TokenTag[name as keyof typeof TokenTag], value ]))
+>).map(([ name, value ]) => [ TokenTag[name as TokenTagName], value ]))
 
 const diagnosticCollection = languages.createDiagnosticCollection(`wat`)
 
