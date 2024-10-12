@@ -392,15 +392,19 @@ export function activate(context: ExtensionContext) {
 		}, legend),
 		languages.registerHoverProvider({ language: `wat` }, {
 			provideHover(document, position) {
-				const code = document.getText()
-				const index = document.offsetAt(position)
+				try {
+					const code = document.getText()
+					const index = document.offsetAt(position)
 
-				tokens ||= [ ...tokenise(code) ]
+					tokens ||= [ ...tokenise(code) ]
 
-				const token = tokens.find(token => index < token.index + token.size)
+					const token = tokens.find(token => index < token.index + token.size)
 
-				if (token && index >= token.index)
-					return new Hover(`${index} ${tokenToDebugString(token, code)}`)
+					if (token && index >= token.index)
+						return new Hover(`${index} ${tokenToDebugString(token, code)}`)
+				} catch (error) {
+					printError(error)
+				}
 			}
 		}),
 		outputChannel,
