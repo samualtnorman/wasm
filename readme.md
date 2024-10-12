@@ -19,4 +19,5 @@ To build and run this yourself, you'll need [Node.js](https://nodejs.org/en) and
 
 You should then see something like this:
 
-![image](https://github.com/user-attachments/assets/e1e3c8e1-499f-4330-b7af-8142d7acf03e)
+![image](https://github.com/user-attachments/assets/54e9842e-2e2c-4963-b75c-594bf1377831)
+
