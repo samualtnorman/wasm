@@ -1,5 +1,5 @@
 import { spliceString } from "@samual/lib/spliceString"
-import chalk, { type ChalkInstance } from "chalk"
+import chalk from "chalk"
 import { tokenise } from "./tokenise"
 import { TokenTag } from "./TokenTag"
 
