@@ -343,7 +343,7 @@ export function activate(context: ExtensionContext) {
 		}),
 		workspace.onDidChangeTextDocument(({ document, contentChanges }) => {
 			try {
-				if (document.languageId != `wat`)
+				if (!contentChanges.length || document.languageId != `wat`)
 					return
 
 				outputChannel.appendLine(`workspace.onDidChangeTextDocument() callback`)
