@@ -296,12 +296,4 @@ export function getNextAstNodes(
 	}
 
 	throw Error(`${HERE} unhandled token ${tokenToDebugString(tokens[tokenIndex.$]!, code)}`)
-
-	// function AstNode(tag: AstNodeTag, fields: Omit<>) {
-	// 	return index = astNodes.length
-
-	// 	astNodes.push({ tag, index: startIndex, size: index.$ - startIndex })
-
-	// 	return index
-	// }
 }
