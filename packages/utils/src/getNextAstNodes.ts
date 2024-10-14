@@ -291,6 +291,8 @@ export function getNextAstNodes(
 	if (OpenBracket(tokens, tokenIndex)) {
 		if (KeywordModule(tokens, tokenIndex))
 			return AstNode(AstNodeTag.Module, { size: -1, identifier: -1, moduleFields: [] })
+
+		throw Error(`${HERE} unhandled token ${tokenToDebugString(tokens[tokenIndex.$]!, code)}`)
 	}
 
 	throw Error(`${HERE} unhandled token ${tokenToDebugString(tokens[tokenIndex.$]!, code)}`)
