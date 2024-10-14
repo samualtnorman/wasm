@@ -7,9 +7,9 @@ import terser from "@rollup/plugin-terser"
 import { cpus } from "os"
 
 export default /** @satisfies {import("rollup").RollupOptions} */ ({
-	input: `src/extension.ts`,
-	output: { dir: `dist`, format: `cjs` },
-	external: [ `vscode` ],
+	input: "src/extension.ts",
+	output: { dir: "dist", format: "cjs" },
+	external: [ "vscode" ],
 	plugins: [
 		babel({
 			babelHelpers: "bundled",
