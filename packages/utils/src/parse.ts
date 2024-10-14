@@ -1,4 +1,6 @@
+import { assert } from "@samual/lib/assert"
 import { AstNodeTag } from "./AstNodeTag"
+import { MAX_LOOP_COUNT } from "./common"
 import { AstNode, getNextAstNode } from "./getNextAstNode"
 import { Token, tokenise } from "./tokenise"
 
@@ -6,8 +8,11 @@ export function parse(code: string, tokens: Token[]): AstNode[] {
 	const tokenIndex = { $: 0 }
 	const astNodes: AstNode[] = []
 	const unfinishedAstNodes: AstNode[] = []
+	let loopsLeft = MAX_LOOP_COUNT
 
 	do {
+		assert(loopsLeft--, HERE)
+
 		const currentAstNode = unfinishedAstNodes.at(-1)
 		const astNode = getNextAstNode(code, tokens, tokenIndex, astNodes.length, currentAstNode)
 

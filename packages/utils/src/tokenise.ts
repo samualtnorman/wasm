@@ -1,3 +1,5 @@
+import { assert } from "@samual/lib/assert"
+import { MAX_LOOP_COUNT } from "./common"
 import { getNextToken } from "./getNextToken"
 import { TokenTag } from "./TokenTag"
 import { tokenToDebugString } from "./tokenToDebugString"
@@ -6,9 +8,12 @@ export type Token = { tag: TokenTag, index: number, size: number }
 
 export function* tokenise(code: string): Generator<Token, void, void> {
 	let token: Token | undefined
+	let loopsLeft = MAX_LOOP_COUNT
 
-	while ((token = getNextToken(code, token)))
+	while ((token = getNextToken(code, token))) {
+		assert(loopsLeft--, HERE)
 		yield token
+	}
 }
 
 if (import.meta.vitest) {

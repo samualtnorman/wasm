@@ -1,3 +1,5 @@
+import { assert } from "@samual/lib/assert"
+import { MAX_LOOP_COUNT } from "./common"
 import { Token } from "./tokenise"
 import { TokenTag } from "./TokenTag"
 import { Backslash, CharacterApostrophe, CharacterBackslash, CharacterCloseSquigglyBracket, CharacterCloseSquigglyBracketBeforeStringEnds, CharacterN, CharacterOpenSquigglyBracket, CharacterR, CharacterT, CharacterU, CommentBlockEnd, CommentBlockInner, CommentBlockStart, DoubleHexDigits, HexNumber, InvalidCharacter, Newline, Quote, Space, StringNonEscapes, TokenFunctions } from "./utils/tokenising"
@@ -74,7 +76,10 @@ export function getNextToken(code: string, previousToken?: Token): Token | undef
 		return Token(TokenTag.ErrorStringInvalidCharacter)
 	}
 
-	while (Space(code, index));
+	let loopsLeft = MAX_LOOP_COUNT
+
+	while (Space(code, index))
+		assert(loopsLeft--, HERE)
 
 	startIndex = index.$
 
@@ -100,7 +105,10 @@ export function getNextToken(code: string, previousToken?: Token): Token | undef
 
 	index.$++
 
-	while (InvalidCharacter(code, index));
+	loopsLeft = MAX_LOOP_COUNT
+
+	while (InvalidCharacter(code, index))
+		assert(loopsLeft--, HERE)
 
 	return Token(TokenTag.ErrorInvalidCharacter)
 }

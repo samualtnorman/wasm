@@ -1,3 +1,6 @@
+import { assert } from "console"
+import { MAX_LOOP_COUNT } from "../common"
+
 export type Source = { [k: number]: unknown, length: number }
 export type Index = { $: number }
 export type Rule<S extends Source> = (source: S, index: Index) => boolean
@@ -16,7 +19,10 @@ export const many = <S extends Source>(rule: Rule<S>): Rule<S> => (source, index
 	if (!rule(source, index))
 		return false
 
-	while (rule(source, index));
+	let loopsLeft = MAX_LOOP_COUNT
+
+	while (rule(source, index))
+		assert(loopsLeft--, HERE)
 
 	return true
 }
