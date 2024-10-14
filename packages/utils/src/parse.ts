@@ -1,5 +1,5 @@
 import { AstNodeTag } from "./AstNodeTag"
-import { AstNode, getNextAstNodes } from "./getNextAstNodes"
+import { AstNode, getNextAstNode } from "./getNextAstNode"
 import { Token, tokenise } from "./tokenise"
 
 export function parse(code: string, tokens: Token[]): AstNode[] {
@@ -9,7 +9,7 @@ export function parse(code: string, tokens: Token[]): AstNode[] {
 
 	do {
 		const currentAstNode = unfinishedAstNodes.at(-1)
-		const astNode = getNextAstNodes(code, tokens, tokenIndex, astNodes.length, currentAstNode)
+		const astNode = getNextAstNode(code, tokens, tokenIndex, astNodes.length, currentAstNode)
 
 		if (currentAstNode && currentAstNode.size != -1)
 			unfinishedAstNodes.pop()

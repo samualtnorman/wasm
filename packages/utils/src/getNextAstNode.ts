@@ -65,7 +65,7 @@ const KeywordFunctionReference = token(TokenTag.KeywordFunctionReference)
 const KeywordExternalReference = token(TokenTag.KeywordExternalReference)
 const KeywordExternal = token(TokenTag.KeywordExternal)
 
-export function getNextAstNodes(
+export function getNextAstNode(
 	code: string,
 	tokens: Token[],
 	tokenIndex: { $: number },
