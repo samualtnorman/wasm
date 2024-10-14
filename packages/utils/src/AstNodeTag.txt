@@ -1,5 +1,5 @@
 Identifier
-Module
+{,Implicit}Module
 Parameter{,s}
 Result{,s}
 Type

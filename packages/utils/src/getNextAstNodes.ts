@@ -20,6 +20,9 @@ export namespace AstNode {
 	export type Module = Span &
 		{ tag: AstNodeTag.Module, identifier: Index<Identifier> | undefined, moduleFields: Index<ModuleField>[] }
 
+	export type ImplicitModule = Span &
+		{ tag: AstNodeTag.ImplicitModule, moduleFields: Index<ModuleField>[] }
+
 	export type Identifier = Span & { tag: AstNodeTag.Identifier }
 
 	export type Type = Span &
@@ -43,7 +46,7 @@ export namespace AstNode {
 
 export type AstNode = AstNode.Module | AstNode.Identifier | AstNode.Type | AstNode.FunctionType | AstNode.Parameter |
 	AstNode.Result | AstNode.Integer32Type | AstNode.Integer64Type | AstNode.Float32Type | AstNode.Float64Type |
-	AstNode.Vector128Type | AstNode.FunctionReferenceType | AstNode.ExternalReferenceType
+	AstNode.Vector128Type | AstNode.FunctionReferenceType | AstNode.ExternalReferenceType | AstNode.ImplicitModule
 
 const token = (tag: TokenTag) => condition<Token[]>((tokens, index) => tokens[index.$]!.tag == tag)
 const OpenBracket = token(TokenTag.OpenBracket)
@@ -99,6 +102,23 @@ export function getNextAstNodes(
 			}
 
 			assert(CloseBracket(tokens, tokenIndex), HERE)
+			currentAstNode.size = tokenIndex.$ - currentAstNode.index
+
+			return
+		}
+
+		if (currentAstNode.tag == AstNodeTag.ImplicitModule) {
+			if (OpenBracket(tokens, tokenIndex)) {
+				if (KeywordType(tokens, tokenIndex)) {
+					currentAstNode.moduleFields.push(newAstNodeIndex)
+
+					return AstNode(AstNodeTag.Type, { size: -1, identifier: -1, functionType: -1 })
+				}
+
+				throw Error(HERE)
+			}
+
+			assert(tokenIndex.$ == tokens.length, HERE)
 			currentAstNode.size = tokenIndex.$ - currentAstNode.index
 
 			return
@@ -264,6 +284,9 @@ export function getNextAstNodes(
 
 		throw Error(`${HERE} unhandled currentAstNode ${AstNodeTagsToNames[currentAstNode.tag]}`)
 	}
+
+	if (tokens[tokenIndex.$]?.tag == TokenTag.OpenBracket && tokens[tokenIndex.$ + 1]?.tag == TokenTag.KeywordType)
+		return AstNode(AstNodeTag.ImplicitModule, { size: -1, moduleFields: [] })
 
 	if (OpenBracket(tokens, tokenIndex)) {
 		if (KeywordModule(tokens, tokenIndex))

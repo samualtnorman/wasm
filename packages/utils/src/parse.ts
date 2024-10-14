@@ -1,6 +1,6 @@
-import { Token, tokenise } from "./tokenise"
-import { AstNode, getNextAstNodes } from "./getNextAstNodes"
 import { AstNodeTag } from "./AstNodeTag"
+import { AstNode, getNextAstNodes } from "./getNextAstNodes"
+import { Token, tokenise } from "./tokenise"
 
 export function parse(code: string, tokens: Token[]): AstNode[] {
 	const tokenIndex = { $: 0 }
@@ -98,5 +98,19 @@ if (import.meta.vitest) {
 		{ tag: AstNodeTag.Integer32Type },
 		{ tag: AstNodeTag.Result, valueTypes: [ 8 ] },
 		{ tag: AstNodeTag.Integer32Type }
+	] as const satisfies Partial<AstNode>[]))
+
+	test(`module with multiple types`, () => expectAstNodes(`(module (type (func)) (type (func)))`).toMatchObject([
+		{ tag: AstNodeTag.Module, identifier: undefined, moduleFields: [ 1, 3 ] },
+		{ tag: AstNodeTag.Type, identifier: undefined, functionType: 2 },
+		{ tag: AstNodeTag.FunctionType, parameters: [], results: [] },
+		{ tag: AstNodeTag.Type, identifier: undefined, functionType: 4 },
+		{ tag: AstNodeTag.FunctionType, parameters: [], results: [] }
+	] as const satisfies Partial<AstNode>[]))
+
+	test(`implicit module`, () => expectAstNodes(`(type (func))`).toMatchObject([
+		{ tag: AstNodeTag.ImplicitModule, moduleFields: [ 1 ] },
+		{ tag: AstNodeTag.Type, identifier: undefined, functionType: 2 },
+		{ tag: AstNodeTag.FunctionType, parameters: [], results: [] }
 	] as const satisfies Partial<AstNode>[]))
 }

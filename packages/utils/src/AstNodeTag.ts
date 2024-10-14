@@ -5,6 +5,7 @@ declare enum AstNodeTagEnum {
 	FunctionReferenceType,
 	FunctionType,
 	Identifier,
+	ImplicitModule,
 	Integer32Type,
 	Integer64Type,
 	Module,
@@ -26,6 +27,7 @@ export namespace AstNodeTag {
 	export type FunctionReferenceType = AstNodeTagEnum.FunctionReferenceType
 	export type FunctionType = AstNodeTagEnum.FunctionType
 	export type Identifier = AstNodeTagEnum.Identifier
+	export type ImplicitModule = AstNodeTagEnum.ImplicitModule
 	export type Integer32Type = AstNodeTagEnum.Integer32Type
 	export type Integer64Type = AstNodeTagEnum.Integer64Type
 	export type Module = AstNodeTagEnum.Module
@@ -44,15 +46,16 @@ export const AstNodeTag: { [K in AstNodeTagName]: typeof AstNodeTagEnum[K] } = {
 	FunctionReferenceType: 4,
 	FunctionType: 5,
 	Identifier: 6,
-	Integer32Type: 7,
-	Integer64Type: 8,
-	Module: 9,
-	Parameter: 10,
-	Parameters: 11,
-	Result: 12,
-	Results: 13,
-	Type: 14,
-	Vector128Type: 15,
+	ImplicitModule: 7,
+	Integer32Type: 8,
+	Integer64Type: 9,
+	Module: 10,
+	Parameter: 11,
+	Parameters: 12,
+	Result: 13,
+	Results: 14,
+	Type: 15,
+	Vector128Type: 16,
 }
 
 export const AstNodeTagsToNames: Record<number, string> = {
@@ -62,13 +65,14 @@ export const AstNodeTagsToNames: Record<number, string> = {
 	4: "FunctionReferenceType",
 	5: "FunctionType",
 	6: "Identifier",
-	7: "Integer32Type",
-	8: "Integer64Type",
-	9: "Module",
-	10: "Parameter",
-	11: "Parameters",
-	12: "Result",
-	13: "Results",
-	14: "Type",
-	15: "Vector128Type",
+	7: "ImplicitModule",
+	8: "Integer32Type",
+	9: "Integer64Type",
+	10: "Module",
+	11: "Parameter",
+	12: "Parameters",
+	13: "Result",
+	14: "Results",
+	15: "Type",
+	16: "Vector128Type",
 }
