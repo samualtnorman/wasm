@@ -1,9 +1,8 @@
-import { Pretty } from "@samual/lib"
+import { assert } from "@samual/lib/assert"
 import { AstNodeTag, AstNodeTagsToNames } from "./AstNodeTag"
 import { condition } from "./lib/parsing"
-import { tokenise, type Token } from "./tokenise"
-import { TokenTag, TokenTagsToNames } from "./TokenTag"
-import { assert } from "@samual/lib/assert"
+import { type Token } from "./tokenise"
+import { TokenTag } from "./TokenTag"
 import { tokenToDebugString } from "./tokenToDebugString"
 
 type IndexSymbol = { readonly _: unique symbol }["_"]
