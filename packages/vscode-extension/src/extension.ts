@@ -89,7 +89,7 @@ const TOKENS = Object.fromEntries(Object.entries({
 	KeywordOffsetEquals: { tokenType: `keywordOffsetEquals` },
 	OpenBracket: { tokenType: `bracket` },
 	KeywordParameter: { tokenType: `keywordParameter`, tokenModifiers: [ `declaration` ] },
-	KeywordReferenceFunction: { tokenType: `typeKeyword` },
+	KeywordReferenceFunction: { tokenType: `keywordInstruction` },
 	KeywordReferenceIsNull: { tokenType: `keywordInstruction` },
 	KeywordReferenceNull: { tokenType: `keywordInstruction` },
 	KeywordResult: { tokenType: `keywordResult` },
