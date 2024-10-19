@@ -1,0 +1,64 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "WebAssembly Text Format",
+	"patterns": [
+		{ "include": "#number" },
+		{ "include": "#keyword" },
+		{ "include": "#string" },
+		{ "include": "#id" },
+		{ "include": "#linecomment" },
+		{ "include": "#blockcomment" },
+		{ "include": "#bracket" },
+		{ "include": "#space" },
+		{ "include": "#invalid" }
+	],
+	"repository": {
+		"number": {
+			"name": "constant.numeric.wat",
+			"match": "[+-]?(?:0x[0-9A-Fa-f](?:_?[0-9A-Fa-f])*(?:\\.[0-9A-Fa-f](?:_?[0-9A-Fa-f])*|\\.?)(?:[Pp][+-]?[0-9A-Fa-f](?:_?[0-9A-Fa-f])*)?|[0-9](?:_?[0-9])*(?:\\.[0-9](?:_?[0-9])*|\\.?)(?:[Ee][+-]?[0-9](?:_?[0-9])*)?|inf|nan(?::0x[0-9A-Fa-f](?:_?[0-9A-Fa-f])*)?)"
+		},
+		"keyword": {
+			"patterns": [
+				{
+					"name": "support.type.primitive.wat",
+					"match": "(?:[if](?:32|64)|v128|[if]32x4|[if]64x2|i16x8|i8x16|extern(?:ref)?|funcref)(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "keyword.wat",
+					"match": "[a-z][0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~]*"
+				}
+			]
+		},
+		"string": {
+			"name": "string.quoted.double.wat",
+			"match": "\"(?:[^\\0-\\x19\\x7F\"\\\\]|(\\\\(?:[tnr\"'\\\\]|u{[0-9A-Fa-f](?:_?[0-9A-Fa-f])*}|[0-9A-Fa-f][0-9A-Fa-f])))*\"",
+			"captures": { "1": { "name": "constant.character.escape.wat" } }
+		},
+		"id": {
+			"name": "variable.other.wat",
+			"match": "\\$[0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~]+"
+		},
+		"linecomment": {
+			"name": "comment.line.double-semicolon.wat",
+			"match": ";;[^\\x0A\\x0D]*(?:[ \\x09\\x0A\\x0D]|\\x0D\\x0A|$)"
+		},
+		"blockcomment": {
+			"name": "comment.block.wat",
+			"begin": "\\(;",
+			"patterns": [ { "include": "#blockcomment" } ],
+			"end": ";\\)"
+		},
+		"bracket": {
+			"name": "meta.brace.round.wat",
+			"match": "[()]"
+		},
+		"space": {
+			"match": "[ \\n\\r\\t]+"
+		},
+		"invalid": {
+			"name": "invalid.wat",
+			"match": "."
+		}
+	},
+	"scopeName": "source.wat"
+}

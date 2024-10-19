@@ -28,10 +28,27 @@
 		"Other"
 	],
 	"main": "extension.js",
-	"activationEvents": [
-		"onLanguage:wat"
-	],
 	"contributes": {
+		"languages": [
+			{
+				"id": "wat",
+				"aliases": [
+					"WebAssembly Text Format",
+					"wat"
+				],
+				"extensions": [
+					".wat"
+				],
+				"configuration": "./language-configuration.json"
+			}
+		],
+		"grammars": [
+			{
+				"language": "wat",
+				"scopeName": "source.wat",
+				"path": "./wat.tmLanguage.json"
+			}
+		],
 		"commands": [
 			{
 				"command": "webassembly-ide.debug-print-tokens",

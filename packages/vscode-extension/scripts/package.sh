@@ -1,4 +1,4 @@
 #!/bin/sh
 ./rollup.config.js
 scripts/emit-package-json.js
-cp ../../licence dist/licence
+cp ../../licence language-configuration.json wat.tmLanguage.json dist/licence

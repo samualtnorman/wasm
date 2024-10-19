@@ -60,8 +60,23 @@
 			"isBackground": true
 		},
 		{
+			"label": "VSCode Extension: Copy Language Configuration and Grammar",
+			"type": "shell",
+			"command": "cp {language-configuration,wat.tmLanguage}.json dist",
+			"options": { "cwd": "${workspaceFolder}/packages/vscode-extension" },
+			"problemMatcher": [],
+			"group": "build",
+			"runOptions": { "instanceLimit": 1 },
+			"presentation": { "reveal": "silent" },
+			"isBackground": true
+		},
+		{
 			"label": "Run Extension Pre Launch",
-			"dependsOn": [ "VSCode Extension: Rollup Dev", "VSCode Extension: Emit package.json" ]
+			"dependsOn": [
+				"VSCode Extension: Rollup Dev",
+				"VSCode Extension: Emit package.json",
+				"VSCode Extension: Copy Language Configuration and Grammar"
+			]
 		}
 	]
 }
