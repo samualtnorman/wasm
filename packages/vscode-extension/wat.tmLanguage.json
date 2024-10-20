@@ -20,6 +20,198 @@
 		"keyword": {
 			"patterns": [
 				{
+					"name": "keyword.control.export.wat",
+					"match": "export(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "keyword.control.start.wat",
+					"match": "start(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "keyword.control.parameter.wat",
+					"match": "param(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "keyword.control.result.wat",
+					"match": "result(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "keyword.control.loop.wat",
+					"match": "loop(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "keyword.control.return.wat",
+					"match": "return(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "keyword.control.branch.wat",
+					"match": "br(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "keyword.control.branch.if.wat",
+					"match": "br_if(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "keyword.control.branch.table.wat",
+					"match": "br_table(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "keyword.control.import.wat",
+					"match": "import(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "keyword.control.call.wat",
+					"match": "call(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "keyword.control.call.indirect.wat",
+					"match": "call_indirect(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "keyword.control.block.wat",
+					"match": "block(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "keyword.control.else.wat",
+					"match": "else(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "keyword.control.end.wat",
+					"match": "end(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "keyword.control.if.wat",
+					"match": "if(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "keyword.control.unreachable.wat",
+					"match": "unreachable(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "keyword.control.module.wat",
+					"match": "module(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "storage.type.function.wat",
+					"match": "func(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "storage.type.local.wat",
+					"match": "local(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "storage.type.local.get.wat",
+					"match": "local.get(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "storage.type.local.set.wat",
+					"match": "local.set(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "storage.type.local.tee.wat",
+					"match": "local.tee(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "storage.type.global.get.wat",
+					"match": "global.get(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "storage.type.global.set.wat",
+					"match": "global.set(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "storage.type.memory.wat",
+					"match": "memory(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "storage.type.memory.copy.wat",
+					"match": "memory.copy(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "storage.type.memory.fill.wat",
+					"match": "memory.fill(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "storage.type.memory.grow.wat",
+					"match": "memory.grow(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "storage.type.memory.initiate.wat",
+					"match": "memory.init(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "storage.type.memory.size.wat",
+					"match": "memory.size(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "storage.type.table.wat",
+					"match": "table(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "storage.type.table.copy.wat",
+					"match": "table.copy(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "storage.type.table.fill.wat",
+					"match": "table.fill(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "storage.type.table.get.wat",
+					"match": "table.get(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "storage.type.table.grow.wat",
+					"match": "table.grow(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "storage.type.table.initiate.wat",
+					"match": "table.init(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "storage.type.table.set.wat",
+					"match": "table.set(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "storage.type.table.size.wat",
+					"match": "table.size(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "storage.type.data.wat",
+					"match": "data(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "storage.type.element.wat",
+					"match": "elem(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "storage.type.global.wat",
+					"match": "global(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "storage.type.item.wat",
+					"match": "item(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "storage.type.type.wat",
+					"match": "type(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "storage.type.load.wat",
+					"match": "load(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "storage.type.store.wat",
+					"match": "store(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "entity.other.attribute-name.align-equals.wat",
+					"match": "align="
+				},
+				{
+					"name": "entity.other.attribute-name.offset-equals.wat",
+					"match": "offset="
+				},
+				{
 					"name": "support.type.primitive.wat",
 					"match": "(?:[if](?:32|64)|v128|[if]32x4|[if]64x2|i16x8|i8x16|extern(?:ref)?|funcref)(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
 				},
