@@ -63,21 +63,6 @@
 			{
 				"language": "wat",
 				"scopes": {
-					"stringEscape": [
-						"constant.character.escape.wat"
-					],
-					"error": [
-						"invalid.wat"
-					],
-					"keywordFunction": [
-						"storage.type.function.wat"
-					],
-					"keywordExport": [
-						"keyword.control.export.wat"
-					],
-					"keywordStart": [
-						"keyword.control.start.wat"
-					],
 					"stringStartQuote": [
 						"punctuation.definition.string.begin.wat",
 						"string.quoted.double.wat"
@@ -86,77 +71,8 @@
 						"punctuation.definition.string.end.wat",
 						"string.quoted.double.wat"
 					],
-					"string": [
-						"string.quoted.double.wat"
-					],
-					"keywordLocal": [
-						"storage.type.local.wat"
-					],
-					"keywordAlignEquals": [
-						"entity.other.attribute-name.align.wat"
-					],
-					"keywordOffsetEquals": [
-						"entity.other.attribute-name.offset.wat"
-					],
-					"keywordParameter": [
-						"keyword.control.parameter.wat"
-					],
-					"keywordResult": [
-						"keyword.control.result.wat"
-					],
-					"keywordLoop": [
-						"keyword.control.loop.wat"
-					],
-					"keywordReturn": [
-						"keyword.control.return.wat"
-					],
-					"keywordBranch": [
-						"keyword.control.branch.wat"
-					],
-					"keywordBranchIf": [
-						"keyword.control.branch.if.wat"
-					],
-					"keywordBranchTable": [
-						"keyword.control.branch.table.wat"
-					],
-					"keywordImport": [
-						"keyword.control.import.wat"
-					],
-					"keywordCall": [
-						"keyword.control.call.wat"
-					],
-					"keywordCallIndirect": [
-						"keyword.control.call.indirect.wat"
-					],
-					"keywordBlock": [
-						"keyword.control.block.wat"
-					],
-					"commentBlock": [
-						"comment.block.wat"
-					],
 					"keywordInstruction": [
 						"keyword.operator.expression.wat"
-					],
-					"bracket": [
-						"meta.brace.round.wat"
-					],
-					"keywordElse": [
-						"keyword.control.else.wat"
-					],
-					"keywordEnd": [
-						"keyword.control.end.wat"
-					],
-					"typeKeyword": [
-						"support.type.primitive.wat"
-					],
-					"identifier": [
-						"variable.other.wat"
-					],
-					"keywordIf": [
-						"keyword.control.if.wat"
-					],
-					"keywordUnreachable": [
-						"keyword.control.unreachable.wat"
 					],
 					"keywordModule": [
 						"keyword.control.module.wat"
@@ -164,95 +80,11 @@
 					"unknownKeyword": [
 						"keyword.wat"
 					],
-					"commentLine": [
-						"comment.line.double-semicolon.wat"
-					],
-					"keywordLocalGet": [
-						"storage.type.local.get.wat"
-					],
-					"keywordLocalSet": [
-						"storage.type.local.set.wat"
-					],
-					"keywordLocalTee": [
-						"storage.type.local.tee.wat"
-					],
-					"keywordGlobalGet": [
-						"storage.type.global.get.wat"
-					],
-					"keywordGlobalSet": [
-						"storage.type.global.set.wat"
-					],
-					"keywordMemory": [
-						"storage.type.memory.wat"
-					],
-					"keywordMemoryCopy": [
-						"storage.type.memory.copy.wat"
-					],
-					"keywordMemoryFill": [
-						"storage.type.memory.fill.wat"
-					],
-					"keywordMemoryGrow": [
-						"storage.type.memory.grow.wat"
-					],
-					"keywordMemoryInitiate": [
-						"storage.type.memory.initiate.wat"
-					],
-					"keywordMemorySize": [
-						"storage.type.memory.size.wat"
-					],
 					"keywordMutable": [
 						"storage.modifier.mut.wat"
 					],
 					"keywordDeclare": [
 						"storage.modifier.declare.wat"
-					],
-					"keywordTable": [
-						"storage.type.table.wat"
-					],
-					"keywordTableCopy": [
-						"storage.type.table.copy.wat"
-					],
-					"keywordTableFill": [
-						"storage.type.table.fill.wat"
-					],
-					"keywordTableGet": [
-						"storage.type.table.get.wat"
-					],
-					"keywordTableGrow": [
-						"storage.type.table.grow.wat"
-					],
-					"keywordTableInitiate": [
-						"storage.type.table.initiate.wat"
-					],
-					"keywordTableSet": [
-						"storage.type.table.set.wat"
-					],
-					"keywordTableSize": [
-						"storage.type.table.size.wat"
-					],
-					"keywordData": [
-						"storage.type.data.wat"
-					],
-					"keywordElement": [
-						"storage.type.element.wat"
-					],
-					"keywordGlobal": [
-						"storage.type.global.wat"
-					],
-					"keywordItem": [
-						"storage.type.item.wat"
-					],
-					"keywordType": [
-						"storage.type.type.wat"
-					],
-					"keywordLoad": [
-						"storage.type.load.wat"
-					],
-					"keywordStore": [
-						"storage.type.store.wat"
-					],
-					"number": [
-						"constant.numeric.wat"
 					]
 				}
 			}
