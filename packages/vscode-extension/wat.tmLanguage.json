@@ -223,8 +223,12 @@
 		},
 		"string": {
 			"name": "string.quoted.double.wat",
-			"match": "\"(?:[^\\0-\\x19\\x7F\"\\\\]|(\\\\(?:[tnr\"'\\\\]|u{[0-9A-Fa-f](?:_?[0-9A-Fa-f])*}|[0-9A-Fa-f][0-9A-Fa-f])))*\"",
-			"captures": { "1": { "name": "constant.character.escape.wat" } }
+			"match": "\"(?:[^\\0-\\x19\\x7F\"\\\\]|(\\\\(?:[tnr\"'\\\\]|u{[0-9A-Fa-f](?:_?[0-9A-Fa-f])*}|[0-9A-Fa-f][0-9A-Fa-f]))|(\\\\u{?[0-9A-Fa-f_]*}?)|(\\\\.))*\"",
+			"captures": {
+				"1": { "name": "constant.character.escape.wat" },
+				"2": { "name": "invalid.wat" },
+				"3": { "name": "invalid.wat" }
+			}
 		},
 		"id": {
 			"name": "variable.other.wat",
