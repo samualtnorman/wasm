@@ -63,14 +63,6 @@
 			{
 				"language": "wat",
 				"scopes": {
-					"stringStartQuote": [
-						"punctuation.definition.string.begin.wat",
-						"string.quoted.double.wat"
-					],
-					"stringEndQuote": [
-						"punctuation.definition.string.end.wat",
-						"string.quoted.double.wat"
-					],
 					"keywordInstruction": [
 						"keyword.operator.expression.wat"
 					],
