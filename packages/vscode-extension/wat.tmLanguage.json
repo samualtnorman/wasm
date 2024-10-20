@@ -88,6 +88,10 @@
 					"match": "unreachable(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
 				},
 				{
+					"name": "keyword.control.no-operation.wat",
+					"match": "nop(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
 					"name": "keyword.control.module.wat",
 					"match": "module(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
 				},
@@ -202,6 +206,106 @@
 				{
 					"name": "storage.type.store.wat",
 					"match": "store(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "storage.type.element.drop.wat",
+					"match": "elem\\.drop(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "storage.type.data.drop.wat",
+					"match": "data\\.drop(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "storage.type.load.integer.32.wat",
+					"match": "i32\\.load(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "storage.type.load.integer.64.wat",
+					"match": "i64\\.load(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "storage.type.load.float.32.wat",
+					"match": "f32\\.load(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "storage.type.load.float.64.wat",
+					"match": "f64\\.load(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "storage.type.load.integer.32.8.signed.wat",
+					"match": "i32\\.load8_s(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "storage.type.load.integer.32.8.unsigned.wat",
+					"match": "i32\\.load8_u(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "storage.type.load.integer.32.16.signed.wat",
+					"match": "i32\\.load16_s(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "storage.type.load.integer.32.16.unsigned.wat",
+					"match": "i32\\.load16_u(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "storage.type.load.integer.64.8.signed.wat",
+					"match": "i64\\.load8_s(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "storage.type.load.integer.64.8.unsigned.wat",
+					"match": "i64\\.load8_u(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "storage.type.load.integer.64.16.signed.wat",
+					"match": "i64\\.load16_s(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "storage.type.load.integer.64.16.unsigned.wat",
+					"match": "i64\\.load16_u(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "storage.type.load.integer.64.32.signed.wat",
+					"match": "i64\\.load32_s(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "storage.type.load.integer.64.32.unsigned.wat",
+					"match": "i64\\.load32_u(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "storage.type.store.integer.32.wat",
+					"match": "i32\\.store(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "storage.type.store.integer.64.wat",
+					"match": "i64\\.store(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "storage.type.store.float.32.wat",
+					"match": "f32\\.store(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "storage.type.store.float.64.wat",
+					"match": "f64\\.store(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "storage.type.store.integer.32.8.wat",
+					"match": "i32\\.store8(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "storage.type.store.integer.32.16.wat",
+					"match": "i32\\.store16(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "storage.type.store.integer.64.8.wat",
+					"match": "i64\\.store8(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "storage.type.store.integer.64.16.wat",
+					"match": "i64\\.store16(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "storage.type.store.integer.64.32.wat",
+					"match": "i64\\.store32(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
 				},
 				{
 					"name": "entity.other.attribute-name.align-equals.wat",
