@@ -101,23 +101,23 @@
 				},
 				{
 					"name": "storage.type.local.get.wat",
-					"match": "local.get(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+					"match": "local\\.get(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
 				},
 				{
 					"name": "storage.type.local.set.wat",
-					"match": "local.set(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+					"match": "local\\.set(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
 				},
 				{
 					"name": "storage.type.local.tee.wat",
-					"match": "local.tee(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+					"match": "local\\.tee(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
 				},
 				{
 					"name": "storage.type.global.get.wat",
-					"match": "global.get(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+					"match": "global\\.get(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
 				},
 				{
 					"name": "storage.type.global.set.wat",
-					"match": "global.set(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+					"match": "global\\.set(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
 				},
 				{
 					"name": "storage.type.memory.wat",
@@ -125,23 +125,23 @@
 				},
 				{
 					"name": "storage.type.memory.copy.wat",
-					"match": "memory.copy(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+					"match": "memory\\.copy(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
 				},
 				{
 					"name": "storage.type.memory.fill.wat",
-					"match": "memory.fill(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+					"match": "memory\\.fill(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
 				},
 				{
 					"name": "storage.type.memory.grow.wat",
-					"match": "memory.grow(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+					"match": "memory\\.grow(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
 				},
 				{
 					"name": "storage.type.memory.initiate.wat",
-					"match": "memory.init(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+					"match": "memory\\.init(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
 				},
 				{
 					"name": "storage.type.memory.size.wat",
-					"match": "memory.size(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+					"match": "memory\\.size(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
 				},
 				{
 					"name": "storage.type.table.wat",
@@ -149,31 +149,31 @@
 				},
 				{
 					"name": "storage.type.table.copy.wat",
-					"match": "table.copy(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+					"match": "table\\.copy(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
 				},
 				{
 					"name": "storage.type.table.fill.wat",
-					"match": "table.fill(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+					"match": "table\\.fill(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
 				},
 				{
 					"name": "storage.type.table.get.wat",
-					"match": "table.get(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+					"match": "table\\.get(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
 				},
 				{
 					"name": "storage.type.table.grow.wat",
-					"match": "table.grow(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+					"match": "table\\.grow(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
 				},
 				{
 					"name": "storage.type.table.initiate.wat",
-					"match": "table.init(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+					"match": "table\\.init(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
 				},
 				{
 					"name": "storage.type.table.set.wat",
-					"match": "table.set(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+					"match": "table\\.set(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
 				},
 				{
 					"name": "storage.type.table.size.wat",
-					"match": "table.size(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+					"match": "table\\.size(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
 				},
 				{
 					"name": "storage.type.data.wat",
