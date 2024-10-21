@@ -20,304 +20,40 @@
 		"keyword": {
 			"patterns": [
 				{
-					"name": "keyword.control.export.wat",
-					"match": "export(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+					"name": "keyword.control.$1.wat",
+					"match": "(export|start|result|loop|return|br(?:_(?:if|table))?|import|call(?:_indirect)?|block|else|end|if|unreachable|nop|module)(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
 				},
 				{
-					"name": "keyword.control.start.wat",
-					"match": "start(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+					"name": "storage.type.$1.wat",
+					"match": "(func|local(?:\\.(?:[gs]et|tee))?|global(\\.(?:[gs]et))?|memory(?:\\.(?:copy|fill|grow|init|size))?|table(?:\\.(?:copy|fill|[gs]et|grow|init|size))?|(?:data|elem)(?:\\.drop)?|item|type|load|store|i(?:32|64)\\.(?:load(?:(?:8|16)_[su])?|store(?:8|16)?)|i64\\.(?:load32_[su]|store32)|f(?:32|64)\\.(?:load|store)|param|v128\\.(?:load(?:(?:8x8|16x4|32x2)_[su]|(?:8|16|32|64)_splat|(?:32|64)_zero)?|store|(?:load|store)(?:8|16|32|64)_lane))(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
 				},
 				{
-					"name": "keyword.control.parameter.wat",
-					"match": "param(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+					"name": "keyword.operator.expression.$1.wat",
+					"match": "([if](?:32|64)\\.const|i(?:32|64)\\.(?:c[lt]z|popcnt|trunc_(?:sat_)?f(?:32|64)_[su]|extend(?:8|16)_s)|f(?:32|64)\\.(?:abs|neg|ceil|floor|trunc|nearest|sqrt|min|max|copysign|convert_i(?:32|64)_[su])|i32\\.(?:wrap_i64|reinterpret_f32)|i64\\.(?:extend(?:_i32_[su]|32_s)|reinterpret_f64)|f32\\.(?:demote_f64|reinterpret_i32)|f64\\.(?:promote_f32|reinterpret_i64))(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
 				},
 				{
-					"name": "keyword.control.result.wat",
-					"match": "result(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+					"name": "keyword.operator.arithmetic.$1.wat",
+					"match": "(i(?:32|64)\\.(?:add|sub|mul|(?:div|rem)_[su])|f(?:32|64)\\.(?:add|sub|mul|div))(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
 				},
 				{
-					"name": "keyword.control.loop.wat",
-					"match": "loop(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+					"name": "keyword.operator.comparison.$1.wat",
+					"match": "(i(?:32|64)\\.(?:eqz?|ne)|f(?:32|64)\\.(?:eq|ne))(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
 				},
 				{
-					"name": "keyword.control.return.wat",
-					"match": "return(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+					"name": "keyword.operator.relational.$1.wat",
+					"match": "(i(?:32|64)\\.(?:[lg][te]_[su])|f(?:32|64)\\.(?:[lg][te]))(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
 				},
 				{
-					"name": "keyword.control.branch.wat",
-					"match": "br(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+					"name": "keyword.operator.bitwise.$1.wat",
+					"match": "(i(?:32|64)\\.(?:and|x?or|sh(?:l|r_[su])|rot[lr]))(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
 				},
 				{
-					"name": "keyword.control.branch.if.wat",
-					"match": "br_if(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+					"name": "entity.other.attribute-name.$1-equals.wat",
+					"match": "(align|offset)="
 				},
 				{
-					"name": "keyword.control.branch.table.wat",
-					"match": "br_table(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "keyword.control.import.wat",
-					"match": "import(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "keyword.control.call.wat",
-					"match": "call(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "keyword.control.call.indirect.wat",
-					"match": "call_indirect(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "keyword.control.block.wat",
-					"match": "block(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "keyword.control.else.wat",
-					"match": "else(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "keyword.control.end.wat",
-					"match": "end(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "keyword.control.if.wat",
-					"match": "if(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "keyword.control.unreachable.wat",
-					"match": "unreachable(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "keyword.control.no-operation.wat",
-					"match": "nop(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "keyword.control.module.wat",
-					"match": "module(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "storage.type.function.wat",
-					"match": "func(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "storage.type.local.wat",
-					"match": "local(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "storage.type.local.get.wat",
-					"match": "local\\.get(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "storage.type.local.set.wat",
-					"match": "local\\.set(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "storage.type.local.tee.wat",
-					"match": "local\\.tee(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "storage.type.global.get.wat",
-					"match": "global\\.get(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "storage.type.global.set.wat",
-					"match": "global\\.set(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "storage.type.memory.wat",
-					"match": "memory(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "storage.type.memory.copy.wat",
-					"match": "memory\\.copy(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "storage.type.memory.fill.wat",
-					"match": "memory\\.fill(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "storage.type.memory.grow.wat",
-					"match": "memory\\.grow(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "storage.type.memory.initiate.wat",
-					"match": "memory\\.init(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "storage.type.memory.size.wat",
-					"match": "memory\\.size(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "storage.type.table.wat",
-					"match": "table(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "storage.type.table.copy.wat",
-					"match": "table\\.copy(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "storage.type.table.fill.wat",
-					"match": "table\\.fill(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "storage.type.table.get.wat",
-					"match": "table\\.get(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "storage.type.table.grow.wat",
-					"match": "table\\.grow(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "storage.type.table.initiate.wat",
-					"match": "table\\.init(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "storage.type.table.set.wat",
-					"match": "table\\.set(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "storage.type.table.size.wat",
-					"match": "table\\.size(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "storage.type.data.wat",
-					"match": "data(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "storage.type.element.wat",
-					"match": "elem(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "storage.type.global.wat",
-					"match": "global(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "storage.type.item.wat",
-					"match": "item(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "storage.type.type.wat",
-					"match": "type(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "storage.type.load.wat",
-					"match": "load(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "storage.type.store.wat",
-					"match": "store(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "storage.type.element.drop.wat",
-					"match": "elem\\.drop(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "storage.type.data.drop.wat",
-					"match": "data\\.drop(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "storage.type.load.integer.32.wat",
-					"match": "i32\\.load(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "storage.type.load.integer.64.wat",
-					"match": "i64\\.load(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "storage.type.load.float.32.wat",
-					"match": "f32\\.load(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "storage.type.load.float.64.wat",
-					"match": "f64\\.load(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "storage.type.load.integer.32.8.signed.wat",
-					"match": "i32\\.load8_s(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "storage.type.load.integer.32.8.unsigned.wat",
-					"match": "i32\\.load8_u(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "storage.type.load.integer.32.16.signed.wat",
-					"match": "i32\\.load16_s(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "storage.type.load.integer.32.16.unsigned.wat",
-					"match": "i32\\.load16_u(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "storage.type.load.integer.64.8.signed.wat",
-					"match": "i64\\.load8_s(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "storage.type.load.integer.64.8.unsigned.wat",
-					"match": "i64\\.load8_u(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "storage.type.load.integer.64.16.signed.wat",
-					"match": "i64\\.load16_s(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "storage.type.load.integer.64.16.unsigned.wat",
-					"match": "i64\\.load16_u(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "storage.type.load.integer.64.32.signed.wat",
-					"match": "i64\\.load32_s(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "storage.type.load.integer.64.32.unsigned.wat",
-					"match": "i64\\.load32_u(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "storage.type.store.integer.32.wat",
-					"match": "i32\\.store(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "storage.type.store.integer.64.wat",
-					"match": "i64\\.store(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "storage.type.store.float.32.wat",
-					"match": "f32\\.store(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "storage.type.store.float.64.wat",
-					"match": "f64\\.store(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "storage.type.store.integer.32.8.wat",
-					"match": "i32\\.store8(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "storage.type.store.integer.32.16.wat",
-					"match": "i32\\.store16(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "storage.type.store.integer.64.8.wat",
-					"match": "i64\\.store8(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "storage.type.store.integer.64.16.wat",
-					"match": "i64\\.store16(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "storage.type.store.integer.64.32.wat",
-					"match": "i64\\.store32(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "entity.other.attribute-name.align-equals.wat",
-					"match": "align="
-				},
-				{
-					"name": "entity.other.attribute-name.offset-equals.wat",
-					"match": "offset="
-				},
-				{
-					"name": "support.type.primitive.wat",
-					"match": "(?:[if](?:32|64)|v128|[if]32x4|[if]64x2|i16x8|i8x16|extern(?:ref)?|funcref)(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+					"name": "support.type.primitive.$1.wat",
+					"match": "([if](?:32|64)|v128|[if]32x4|[if]64x2|i16x8|i8x16|extern(?:ref)?|funcref)(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
 				},
 				{
 					"name": "keyword.wat",
