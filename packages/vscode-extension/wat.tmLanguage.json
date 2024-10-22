@@ -29,23 +29,23 @@
 				},
 				{
 					"name": "keyword.operator.expression.$1.wat",
-					"match": "([if](?:32|64)\\.const|i(?:32|64)\\.(?:c[lt]z|popcnt|trunc_(?:sat_)?f(?:32|64)_[su]|extend(?:8|16)_s)|f(?:32|64)\\.(?:abs|neg|ceil|floor|trunc|nearest|sqrt|min|max|copysign|convert_i(?:32|64)_[su])|i32\\.(?:wrap_i64|reinterpret_f32)|i64\\.(?:extend(?:_i32_[su]|32_s)|reinterpret_f64)|f32\\.(?:demote_f64|reinterpret_i32)|f64\\.(?:promote_f32|reinterpret_i64))(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+					"match": "((?:[if](?:32|64)|v128)\\.const|i(?:32|64)\\.(?:c[lt]z|popcnt|trunc_(?:sat_)?f(?:32|64)_[su]|extend(?:8|16)_s)|f(?:32|64)\\.(?:abs|ceil|floor|trunc|nearest|sqrt|min|max|copysign|convert_i(?:32|64)_[su])|i32\\.(?:wrap_i64|reinterpret_f32)|i64\\.(?:extend(?:_i32_[su]|32_s)|reinterpret_f64)|f32\\.(?:demote_f64|reinterpret_i32)|f64\\.(?:promote_f32|reinterpret_i64)|i8x16\\.(?:shuffle|swizzle)|i(?:8x16|16x8|[if]32x4|[if]64x2)\\.(?:splat|(?:extract|replace)_lane)|i(?:8x16|16x8)\\.(?:extract_lane_[su]|abs|all_true|(?:min|max)_[su]|avgr_u)|i8x16\\.(?:narrow_i16x8_[su]|popcnt)|i16x8\\.(?:narrow_i32x4_[su]|ext(?:(?:end|mul)_(?:low|high)|add_pairwise)_i8x16_[su]|q15mulr_sat_s)|i32x4\\.(?:abs|all_true|(?:ext(?:(?:end|mul)_(?:low|high)|add_pairwise)_i16x8|(?:min|max))_[su]|dot_i16x8_s)|i64x2\\.(?:abs|all_true|ext(?:end|mul)_(?:low|high)_i32x4_[su])|f(?:32|64)\\.(?:abs|sqrt|ceil|floor|trunc|nearest|p?(?:min|max))|i32x4\\.trunc_sat_f(?:32x4_[su]|64x2_[su]_zero)|f32x4\\.(?:convert_i32x4_[su]|demote_f64x2_zero)|f64x2\\.(?:convert_low_i32x4_[su]|promote_low_f32x4)|)(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
 				},
 				{
 					"name": "keyword.operator.arithmetic.$1.wat",
-					"match": "(i(?:32|64)\\.(?:add|sub|mul|(?:div|rem)_[su])|f(?:32|64)\\.(?:add|sub|mul|div))(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "keyword.operator.comparison.$1.wat",
-					"match": "(i(?:32|64)\\.(?:eqz?|ne)|f(?:32|64)\\.(?:eq|ne))(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
-				},
-				{
-					"name": "keyword.operator.relational.$1.wat",
-					"match": "(i(?:32|64)\\.(?:[lg][te]_[su])|f(?:32|64)\\.(?:[lg][te]))(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+					"match": "(i(?:32|64)\\.(?:add|sub|mul|(?:div|rem)_[su])|f(?:32(?:x4)?|64(?:x2)?)\\.(?:add|sub|mul|div|neg)|i(?:8x16|16x8)\\.(?:neg|(?:add|sub)(_sat_[su])?)|i16x8\\.mul|i(?:32x4|64x2)\\.(?:neg|add|sub|mul))(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
 				},
 				{
 					"name": "keyword.operator.bitwise.$1.wat",
-					"match": "(i(?:32|64)\\.(?:and|x?or|sh(?:l|r_[su])|rot[lr]))(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+					"match": "(i(?:32|64)\\.(?:and|x?or|sh(?:l|r_[su])|rot[lr])|v128\\.(?:and(?:not)?|not|x?or|bitselect|any_true)|i(?:8x16|16x8|32x4|64x2)\\.(?:bitmask|shl|shr_[su]))(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "keyword.operator.relational.$1.wat",
+					"match": "((?:i(?:32|64)|i8x16|i16x8|i32x4)\\.(?:[lg][te]_[su])|f(?:32(?:x4)?|64(?:x2)?)\\.(?:[lg][te])|i64x2\\.[lg][te]_s)(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
+					"name": "keyword.operator.comparison.$1.wat",
+					"match": "(i(?:32|64)\\.(?:eqz?|ne)|(?:f(?:32|64)|i8x16|i16x8|i32x4|i64x2|f32x4|f64x2)\\.(?:eq|ne))(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
 				},
 				{
 					"name": "entity.other.attribute-name.$1-equals.wat",
