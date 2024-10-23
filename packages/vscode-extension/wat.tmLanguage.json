@@ -29,7 +29,7 @@
 				},
 				{
 					"name": "storage.modifier.$1.wat",
-					"match": "(mut)(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+					"match": "(mut|declare)(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
 				},
 				{
 					"name": "keyword.operator.expression.$1.wat",
