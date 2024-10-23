@@ -60,7 +60,7 @@
 					"match": "([if](?:32|64)|v128|[if]32x4|[if]64x2|i16x8|i8x16|extern(?:ref)?|funcref)(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
 				},
 				{
-					"name": "keyword.wat",
+					"name": "invalid.wat",
 					"match": "[a-z][0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~]*"
 				}
 			]
