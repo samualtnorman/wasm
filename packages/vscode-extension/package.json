@@ -63,20 +63,8 @@
 			{
 				"language": "wat",
 				"scopes": {
-					"keywordInstruction": [
-						"keyword.operator.expression.wat"
-					],
-					"keywordModule": [
-						"keyword.control.module.wat"
-					],
-					"unknownKeyword": [
-						"keyword.wat"
-					],
-					"keywordMutable": [
-						"storage.modifier.mut.wat"
-					],
-					"keywordDeclare": [
-						"storage.modifier.declare.wat"
+					"functionName": [
+						"entity.name.function.wat"
 					]
 				}
 			}
