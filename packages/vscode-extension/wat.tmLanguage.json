@@ -21,15 +21,19 @@
 			"patterns": [
 				{
 					"name": "keyword.control.$1.wat",
-					"match": "(export|start|result|loop|return|br(?:_(?:if|table))?|import|call(?:_indirect)?|block|else|end|if|unreachable|nop|module)(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+					"match": "(export|start|result|loop|return|br(?:_(?:if|table))?|import|call(?:_indirect)?|block|else|end|if|unreachable|nop|module|offset)(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
 				},
 				{
 					"name": "storage.type.$1.wat",
 					"match": "(func|local(?:\\.(?:[gs]et|tee))?|global(\\.(?:[gs]et))?|memory(?:\\.(?:copy|fill|grow|init|size))?|table(?:\\.(?:copy|fill|[gs]et|grow|init|size))?|(?:data|elem)(?:\\.drop)?|item|type|load|store|i(?:32|64)\\.(?:load(?:(?:8|16)_[su])?|store(?:8|16)?)|i64\\.(?:load32_[su]|store32)|f(?:32|64)\\.(?:load|store)|param|v128\\.(?:load(?:(?:8x8|16x4|32x2)_[su]|(?:8|16|32|64)_splat|(?:32|64)_zero)?|store|(?:load|store)(?:8|16|32|64)_lane))(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
 				},
 				{
+					"name": "storage.modifier.$1.wat",
+					"match": "(mut)(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+				},
+				{
 					"name": "keyword.operator.expression.$1.wat",
-					"match": "((?:[if](?:32|64)|v128)\\.const|i(?:32|64)\\.(?:c[lt]z|popcnt|trunc_(?:sat_)?f(?:32|64)_[su]|extend(?:8|16)_s)|f(?:32|64)\\.(?:abs|ceil|floor|trunc|nearest|sqrt|min|max|copysign|convert_i(?:32|64)_[su])|i32\\.(?:wrap_i64|reinterpret_f32)|i64\\.(?:extend(?:_i32_[su]|32_s)|reinterpret_f64)|f32\\.(?:demote_f64|reinterpret_i32)|f64\\.(?:promote_f32|reinterpret_i64)|i8x16\\.(?:shuffle|swizzle)|i(?:8x16|16x8|[if]32x4|[if]64x2)\\.(?:splat|(?:extract|replace)_lane)|i(?:8x16|16x8)\\.(?:extract_lane_[su]|abs|all_true|(?:min|max)_[su]|avgr_u)|i8x16\\.(?:narrow_i16x8_[su]|popcnt)|i16x8\\.(?:narrow_i32x4_[su]|ext(?:(?:end|mul)_(?:low|high)|add_pairwise)_i8x16_[su]|q15mulr_sat_s)|i32x4\\.(?:abs|all_true|(?:ext(?:(?:end|mul)_(?:low|high)|add_pairwise)_i16x8|(?:min|max))_[su]|dot_i16x8_s)|i64x2\\.(?:abs|all_true|ext(?:end|mul)_(?:low|high)_i32x4_[su])|f(?:32|64)\\.(?:abs|sqrt|ceil|floor|trunc|nearest|p?(?:min|max))|i32x4\\.trunc_sat_f(?:32x4_[su]|64x2_[su]_zero)|f32x4\\.(?:convert_i32x4_[su]|demote_f64x2_zero)|f64x2\\.(?:convert_low_i32x4_[su]|promote_low_f32x4))(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+					"match": "((?:[if](?:32|64)|v128)\\.const|i(?:32|64)\\.(?:c[lt]z|popcnt|trunc_(?:sat_)?f(?:32|64)_[su]|extend(?:8|16)_s)|f(?:32|64)\\.(?:abs|ceil|floor|trunc|nearest|sqrt|min|max|copysign|convert_i(?:32|64)_[su])|i32\\.(?:wrap_i64|reinterpret_f32)|i64\\.(?:extend(?:_i32_[su]|32_s)|reinterpret_f64)|f32\\.(?:demote_f64|reinterpret_i32)|f64\\.(?:promote_f32|reinterpret_i64)|i8x16\\.(?:shuffle|swizzle)|i(?:8x16|16x8|[if]32x4|[if]64x2)\\.(?:splat|(?:extract|replace)_lane)|i(?:8x16|16x8)\\.(?:extract_lane_[su]|abs|all_true|(?:min|max)_[su]|avgr_u)|i8x16\\.(?:narrow_i16x8_[su]|popcnt)|i16x8\\.(?:narrow_i32x4_[su]|ext(?:(?:end|mul)_(?:low|high)|add_pairwise)_i8x16_[su]|q15mulr_sat_s)|i32x4\\.(?:abs|all_true|(?:ext(?:(?:end|mul)_(?:low|high)|add_pairwise)_i16x8|(?:min|max))_[su]|dot_i16x8_s)|i64x2\\.(?:abs|all_true|ext(?:end|mul)_(?:low|high)_i32x4_[su])|f(?:32|64)\\.(?:abs|sqrt|ceil|floor|trunc|nearest|p?(?:min|max))|i32x4\\.trunc_sat_f(?:32x4_[su]|64x2_[su]_zero)|f32x4\\.(?:convert_i32x4_[su]|demote_f64x2_zero)|f64x2\\.(?:convert_low_i32x4_[su]|promote_low_f32x4)|ref\\.(?:null|is_null|func)|drop|select)(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
 				},
 				{
 					"name": "keyword.operator.arithmetic.$1.wat",
