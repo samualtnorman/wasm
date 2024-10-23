@@ -1,6 +1,9 @@
 Identifier
-{,Implicit}Module
+Import{,Description{Function,Table,Memory,Global}}
+Limits
 Parameter{,s}
 Result{,s}
-Type
-{Function,{Integer,Float}{32,64},Vector128,{Function,External}Reference}Type
+Type{,Use}
+{,Implicit}Module
+{Function,{Integer,Float}{32,64},Vector128,{Function,External}Reference,Table,MutableValue}Type
+{String,Number}Literal
