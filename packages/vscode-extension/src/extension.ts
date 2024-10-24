@@ -1,4 +1,3 @@
-import { assert } from "@samual/lib/assert"
 import { MAX_LOOP_COUNT } from "@samual/wasm-utils/dist/common"
 import { getNextToken } from "@samual/wasm-utils/dist/getNextToken"
 import { offsetToTokenIndex } from "@samual/wasm-utils/dist/offsetToTokenIndex"
@@ -153,7 +152,9 @@ function getTokens(code: string): Token[] {
 		let loopsLeft = MAX_LOOP_COUNT
 
 		while ((token = getNextToken(code, token))) {
-			assert(loopsLeft--)
+			if (!loopsLeft--)
+				throw Error(`Reached MAX_LOOP_COUNT`)
+
 			count++
 			tokens.push(token)
 		}
