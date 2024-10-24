@@ -1,7 +1,8 @@
 import { assert } from "@samual/lib/assert"
+import type { AstNode } from "./AstNode"
 import { AstNodeTag } from "./AstNodeTag"
 import { MAX_LOOP_COUNT } from "./common"
-import { AstNode, getNextAstNode } from "./getNextAstNode"
+import { getNextAstNode } from "./getNextAstNode"
 import { Token, tokenise } from "./tokenise"
 
 export function parse(code: string, tokens: Token[]): AstNode[] {

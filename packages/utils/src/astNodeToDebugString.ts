@@ -1,5 +1,5 @@
+import type { AstNode } from "./AstNode"
 import { AstNodeTagsToNames } from "./AstNodeTag"
-import { AstNode } from "./getNextAstNode"
 import { Token } from "./tokenise"
 
 export function astNodeToDebugString(code: string, tokens: Token[], astNode: AstNode): string {
