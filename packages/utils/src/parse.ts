@@ -119,4 +119,16 @@ if (import.meta.vitest) {
 		{ tag: AstNodeTag.Type, identifier: undefined, functionType: 2 },
 		{ tag: AstNodeTag.FunctionType, parameters: [], results: [] }
 	] as const satisfies Partial<AstNode>[]))
+
+	test(`import`, () => {
+		expectAstNodes(`(import "a" "b" (func $c (type 1)))`).toMatchObject([
+			{ tag: AstNodeTag.Import, module: 1, name: 2, description: 3 },
+			{ tag: AstNodeTag.StringLiteral },
+			{ tag: AstNodeTag.StringLiteral },
+			{ tag: AstNodeTag.ImportDescriptionFunction, identifier: 4, typeUse: 5 },
+			{ tag: AstNodeTag.Identifier },
+			{ tag: AstNodeTag.TypeUse, typeIndex: 6 },
+			{ tag: AstNodeTag.NumberLiteral }
+		] as const satisfies Partial<AstNode>[])
+	})
 }

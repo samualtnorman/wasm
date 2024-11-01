@@ -1,7 +1,7 @@
 import { assert } from "@samual/lib/assert"
 import type { AstNode } from "./AstNode"
 import { AstNodeTag, AstNodeTagsToNames } from "./AstNodeTag"
-import { condition } from "./lib/parsing"
+import { condition, many, optional, sequence, union } from "./lib/parsing"
 import { type Token } from "./tokenise"
 import { TokenTag } from "./TokenTag"
 import { tokenToDebugString } from "./tokenToDebugString"
@@ -23,6 +23,27 @@ const KeywordVector128 = token(TokenTag.KeywordVector128)
 const KeywordFunctionReference = token(TokenTag.KeywordFunctionReference)
 const KeywordExternalReference = token(TokenTag.KeywordExternalReference)
 const KeywordExternal = token(TokenTag.KeywordExternal)
+const KeywordImport = token(TokenTag.KeywordImport)
+const KeywordTable = token(TokenTag.KeywordTable)
+const KeywordMemory = token(TokenTag.KeywordMemory)
+const KeywordGlobal = token(TokenTag.KeywordGlobal)
+const LiteralNumber = token(TokenTag.Number)
+
+const LiteralString = sequence(
+	token(TokenTag.StringStartQuote),
+	optional(many(union(
+		token(TokenTag.StringNonEscape),
+		token(TokenTag.StringEscapeApostrophe),
+		token(TokenTag.StringEscapeBackslash),
+		token(TokenTag.StringEscapeHex),
+		token(TokenTag.StringEscapeNewline),
+		token(TokenTag.StringEscapeQuote),
+		token(TokenTag.StringEscapeReturn),
+		token(TokenTag.StringEscapeTab),
+		token(TokenTag.StringEscapeUnicode)
+	))),
+	token(TokenTag.StringEndQuote)
+)
 
 export function getNextAstNode(
 	code: string,
@@ -240,6 +261,108 @@ export function getNextAstNode(
 			return
 		}
 
+		if (currentAstNode.tag == AstNodeTag.Import) {
+			if (currentAstNode.module == -1) {
+				currentAstNode.module = newAstNodeIndex
+				assert(LiteralString(tokens, tokenIndex), HERE)
+
+				return AstNode(AstNodeTag.StringLiteral, { size: 1 })
+			}
+
+			if (currentAstNode.name == -1) {
+				currentAstNode.name = newAstNodeIndex
+				assert(LiteralString(tokens, tokenIndex), HERE)
+
+				return AstNode(AstNodeTag.StringLiteral, { size: 1 })
+			}
+
+			if (currentAstNode.description == -1) {
+				assert(OpenBracket(tokens, tokenIndex), HERE)
+
+				currentAstNode.description = newAstNodeIndex
+
+				if (KeywordFunction(tokens, tokenIndex))
+					return AstNode(AstNodeTag.ImportDescriptionFunction, { size: -1, identifier: -1, typeUse: -1 })
+
+				if (KeywordTable(tokens, tokenIndex))
+					return AstNode(AstNodeTag.ImportDescriptionTable, { size: -1, identifier: -1, type: -1 })
+
+				if (KeywordMemory(tokens, tokenIndex))
+					return AstNode(AstNodeTag.ImportDescriptionMemory, { size: -1, identifier: -1, type: -1 })
+
+				assert(KeywordGlobal(tokens, tokenIndex), HERE)
+
+				return AstNode(AstNodeTag.ImportDescriptionGlobal, { size: -1, identifier: -1, type: -1 })
+			}
+
+			assert(CloseBracket(tokens, tokenIndex), HERE)
+			currentAstNode.size = tokenIndex.$ - currentAstNode.index
+
+			return
+		}
+
+		if (currentAstNode.tag == AstNodeTag.ImportDescriptionFunction) {
+			if (currentAstNode.identifier == -1) {
+				if (Identifier(tokens, tokenIndex)) {
+					currentAstNode.identifier = newAstNodeIndex
+
+					return AstNode(AstNodeTag.Identifier, { size: 1 })
+				}
+
+				currentAstNode.identifier = undefined
+			}
+
+			if (currentAstNode.typeUse == -1) {
+				currentAstNode.typeUse = newAstNodeIndex
+
+				return AstNode(AstNodeTag.TypeUse, { size: -1, typeIndex: -1, parameters: [], results: [] })
+			}
+
+			assert(CloseBracket(tokens, tokenIndex), HERE)
+			currentAstNode.size = tokenIndex.$ - currentAstNode.index
+
+			return
+		}
+
+		if (currentAstNode.tag == AstNodeTag.TypeUse) {
+			if (currentAstNode.typeIndex == -1) {
+				assert(OpenBracket(tokens, tokenIndex), HERE)
+				assert(KeywordType(tokens, tokenIndex), HERE)
+				currentAstNode.typeIndex = newAstNodeIndex
+
+				let node
+
+				if (LiteralNumber(tokens, tokenIndex))
+					node = AstNode(AstNodeTag.NumberLiteral, { size: 1 })
+				else {
+					assert(Identifier(tokens, tokenIndex), HERE)
+					node = AstNode(AstNodeTag.Identifier, { size: 1 })
+				}
+
+				assert(CloseBracket(tokens, tokenIndex), HERE)
+
+				return node
+			}
+
+			if (OpenBracket(tokens, tokenIndex)) {
+				if (KeywordParameter(tokens, tokenIndex)) {
+					assert(!currentAstNode.results.length, HERE)
+					currentAstNode.parameters.push(newAstNodeIndex)
+
+					return AstNode(AstNodeTag.Parameter, { size: -1, identifier: -1, valueTypes: [] })
+				}
+
+				assert(KeywordResult(tokens, tokenIndex), HERE)
+				currentAstNode.results.push(newAstNodeIndex)
+
+				return AstNode(AstNodeTag.Result, { size: -1, valueTypes: [] })
+			}
+
+			currentAstNode.size = tokenIndex.$ - currentAstNode.index
+
+			return
+		}
+
 		throw Error(`${HERE} unhandled currentAstNode ${AstNodeTagsToNames[currentAstNode.tag]}`)
 	}
 
@@ -249,6 +372,9 @@ export function getNextAstNode(
 	if (OpenBracket(tokens, tokenIndex)) {
 		if (KeywordModule(tokens, tokenIndex))
 			return AstNode(AstNodeTag.Module, { size: -1, identifier: -1, moduleFields: [] })
+
+		if (KeywordImport(tokens, tokenIndex))
+			return AstNode(AstNodeTag.Import, { size: -1, module: -1, name: -1, description: -1 })
 
 		throw Error(`${HERE} unhandled token ${tokenToDebugString(tokens[tokenIndex.$]!, code)}`)
 	}
