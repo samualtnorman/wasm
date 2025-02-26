@@ -1,1 +1,1 @@
-export const MAX_LOOP_COUNT = 256
+export const MAX_LOOP_COUNT = 2048
