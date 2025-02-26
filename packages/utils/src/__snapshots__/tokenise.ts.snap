@@ -38,6 +38,41 @@ exports[`hex 1`] = `Number "0x1" 0`;
 
 exports[`hex exponent 1`] = `Number "0x1p1" 0`;
 
+exports[`if then 1`] = `
+OpenBracket "(" 3
+KeywordIf "if" 4
+OpenBracket "(" 7
+KeywordInteger32GreaterThanUnsigned "i32.gt_u" 8
+OpenBracket "(" 17
+KeywordLocalGet "local.get" 18
+Identifier "$blockLength" 28
+CloseBracket ")" 40
+OpenBracket "(" 42
+KeywordInteger32Constant "i32.const" 43
+Number "55" 53
+CloseBracket ")" 55
+CloseBracket ")" 56
+OpenBracket "(" 58
+KeywordThen "then" 59
+OpenBracket "(" 67
+KeywordLocalSet "local.set" 68
+Identifier "$blockIndex" 78
+OpenBracket "(" 90
+KeywordInteger32Add "i32.add" 91
+OpenBracket "(" 99
+KeywordLocalGet "local.get" 100
+Identifier "$blockIndex" 110
+CloseBracket ")" 121
+OpenBracket "(" 123
+KeywordInteger32Constant "i32.const" 124
+Number "1" 134
+CloseBracket ")" 135
+CloseBracket ")" 136
+CloseBracket ")" 137
+CloseBracket ")" 141
+CloseBracket ")" 142
+`;
+
 exports[`invalid string escape 1`] = `
 StringStartQuote "\\"" 0
 StringNonEscape "a" 1

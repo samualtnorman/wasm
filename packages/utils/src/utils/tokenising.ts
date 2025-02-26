@@ -343,7 +343,8 @@ export const NamesToKeywords = {
 	KeywordVector128Store64Lane: `v128.store64_lane`,
 	KeywordVector128Store8Lane: `v128.store8_lane`,
 	KeywordInteger8x16Shuffle: `i8x16.shuffle`,
-	KeywordInteger8x16Swizzle: `i8x16.swizzle`
+	KeywordInteger8x16Swizzle: `i8x16.swizzle`,
+	KeywordThen: `then`
 } satisfies {
 	[K in Exclude<
 		keyof typeof TokenTag,
