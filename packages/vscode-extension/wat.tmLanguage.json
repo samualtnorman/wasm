@@ -21,7 +21,7 @@
 			"patterns": [
 				{
 					"name": "keyword.control.$1.wat",
-					"match": "(export|start|result|loop|return|br(?:_(?:if|table))?|import|call(?:_indirect)?|block|else|end|if|unreachable|nop|module|offset)(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
+					"match": "(export|start|result|loop|return|br(?:_(?:if|table))?|import|call(?:_indirect)?|block|else|end|if|unreachable|nop|module|offset|then)(?![0-9A-Za-z!#$%&'*+\\-./:<=>?@\\\\^_`|~])"
 				},
 				{
 					"name": "storage.type.$1.wat",
