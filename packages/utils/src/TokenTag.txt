@@ -1,4 +1,5 @@
 Keyword{
+	{Function,External}{,Reference},
 	AlignEquals,
 	Block,
 	Branch{,If,Table},
@@ -14,7 +15,6 @@ Keyword{
 	If,
 	Import,
 	Item,
-	{Function,External}{,Reference},
 	Local{,Get,Set,Tee},
 	Loop,
 	Memory{,Size,Grow,Fill,Copy,Initiate},
@@ -29,6 +29,7 @@ Keyword{
 	Select,
 	Start,
 	Table{,Copy,Fill,Get,Grow,Initiate,Set,Size},
+	Then,
 	Type,
 	Unreachable,
 	Vector128{,Load{,{8x8,16x4,32x2}{S,Uns}igned,{8,16,32,64}{Splat,Lane},{32,64}Zero},Store{,{8,16,32,64}Lane},Const},

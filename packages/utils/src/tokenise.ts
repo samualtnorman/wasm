@@ -82,6 +82,12 @@ if (import.meta.vitest) {
 		{ tag: TokenTag.ErrorUnterminatedCommentBlock, index: 0, size: 2 }
 	]))
 
+	test(`if then`, () => check(`
+		(if (i32.gt_u (local.get $blockLength) (i32.const 55)) (then
+			(local.set $blockIndex (i32.add (local.get $blockIndex) (i32.const 1)))
+		))
+	`))
+
 	function check(code: string) {
 		const tokens = [ ...tokenise(code) ]
 		const lastTokenIndex = tokens.length - 1
