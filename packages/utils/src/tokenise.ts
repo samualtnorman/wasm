@@ -88,6 +88,9 @@ if (import.meta.vitest) {
 
 		for (let index = 0; index < lastTokenIndex; index++) {
 			const token = tokens[index]!
+
+			expect(token.tag).not.toBe(TokenTag.UnknownKeyword)
+
 			const nextToken = tokens[index + 1]!
 
 			expect(token.index + token.size).toBeLessThanOrEqual(nextToken.index)
