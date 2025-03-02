@@ -92,6 +92,16 @@ if (import.meta.vitest) {
 		{ tag: TokenTag.ErrorInvalidCharacter, index: 0, size: 4 }
 	]))
 
+	test(`open bracket is not included in invalid characters`, () => expectTokens(`0i32(`).toMatchObject([
+		{ tag: TokenTag.ErrorInvalidCharacter, index: 0, size: 4 },
+		{ tag: TokenTag.OpenBracket, index: 4, size: 1 }
+	]))
+
+	test(`close bracket is not included in invalid characters`, () => expectTokens(`0i32)`).toMatchObject([
+		{ tag: TokenTag.ErrorInvalidCharacter, index: 0, size: 4 },
+		{ tag: TokenTag.CloseBracket, index: 4, size: 1 }
+	]))
+
 	function check(code: string) {
 		const tokens = [ ...tokenise(code) ]
 		const lastTokenIndex = tokens.length - 1
