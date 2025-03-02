@@ -61,7 +61,7 @@ if (import.meta.vitest) {
 	test(`error token`, () => check(`,`))
 	test(`collapse error tokens`, () => check(`,,`))
 	test(`seperate error tokens around whitespace`, () => check(`, ,`))
-	test(`error then keyword`, () => check(`,i32`))
+	test(`invalid character then keyword is all 1 invalid character token`, () => check(`,i32`))
 	test(`error before whitespace does not include whitespace`, () => check(`, 0`))
 	test(`string`, () => check(String.raw`"a\00\t\n\r\"\'\\\u{0}"`))
 	test(`untermianted string`, () => check(`"`))
@@ -87,6 +87,10 @@ if (import.meta.vitest) {
 			(local.set $blockIndex (i32.add (local.get $blockIndex) (i32.const 1)))
 		))
 	`))
+
+	test(`0i32`, () => expectTokens(`0i32`).toMatchObject([
+		{ tag: TokenTag.ErrorInvalidCharacter, index: 0, size: 4 }
+	]))
 
 	function check(code: string) {
 		const tokens = [ ...tokenise(code) ]

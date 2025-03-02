@@ -78,7 +78,7 @@ export const FloatMag =
 
 export const KeywordOffsetEquals = terminal(`offset=`)
 export const KeywordAlignEquals = terminal(`align=`)
-export const Float = sequence(Sign, FloatMag)
+export const Float = sequence(Sign, FloatMag, negativeLookahead(IdentifierCharacter))
 export const OpenBracket = terminal(`(`)
 export const CloseBracket = terminal(`)`)
 
@@ -362,6 +362,6 @@ export const TokenFunctions: Record<Exclude<keyof typeof TokenTag, `Error${strin
 }
 
 export const ValidCharacterOrSpaceNegativeLookahead =
-	negativeLookahead(union(Quote, ...Object.values(TokenFunctions), Space))
+	negativeLookahead(union(Quote, Space))
 
 export const InvalidCharacter = condition<string>(ValidCharacterOrSpaceNegativeLookahead)

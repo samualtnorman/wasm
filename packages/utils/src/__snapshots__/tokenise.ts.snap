@@ -25,11 +25,6 @@ ErrorInvalidCharacter "," 0
 Number "0" 2
 `;
 
-exports[`error then keyword 1`] = `
-ErrorInvalidCharacter "," 0
-KeywordInteger32 "i32" 1
-`;
-
 exports[`error token 1`] = `ErrorInvalidCharacter "," 0`;
 
 exports[`funci32 1`] = `UnknownKeyword "funci32" 0`;
@@ -72,6 +67,8 @@ CloseBracket ")" 137
 CloseBracket ")" 141
 CloseBracket ")" 142
 `;
+
+exports[`invalid character then keyword is all 1 invalid character token 1`] = `ErrorInvalidCharacter ",i32" 0`;
 
 exports[`invalid string escape 1`] = `
 StringStartQuote "\\"" 0
